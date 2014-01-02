@@ -1,4 +1,5 @@
 <?php
+session_start();
 /* Based on Andjelka's example of REST service.
  * Simply script that reads number of arguments and parse them.
  * Currently is implemented only get method for full activity information
@@ -197,7 +198,6 @@ try{
     );
 
     $data=json_encode($error_description);
-
 }
 
 /* Using pecl_http Apache extension to make HTTP response packets

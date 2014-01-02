@@ -8,7 +8,7 @@ manthanoApp.config(['$routeProvider', function ($routerProvider){
     $routerProvider.
         // Settings for activity
         when('/activity/:idActivity', {
-            templateUrl: 'partial.php',
+            templateUrl: '/partial',
             controller: 'activityShow'
         }).
         // Where to redirect if nothing above is applied

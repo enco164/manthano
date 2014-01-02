@@ -8,9 +8,9 @@
         }
 
         public function index(){
-            $this->load->view('base/header');
+            //$this->load->view('base/header');
             $this->load->view('partial');
-            $this->load->view('base/footer');
+            //$this->load->view('base/footer');
 
             /*$kurs = new Material(200);
             echo $kurs->Name();

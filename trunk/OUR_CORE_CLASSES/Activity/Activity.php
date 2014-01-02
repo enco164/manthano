@@ -40,6 +40,7 @@ class Activity {
         $this->BeginDate = null;
         $this->CoverPicture = null;
         $this->db = null;
+        $this->exist = null;
     }
 
     public function exists(){
@@ -109,11 +110,11 @@ class Activity {
         }
     }
     /* Find all Activity holders (as previous Activity is based on $id)
-     * Return value is array which have all user_id of ActivityHolders
+     * Return value is array which have all Name, Surname, user_id of ActivityHolders
      * Array is numeric.
      */
     public function getHolders(){
-        $stmt = $this->db->prepare("SELECT user_id from ActivityHolder where idActivity = :id");
+        $stmt = $this->db->prepare("SELECT Name, Surname, user_id from ActivityHolder where idActivity = :id order by Name Desc, Surname Desc");
         $stmt->bindParam(":id", $this->id, PDO::PARAM_INT);
         $stmt->execute();
         if($stmt->rowCount() == 0)
@@ -122,17 +123,17 @@ class Activity {
             $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
             $ret = array();
             foreach($result as $i){
-                array_push($ret, $i['user_id']);
+                array_push($ret, $i);
             }
             return $ret;
         }
     }
     /* Find all Activity participants
-     * Return value is array which have all user_id of Activity Participants, or return string value if there is no participants
+     * Return value is array which have all Name, Surname, user_id of Activity Participants, or return string value if there is no participants
      * Array is numeric
      */
     public function getParticipants(){
-        $stmt = $this->db->prepare("SELECT user_id from ActivityParticipant where idActivity = :id");
+        $stmt = $this->db->prepare("SELECT Name, Surname, user_id from ActivityParticipant where idActivity = :id order by Name Desc, Surname Desc");
         $stmt->bindParam(":id", $this->id, PDO::PARAM_INT);
         $stmt->execute();
         if($stmt->rowCount() == 0)
@@ -141,7 +142,7 @@ class Activity {
             $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
             $ret = array();
             foreach($result as $i){
-                array_push($ret, $i['user_id']);
+                array_push($ret, $i);
             }
             return $ret;
         }
@@ -181,36 +182,15 @@ class Activity {
         $stmt->execute();
         return $stmt->rowCount() ? true : false;
     }
-    /* Adding participant to current Activity
-     * INPUT: ID of user
-     * Return boolean indicator of how operation went.
-     * */
-    public function addParticipant($idUser){
-        $stmt = $this->db->prepare("INSERT INTO ActivityParticipant(user_id, idActivity) VALUES(:uid, :aid)");
-        $stmt->bindParam(":uid", $idUser, PDO::PARAM_INT);
-        $stmt->bindParam(":aid", $this->id, PDO::PARAM_INT);
-        $stmt->execute();
-        return $stmt->rowCount() ? true : false;
-    }
-    /* Adding holder to current Activity
-     * INPUT: ID of user
-     * Return boolean indicator of how operation went.
-     * */
-    public function addHolder($idUser){
-        $stmt = $this->db->prepare("INSERT INTO ActivityHolder(user_id, idActivity) VALUES(:uid, :aid)");
-        $stmt->bindParam(":uid", $idUser, PDO::PARAM_INT);
-        $stmt->bindParam(":aid", $this->id, PDO::PARAM_INT);
-        $stmt->execute();
-        return $stmt->rowCount() ? true : false;
-    }
+    /* Static methods */
     /* Deleting holder from current Activity
      * INPUT: ID of user
      * Return boolean indicator of how operation went.
      * */
-    public function removeHolder($idUser){
-        $stmt = $this->db->prepare("DELETE FROM ActivityHolder WHERE user_id = :uid and idActivity = :aid");
+    static public function removeHolder($idUser, $db, $idActivity){
+        $stmt = $db->prepare("DELETE FROM ActivityHolder WHERE user_id = :uid and idActivity = :aid");
         $stmt->bindParam(":uid", $idUser, PDO::PARAM_INT);
-        $stmt->bindParam(":aid", $this->id, PDO::PARAM_INT);
+        $stmt->bindParam(":aid", $idActivity, PDO::PARAM_INT);
         $stmt->execute();
         return $stmt->rowCount() ? true : false;
     }
@@ -218,16 +198,13 @@ class Activity {
      * INPUT: ID of user
      * Return boolean indicator of how operation went.
      * */
-    public function removeParticipant($idUser){
-        $stmt = $this->db->prepare("DELETE FROM ActivityParticipant WHERE user_id = :uid and idActivity = :aid");
+    static public function removeParticipant($idUser, $db, $idActivity){
+        $stmt = $db->prepare("DELETE FROM ActivityParticipant WHERE user_id = :uid and idActivity = :aid");
         $stmt->bindParam(":uid", $idUser, PDO::PARAM_INT);
-        $stmt->bindParam(":aid", $this->id, PDO::PARAM_INT);
+        $stmt->bindParam(":aid",$idActivity, PDO::PARAM_INT);
         $stmt->execute();
         return $stmt->rowCount() ? true : false;
     }
-
-    /* Static methods */
-
     /*
      * Static method for adding new Activity
      * */
@@ -250,4 +227,28 @@ class Activity {
         $stmt->execute();
         return $stmt->rowCount() ? false : true;
     }
+
+    /* Adding participant to current Activity
+   * INPUT: ID of user
+   * Return boolean indicator of how operation went.
+   * */
+    static public function addParticipant($idUser, $db, $idActivity){
+        $stmt = $db->prepare("INSERT INTO ActivityParticipant(user_id, idActivity) VALUES(:uid, :aid)");
+        $stmt->bindParam(":uid", $idUser, PDO::PARAM_INT);
+        $stmt->bindParam(":aid", $idActivity, PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->rowCount() ? true : false;
+    }
+    /* Adding holder to current Activity
+     * INPUT: ID of user
+     * Return boolean indicator of how operation went.
+     * */
+    static public function addHolder($idUser, $db, $idActivity){
+        $stmt = $db->prepare("INSERT INTO ActivityHolder(user_id, idActivity) VALUES(:uid, :aid)");
+        $stmt->bindParam(":uid", $idUser, PDO::PARAM_INT);
+        $stmt->bindParam(":aid", $idActivity, PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->rowCount() ? true : false;
+    }
+
 }

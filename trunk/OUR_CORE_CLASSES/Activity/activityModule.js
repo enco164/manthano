@@ -1,3 +1,4 @@
+/* angular module for activities */
 var activityModule = angular.module('activityModule', []);
 
 // Load full information about activity into activityFull
@@ -7,6 +8,7 @@ activityModule.controller('activityShow', ['$scope','$http','$routeParams','$loc
     $http.get(path).success(function(data){
         $scope.activity = data;
         $scope.parentid = 0;
+
         for(i in $scope.activity.path){
             $scope.parentid++;
         }
@@ -18,6 +20,10 @@ activityModule.controller('activityShow', ['$scope','$http','$routeParams','$loc
         }
 
     });
+    /* TODO Add is_holder in rest response for display purposes */
+    /* if is_holder = 1 than you can modify and delete and add Activities
+    * otherwise you can't*/
+    $scope.is_holder = 1;
     //TODO Write error function for $http
 
     $scope.deleteActivity = function(){
@@ -39,6 +45,7 @@ activityModule.controller('activityShow', ['$scope','$http','$routeParams','$loc
 activityModule.controller('activityNew', ['$scope','$http','$routeParams','$location',function($scope, $http, $routeParams, $location){
     var idt = $routeParams.idActivity;
     var path = "activity_b_rest.php/activity/"+idt;
+    /* button "add Activity" action  */
     $scope.addActivity = function(){
         $http({
             method: 'POST',
@@ -61,6 +68,7 @@ activityModule.controller('activityModify',['$scope','$http','$routeParams','$lo
         $scope.activity = data;
         $scope.etag = headers("Etag");
     });
+    /* button "modify Activity" action */
     $scope.modifyActivity = function(){
       $http({
           method: 'PUT',

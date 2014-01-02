@@ -53,7 +53,16 @@
                     $this->user_data['status']=$this->session->userdata('status');
                     $this->user_data['name']=$this->session->userdata('name');
                     $this->user_data['surname']=$this->session->userdata('surname');
-                    //$this->user_data['balance']=$this->session->userdata('balance');
+
+                    //added regular session variables
+                    $_SESSION['user_id'] =$this->session->userdata('user_id');
+                    $_SESSION['mail']   =$this->session->userdata('mail');
+                    $_SESSION['username']=$this->session->userdata('username');
+                    $_SESSION['acc_type']=$this->session->userdata('acc_type');
+                    $_SESSION['status']=$this->session->userdata('status');
+                    $_SESSION['name']=$this->session->userdata('name');
+                    $_SESSION['surname']=$this->session->userdata('surname');
+
 
                 }else{
                     $this->user_data=$this->db->select('user_id,username,mail,acc_type,status,name,surname')->from('user')->where('user_id',$this->user_id)->get()->row_array();
@@ -78,7 +87,16 @@
                     $this->user_data['status']=$this->session->userdata('status');
                     $this->user_data['name']=$this->session->userdata('name');
                     $this->user_data['surname']=$this->session->userdata('surname');
-                    //$this->user_data['balance']=$this->session->userdata('balance');
+
+                    //added regular session variables
+                    $_SESSION['user_id'] =$this->session->userdata('user_id');
+                    $_SESSION['mail']   =$this->session->userdata('mail');
+                    $_SESSION['username']=$this->session->userdata('username');
+                    $_SESSION['acc_type']=$this->session->userdata('acc_type');
+                    $_SESSION['status']=$this->session->userdata('status');
+                    $_SESSION['name']=$this->session->userdata('name');
+                    $_SESSION['surname']=$this->session->userdata('surname');
+
                 }else{
 
                     $this->user_data=$this->db->select('user_id,username,mail,acc_type,status,name,surname')->from('user')->where('user_id',$user_id)->get()->row_array();

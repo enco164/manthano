@@ -4,6 +4,7 @@
 <!--------------------------------------------NAVBAR-------------------------------------------->
 <!---------------------------------------------------------------------------------------------->
 <!---------------------------------------------------------------------------------------------->
+<?session_start();?>
 <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
 	<div class="container">
 		<!-- Brand and toggle get grouped for better mobile display -->
@@ -36,7 +37,7 @@
 				<li><a href="/logout">Log out</a></li>
 
 
-				<li><a href="profile.html"><span class="glyphicon glyphicon-user"></span> Ime Prezime </a></li>
+				<li><a href="profile.html"><span class="glyphicon glyphicon-user"></span> <?=$_SESSION['name']?> <?=$_SESSION['surname']?> </a></li>
 				<!--
 				<li class="dropdown">
 					<a href="#" class="dropdown-toggle" data-toggle="dropdown">External login <b class="caret"></b></a>
