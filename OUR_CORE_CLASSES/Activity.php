@@ -15,7 +15,7 @@ class Activity {
     private $db;
     private $id;
     private $exist;
-/*test*/
+
     public function __construct($id, $db){
         $this->db = $db;
         $stmt = $db->prepare("SELECT Name, Description, BeginDate, CoverPicture FROM Activity WHERE idActivity = :id");

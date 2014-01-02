@@ -126,7 +126,6 @@ function is_admin(){
     if(logged_in()){
         $CI=&get_instance();
         $acc_type=$CI->user->user_data['acc_type'];
-
         if($acc_type==99){return true;}
     }
     return false;

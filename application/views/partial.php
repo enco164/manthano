@@ -4,6 +4,8 @@
 <!--------------------------------------------NAVBAR-------------------------------------------->
 <!---------------------------------------------------------------------------------------------->
 <!---------------------------------------------------------------------------------------------->
+<?//session_start();?>
+
 <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
     <div class="container">
         <!-- Brand and toggle get grouped for better mobile display -->
@@ -20,7 +22,7 @@
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
-                <li><a href="/login">Home</a></li>
+                <li><a href="/home">Home</a></li>
                 <li class="active"><a href="news feed.html">News feed - logged</a></li>
 
             </ul>
@@ -35,7 +37,8 @@
             <ul class="nav navbar-nav navbar-right">
                 <li><a href="/logout">Log out</a></li>
 
-                <li><a href="profile.html"><span class="glyphicon glyphicon-user"></span> Ime Prezime </a></li>
+
+                <li><a href="profile.html"><span class="glyphicon glyphicon-user"></span> <?=$_SESSION['name']?> <?=$_SESSION['surname']?> </a></li>
                 <!--
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">External login <b class="caret"></b></a>

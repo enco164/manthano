@@ -1,36 +1,30 @@
 <?php
-    /**
-     * Created by PhpStorm.
-     * User: Stefan
-     * Date: 12/19/13
-     * Time: 12:05 PM
-     */
-
-    class Activity {
+    class User{
 
         private $Name;
-        private $Description;
-        private $BeginDate;
-        private $CoverPicture;
+        private $Surname;
+        private $Username;
+        private $Mail;
+        private $School;
+        private $ProfilePicture;
+        private $Proffession;
+        private $status;
+        private $www;
         private $db;
         private $id;
-        private $exist;
 
-        public function __construct($id, $db){
-            $this->db = $db;
-            $stmt = $db->prepare("SELECT Name, Description, BeginDate, CoverPicture FROM Activity WHERE idActivity = :id");
-            $stmt->bindParam(":id", $id, PDO::PARAM_INT);
-            $stmt->execute();
-            $result = $stmt->fetch(PDO::FETCH_ASSOC);
-            if($stmt->rowCount())
-                $this->exist = 1;
-            else
-                $this->exist = 0;
-            $this->id = $id;
+        //public function __construct($id, $db){
+        public function __construct($id){
+            $CI=&get_instance();
+            $result=$CI->crud_model->db_get_user($id);
+            $this->id = $result['user_id'];
             $this->Name = $result['Name'];
-            $this->Description = $result['Description'];
-            $this->BeginDate = $result['BeginDate'];
-            $this->CoverPicture = $result['CoverPicture'];
+            $this->Surname = $result['Surname'];
+            $this->www = $result['www'];
+            $this->Proffession = $result['Proffession'];
+            $this->ProfilePicture = $result['ProfilePicture'];
+            $this->status = $result['status'];
+
         }
 
         public function __destruct(){
@@ -40,15 +34,6 @@
             $this->BeginDate = null;
             $this->CoverPicture = null;
             $this->db = null;
-            $this->exist = null;
-        }
-
-        public function exists(){
-            return $this->exist;
-        }
-
-        public function __toString(){
-            return $this->Name.$this->Description.$this->BeginDate.$this->CoverPicture;
         }
 
         /* getters and setters*/
@@ -73,18 +58,10 @@
             echo "You are trying to direct access property ".$name."and thats not possible. Use ".$name."() method";
             echo "<br/> At line ".__LINE__." in file ".__FILE__;
         }
-        /* getting path from top of tree to chosen activity */
-        public function getPath(){
-            $stmt = $this->db->prepare("call pathToActivity(:id)");
-            $stmt->bindParam(":id", $this->id, PDO::PARAM_INT);
-            $stmt->execute();
-            $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
-            return $result;
-        }
 
         /* Find all direct sons of Activity
-         *  Return value is array with id of Activities.
-         *
+         *  Return value is 2D array.
+         *  Each row has Name, idActivity, Depth fields. (Depth is always 1).
          */
         public function getSons(){
             $stmt = $this->db->prepare("call sonOfActivity(:id)");
@@ -110,11 +87,11 @@
             }
         }
         /* Find all Activity holders (as previous Activity is based on $id)
-         * Return value is array which have all Name, Surname, user_id of ActivityHolders
+         * Return value is array which have all user_id of ActivityHolders
          * Array is numeric.
          */
         public function getHolders(){
-            $stmt = $this->db->prepare("SELECT Name, Surname, user_id from ActivityHolder where idActivity = :id order by Name Desc, Surname Desc");
+            $stmt = $this->db->prepare("SELECT user_id from ActivityHolder where idActivity = :id");
             $stmt->bindParam(":id", $this->id, PDO::PARAM_INT);
             $stmt->execute();
             if($stmt->rowCount() == 0)
@@ -123,17 +100,17 @@
                 $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 $ret = array();
                 foreach($result as $i){
-                    array_push($ret, $i);
+                    array_push($ret, $i['user_id']);
                 }
                 return $ret;
             }
         }
         /* Find all Activity participants
-         * Return value is array which have all Name, Surname, user_id of Activity Participants, or return string value if there is no participants
+         * Return value is array which have all user_id of Activity Participants, or return string value if there is no participants
          * Array is numeric
          */
         public function getParticipants(){
-            $stmt = $this->db->prepare("SELECT Name, Surname, user_id from ActivityParticipant where idActivity = :id order by Name Desc, Surname Desc");
+            $stmt = $this->db->prepare("SELECT user_id from ActivityParticipant where idActivity = :id");
             $stmt->bindParam(":id", $this->id, PDO::PARAM_INT);
             $stmt->execute();
             if($stmt->rowCount() == 0)
@@ -142,7 +119,7 @@
                 $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 $ret = array();
                 foreach($result as $i){
-                    array_push($ret, $i);
+                    array_push($ret, $i['user_id']);
                 }
                 return $ret;
             }
@@ -152,6 +129,7 @@
          * Array is numeric
          */
         public function getEvents(){
+            $db = new PDO("mysql:localhost;dbname=manthanodb","root","",array(PDO::ATTR_PERSISTENT => true, PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
             $stmt = $this->db->prepare("SELECT idEvent from ActivityContains where idActivity = :id");
             $stmt->bindParam(":id", $this->id, PDO::PARAM_INT);
             $stmt->execute();
@@ -182,60 +160,14 @@
             $stmt->execute();
             return $stmt->rowCount() ? true : false;
         }
-        /* Static methods */
-        /* Deleting holder from current Activity
-         * INPUT: ID of user
-         * Return boolean indicator of how operation went.
-         * */
-        static public function removeHolder($idUser, $db, $idActivity){
-            $stmt = $db->prepare("DELETE FROM ActivityHolder WHERE user_id = :uid and idActivity = :aid");
-            $stmt->bindParam(":uid", $idUser, PDO::PARAM_INT);
-            $stmt->bindParam(":aid", $idActivity, PDO::PARAM_INT);
-            $stmt->execute();
-            return $stmt->rowCount() ? true : false;
-        }
-        /* Deleting participant from current Activity
-         * INPUT: ID of user
-         * Return boolean indicator of how operation went.
-         * */
-        static public function removeParticipant($idUser, $db, $idActivity){
-            $stmt = $db->prepare("DELETE FROM ActivityParticipant WHERE user_id = :uid and idActivity = :aid");
-            $stmt->bindParam(":uid", $idUser, PDO::PARAM_INT);
-            $stmt->bindParam(":aid",$idActivity, PDO::PARAM_INT);
-            $stmt->execute();
-            return $stmt->rowCount() ? true : false;
-        }
-        /*
-         * Static method for adding new Activity
-         * */
-        static public function addActivity($db, $id, $name, $description, $start, $cover){
-            $stmt = $db->prepare("call addActivity(:id, :name, :desc, :start, :cover, 1);");
-            $stmt->bindParam(":id", $id, PDO::PARAM_INT);
-            $stmt->bindParam(":name", $name, PDO::PARAM_STR);
-            $stmt->bindParam(":desc", $description, PDO::PARAM_STR);
-            $stmt->bindParam(":start", $start, PDO::PARAM_STR);
-            $stmt->bindParam(":cover", $cover, PDO::PARAM_STR);
-            $stmt->execute();
-            return $stmt->rowCount() ? true : false;
-        }
-        /* Delete Activity
-         * No return value;
-         */
-        static public function deleteActivity($id, $db){
-            $stmt = $db->prepare("call deleteActivity(:id)");
-            $stmt->bindParam(":id", $id, PDO::PARAM_INT);
-            $stmt->execute();
-            return $stmt->rowCount() ? false : true;
-        }
-
         /* Adding participant to current Activity
-       * INPUT: ID of user
-       * Return boolean indicator of how operation went.
-       * */
-        static public function addParticipant($idUser, $db, $idActivity){
-            $stmt = $db->prepare("INSERT INTO ActivityParticipant(user_id, idActivity) VALUES(:uid, :aid)");
+         * INPUT: ID of user
+         * Return boolean indicator of how operation went.
+         * */
+        public function addParticipant($idUser){
+            $stmt = $this->db->prepare("INSERT INTO ActivityParticipant(user_id, idActivity) VALUES(:uid, :aid)");
             $stmt->bindParam(":uid", $idUser, PDO::PARAM_INT);
-            $stmt->bindParam(":aid", $idActivity, PDO::PARAM_INT);
+            $stmt->bindParam(":aid", $this->id, PDO::PARAM_INT);
             $stmt->execute();
             return $stmt->rowCount() ? true : false;
         }
@@ -243,12 +175,40 @@
          * INPUT: ID of user
          * Return boolean indicator of how operation went.
          * */
-        static public function addHolder($idUser, $db, $idActivity){
-            $stmt = $db->prepare("INSERT INTO ActivityHolder(user_id, idActivity) VALUES(:uid, :aid)");
+        public function addHolder($idUser){
+            $stmt = $this->db->prepare("INSERT INTO ActivityHolder(user_id, idActivity) VALUES(:uid, :aid)");
             $stmt->bindParam(":uid", $idUser, PDO::PARAM_INT);
-            $stmt->bindParam(":aid", $idActivity, PDO::PARAM_INT);
+            $stmt->bindParam(":aid", $this->id, PDO::PARAM_INT);
+            $stmt->execute();
+            return $stmt->rowCount() ? true : false;
+        }
+        /* Deleting holder from current Activity
+         * INPUT: ID of user
+         * Return boolean indicator of how operation went.
+         * */
+        public function removeHolder($idUser){
+            $stmt = $this->db->prepare("DELETE FROM ActivityHolder WHERE user_id = :uid and idActivity = :aid");
+            $stmt->bindParam(":uid", $idUser, PDO::PARAM_INT);
+            $stmt->bindParam(":aid", $this->id, PDO::PARAM_INT);
+            $stmt->execute();
+            return $stmt->rowCount() ? true : false;
+        }
+        /* Deleting participant from current Activity
+         * INPUT: ID of user
+         * Return boolean indicator of how operation went.
+         * */
+        public function removeParticipant($idUser){
+            $stmt = $this->db->prepare("DELETE FROM ActivityParticipant WHERE user_id = :uid and idActivity = :aid");
+            $stmt->bindParam(":uid", $idUser, PDO::PARAM_INT);
+            $stmt->bindParam(":aid", $this->id, PDO::PARAM_INT);
             $stmt->execute();
             return $stmt->rowCount() ? true : false;
         }
 
     }
+
+        /* Static methods */
+
+/* Delete Activity
+ * No return value;
+ */

@@ -6,24 +6,37 @@
  * Route for full info looks like: activity_b_rest.php/activity/2 where 2 is id of activity
  * Example:
  *  {
-        "message": "ok",
-        "name": "Informatika",
-        "description": "ISmer",
-        "date": "2004-12-20",
-        "cover": "slika.com\/coverI.png",
-        "sons": ["5", "6", "7"],
-        "events": "Activity nema nijedan Event.",
-        "path": ["1", "2"]
-    }
- * Route for shorte info looks like: activity_b_rest.php/activity/short/2 where 2 is id of activity
- * Example:
- * {
-        "message": "ok",
-        "name": "Informatika",
-        "description": "ISmer",
-        "date": "2004-12-20",
-        "cover": "slika.com\/coverI.png"
-   }
+      "id": "4",
+      "name": "Informatika",
+      "description": "ISmer",
+      "date": "2004-12-20",
+      "cover": "slika.com\/coverI.png",
+      "sons": [{
+        "Name": "Razvoj Softvera 2",
+        "idActivity": "28",
+        "depth": "1"
+      }, {
+        "Name": "UAR",
+        "idActivity": "7",
+        "depth": "1"
+      }, {
+        "Name": "UOR",
+        "idActivity": "8",
+        "depth": "1"
+      }, {
+        "Name": "UVIT",
+        "idActivity": "9",
+        "depth": "1"
+      }],
+      "events": "Activity nema nijedan Event.",
+      "path": [{
+        "idActivity": "3",
+        "Name": "Root"
+      }, {
+        "idActivity": "4",
+        "Name": "Informatika"
+  }]
+}
  *
  *
  *
@@ -113,7 +126,10 @@ try{
             if($number_of_url_elements==2 and $url_elements[1]=='activity'){
                 //citamo podatke
                 $ac_data=json_decode(file_get_contents('php://input'));
-                  /* Checking user privileges, need to be implemented. */
+                  /* Checking user privileges, need to be implemented.
+                   * Is one of activity holders or is it admin?
+                   * $ac_data->id is id of activity.
+                   */
                    if(true){
                     $ind = Activity::addActivity($db, $ac_data->id, $ac_data->Name, $ac_data->Description, $ac_data->Date, $ac_data->Cover );
                     if($ind){
@@ -142,7 +158,10 @@ try{
             if($number_of_url_elements==2 and $url_elements[1]=='activity'){
                 /* reading data */
                 $ac_data=json_decode(file_get_contents('php://input'));
-                /* /* Checking user privileges, need to be implemented. */
+                /* Checking user privileges, need to be implemented.
+                 * Is one of activity holders or is it admin?
+                 * $ac_data->id is id of activity.
+                 */
                 if(true){
                     $temp = new Activity($ac_data->id,$db);
                     $etag = md5($temp);
@@ -182,6 +201,10 @@ try{
         case 'delete':
             if($number_of_url_elements==2 and $url_elements[1]=='activity'){
                 $id=intval($url_elements[2]);
+                /* Checking user privileges, need to be implemented.
+                 * Is one of activity holders or is it admin?
+                 * $ac_data->id is id of activity.
+                 *  */
                 if(true){
                     if(Activity::deleteActivity($id, $db)){
                         $status=200;

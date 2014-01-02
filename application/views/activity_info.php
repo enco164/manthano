@@ -19,7 +19,7 @@ Cover: {{activity.cover}}
 Sinovi:
 
 {{danijel}}
-<ul>
-   <li ng-repeat="son in activity.sons"> <a  href="#/activity/{{son.idActivity}}"> {{son.Name}}  </a> </li>
-</ul>
 
+<ul>
+    <li ng-repeat="son in activity.sons"> <a  href="#/activity/{{son.idActivity}}"> {{son.Name}}  </a> </li>
+</ul>
