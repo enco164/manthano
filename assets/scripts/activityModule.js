@@ -4,11 +4,10 @@ var activityModule = angular.module('activityModule', []);
 // Load full information about activity into activityFull
 activityModule.controller('activityShow', ['$scope','$http','$routeParams','$location',function($scope, $http, $routeParams, $location){
     var id = $routeParams.idActivity;
-    var path = "OUR_CORE_CLASSES/Activity/activity_b_rest.php/activity/"+id;
-
+    var path = "/REST_activity_b/activity/"+id;
     $http.get(path).success(function(data){
         $scope.activity = data;
-        $scope.parentid = 1;
+        $scope.parentid = 0;
         for(i in $scope.activity.path){
             $scope.parentid++;
         }
@@ -23,8 +22,10 @@ activityModule.controller('activityShow', ['$scope','$http','$routeParams','$loc
     /* TODO Add is_holder in rest response for display purposes */
     /* if is_holder = 1 than you can modify and delete and add Activities
      * otherwise you can't*/
-    $scope.is_holder = 0;
+    $scope.is_holder = 1;
     //TODO Write error function for $http
+
+    $scope.changePrivilege = function(){ $scope.is_holder = !$scope.is_holder; };
 
     $scope.deleteActivity = function(){
         if(confirm("Da li ste sigurni da zelite da obrisete kurs"+$scope.activity.name+" i sve njegove podkurseve?")){
@@ -44,7 +45,7 @@ activityModule.controller('activityShow', ['$scope','$http','$routeParams','$loc
 
 activityModule.controller('activityNew', ['$scope','$http','$routeParams','$location',function($scope, $http, $routeParams, $location){
     var idt = $routeParams.idActivity;
-    var path = "activity_b_rest.php/activity/"+idt;
+    var path = "/REST_activity_b/activity/"+idt;
     /* button "add Activity" action  */
     $scope.addActivity = function(){
         $http({
@@ -63,7 +64,7 @@ activityModule.controller('activityNew', ['$scope','$http','$routeParams','$loca
 
 activityModule.controller('activityModify',['$scope','$http','$routeParams','$location',function($scope, $http, $routeParams, $location){
     var id = $routeParams.idActivity;
-    var path = "activity_b_rest.php/activity/"+id;
+    var path = "/REST_activity_b/activity/"+id;
     $http.get(path).success(function(data, status, headers){
         $scope.activity = data;
         $scope.etag = headers("Etag");

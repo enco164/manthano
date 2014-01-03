@@ -18,15 +18,71 @@
     <script src="/assets/scripts/angular.min.js"></script>
     <script src="/assets/scripts/angular-route.min.js"></script>
     <script src="/assets/scripts/routeModule.js"></script>
+    <script src="/assets/scripts/userModule.js"></script>
+    <script src="/assets/scripts/eventModule.js"></script>
+    <script src="/assets/scripts/proposalModule.js"></script>
+    <script src="/assets/scripts/materialModule.js"></script>
     <script src="/assets/scripts/activityModule.js"></script>
+    <script type="text/javascript">
+        var globalUID = <?=$this->session->userdata('user_id')?>;
+    </script>
 
 </head>
 <body>
-<div ng-view></div>
-<script>
-    var acc_type="<?=$this->session->userdata['acc_type']?>";
+<?//session_start();?>
+<? $CI=&get_instance(); ?>
+    <?// ovo ti je klasa navbara al me zezalo nesto pa
+    // pa sam ga zakomentarisao
+    //class="navbar navbar-default navbar-fixed-top" ?>
+<nav  role="navigation">
+    <div class="container">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">Manthano</a>
+        </div>
 
-</script>
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                <li><a href="/home">Home</a></li>
+                <li class="active"><a href="news feed.html">News feed - logged</a></li>
+
+            </ul>
+
+            <form class="navbar-form navbar-left" role="search">
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="Search">
+                </div>
+                <button type="submit" class="btn btn-default">Submit</button>
+            </form>
+
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="/logout">Log out</a></li>
+
+
+                <li><a href="#/user/<?=$this->session->userdata('user_id')?>"><span class="glyphicon glyphicon-user"></span> <?=$this->session->userdata('name');?> <?=$this->session->userdata('surname');?> </a></li>
+                <!--
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">External login <b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="#">Google</a></li>
+                        <li><a href="#">Facebook</a></li>
+                    </ul>
+                </li>
+            -->
+            </ul>
+        </div><!-- /.navbar-collapse -->
+    </div>
+</nav>
+
+<div ng-view></div>
+
 <?$stefan="STEFAN!"?>
 <body>
 </html>

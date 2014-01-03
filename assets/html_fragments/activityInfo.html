@@ -1,0 +1,28 @@
+{{message}}
+<br/>
+Dugme koje testira ng-if direktivu, nije od značaja za
+<br/>
+<button ng-click="changePrivilege()"> Promeni privilegije </button>
+<br/>
+Path:
+<a ng-repeat="location in activity.path" href="#/activity/{{location.idActivity}}"> {{location.Name}} / </a>
+<br/>
+Ime: {{activity.name}}
+<br/>
+Opis: {{activity.description}}
+<br/>
+Pocetak: {{activity.date}}
+<br/>
+Cover: {{activity.cover}}
+<br/>
+<a  href="#/activity/new/{{activity.id}}" ng-if="is_holder == 1"> Dodaj kurs.  </a>
+<br/>
+<a href="#/activity/modify/{{activity.id}}" ng-if="is_holder == 1"> Promeni kurs. </a>
+<br/>
+<button ng-click="deleteActivity()" ng-if="is_holder == 1"> Obrisi kurs. </button>
+<br/>
+Sinovi:
+<ul>
+   <li ng-repeat="son in activity.sons"> <a  href="#/activity/{{son.idActivity}}"> {{son.Name}}  </a> </li>
+</ul>
+

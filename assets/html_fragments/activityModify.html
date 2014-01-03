@@ -1,0 +1,19 @@
+<a href="#/activity/{{activity.id}}"> Back </a>
+<br/>
+Name of activity: <input type="text" ng-model="activity.name" required/>
+<br/>
+Description
+<br/>
+<textarea name="acDesc" id="acDesc" cols="30" rows="10" ng-model="activity.description" required></textarea>
+<br/>
+<br/>
+Date: <input type="date" name="acDate" ng-model="activity.date" required/>
+<br/>
+<!-- > Ovo ovde obrati paznju jer prima samo url sa http://blabla
+Ovde sprečiti unos nečega što nije link ka sliku. Prvobitno je stajalo url za type
+Ovo će vrv trebati da se piše JS funkcija
+ </!-->
+Cover: <input type="text" name="acCover" ng-model="activity.cover" required />
+<br/>
+<button ng-click="modifyActivity()">Modify activity!</button>
+{{dataR.etagreturn}}

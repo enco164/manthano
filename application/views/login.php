@@ -96,7 +96,7 @@
     </div>
 
     <div class="form-group">
-        <label for="username-input">email</label>
+        <label for="username-input">Username</label>
         <input type="text" class="form-control" name="username" id="username-input" placeholder="jedinstveno korisničko ime" value="<?=set_value('username');?>" required>
     </div>
     

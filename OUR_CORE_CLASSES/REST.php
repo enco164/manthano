@@ -4,7 +4,7 @@ session_start();
  * Simply script that reads number of arguments and parse them.
  * Currently is implemented only get method for full activity information
  * And short activity information.
- * Route for full info looks like: REST.php/activity/2 where 2 is id of activity
+ * Route for full info looks like: REST_activity_b.php/activity/2 where 2 is id of activity
  * Example:
  *  {
         "message": "ok",
@@ -16,7 +16,7 @@ session_start();
         "events": "Activity nema nijedan Event.",
         "path": ["1", "2"]
     }
- * Route for shorte info looks like: REST.php/activity/short/2 where 2 is id of activity
+ * Route for shorte info looks like: REST_activity_b.php/activity/short/2 where 2 is id of activity
  * Example:
  * {
         "message": "ok",
@@ -43,7 +43,7 @@ if(!in_array($method, $supported_methods)){
 
 /* Reading data from path */
 if(isset($_SERVER['PATH_INFO'])){
-    /* path is REST.php/activity/1
+    /* path is REST_activity_b.php/activity/1
      * so we need to explode path on / and do -1 because of name of script
      * Notice that further in script we are consider that array elements begin from index 1
      *
@@ -117,7 +117,7 @@ try{
                 $status=200;
                 echo $data;
             }
-            /* handling bad url (example: REST.php/blahblah/1 */
+            /* handling bad url (example: REST_activity_b.php/blahblah/1 */
             else{
                 $status=400;
                 $error_description=array(
