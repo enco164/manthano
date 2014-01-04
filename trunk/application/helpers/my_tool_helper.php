@@ -130,6 +130,10 @@ function is_admin(){
     }
     return 0;
 }
+
+/*******************************/
+
+/*******************************/
 function get_userdata($what){
     $CI=&get_instance();
     return $CI->user->user_data[$what];

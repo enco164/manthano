@@ -119,6 +119,18 @@
             </div>
         </div>
     </div>
+    <div class="form-group">
+        <label for="proffession-input">Zanimanje</label>
+        <input type="text" class="form-control" name="proffession" id="proffession-input" placeholder="Zanimanje" value="<?=set_value('profession');?>" >
+    </div>
+    <div class="form-group">
+        <label for="school-input">Škola</label>
+        <input type="text" class="form-control" name="school" id="school-input" placeholder="OS Sveti Sava" value="<?=set_value('school');?>" >
+    </div>
+    <div class="form-group">
+        <label for="www-input">Sajt</label>
+        <input type="text" class="form-control" name="www" id="www-input" placeholder="www.mojsajt.com" value="<?=set_value('www');?>" >
+    </div>
     <button type="submit" class="btn btn-primary pull-left">Registruj me</button>
 </form>
 
