@@ -1,4 +1,3 @@
-{{message}}
 <br/>
 Dugme koje testira ng-if direktivu, nije od značaja za
 <br/>
@@ -21,8 +20,17 @@ Cover: {{activity.cover}}
 <br/>
 <button ng-click="deleteActivity()" ng-if="is_holder == 1"> Obrisi kurs. </button>
 <br/>
+<button ng-click="enroll()">{{enrollButtonName}}</button>
+<br/>
 Sinovi:
 <ul>
    <li ng-repeat="son in activity.sons"> <a  href="#/activity/{{son.idActivity}}"> {{son.Name}}  </a> </li>
 </ul>
+<br/>
+<br/>
+Ucesnici:
+<ul ng-if="showString == 0">
+    <li ng-repeat="participant in activity.participants"><a href="#/user/{{participant.user_id}}"> {{participant.Name}} {{participant.Surname}} </a></li>
+</ul>
+<p ng-if="showString == 1">{{activity.participants}} </p>
 

@@ -114,7 +114,7 @@
          * Array is numeric.
          */
         public function getHolders(){
-            $stmt = $this->db->prepare("SELECT Name, Surname, user_id from ActivityHolder where idActivity = :id order by Name Desc, Surname Desc");
+            $stmt = $this->db->prepare("SELECT u.Name, u.Surname, u.user_id from ActivityHolder ap join User u on ap.user_id = u.user_id where idActivity = :id order by Name Desc, Surname Desc");
             $stmt->bindParam(":id", $this->id, PDO::PARAM_INT);
             $stmt->execute();
             if($stmt->rowCount() == 0)
@@ -133,7 +133,7 @@
          * Array is numeric
          */
         public function getParticipants(){
-            $stmt = $this->db->prepare("SELECT Name, Surname, user_id from ActivityParticipant where idActivity = :id order by Name Desc, Surname Desc");
+            $stmt = $this->db->prepare("SELECT u.Name, u.Surname, u.user_id from ActivityParticipant ap join User u on ap.user_id = u.user_id  where idActivity = :id order by Name Desc, Surname Desc");
             $stmt->bindParam(":id", $this->id, PDO::PARAM_INT);
             $stmt->execute();
             if($stmt->rowCount() == 0)
@@ -198,7 +198,7 @@
          * INPUT: ID of user
          * Return boolean indicator of how operation went.
          * */
-        static public function removeParticipant($idUser, $db, $idActivity){
+        static public function removeParticipant($idUser, $idActivity, $db){
             $stmt = $db->prepare("DELETE FROM ActivityParticipant WHERE user_id = :uid and idActivity = :aid");
             $stmt->bindParam(":uid", $idUser, PDO::PARAM_INT);
             $stmt->bindParam(":aid",$idActivity, PDO::PARAM_INT);
@@ -232,7 +232,7 @@
        * INPUT: ID of user
        * Return boolean indicator of how operation went.
        * */
-        static public function addParticipant($idUser, $db, $idActivity){
+        static public function addParticipant($idUser, $idActivity, $db){
             $stmt = $db->prepare("INSERT INTO ActivityParticipant(user_id, idActivity) VALUES(:uid, :aid)");
             $stmt->bindParam(":uid", $idUser, PDO::PARAM_INT);
             $stmt->bindParam(":aid", $idActivity, PDO::PARAM_INT);
@@ -249,6 +249,22 @@
             $stmt->bindParam(":aid", $idActivity, PDO::PARAM_INT);
             $stmt->execute();
             return $stmt->rowCount() ? true : false;
+        }
+
+        static public function isHolder($idUser, $idActivity, $db){
+            $stmt = $db->prepare("SELECT * FROM activityHolder WHERE user_id = :uid and idActivity = :aid");
+            $stmt->bindParam(":uid", $idUser, PDO::PARAM_INT);
+            $stmt->bindParam(":aid", $idActivity, PDO::PARAM_INT);
+            $stmt->execute();
+            return ($stmt->rowCount() ? true : false) or is_admin();
+        }
+
+        static public function isParticipant($idUser, $idActivity, $db){
+            $stmt = $db->prepare("SELECT * FROM activityParticipant WHERE user_id = :uid and idActivity = :aid");
+            $stmt->bindParam(":uid", $idUser, PDO::PARAM_INT);
+            $stmt->bindParam(":aid", $idActivity, PDO::PARAM_INT);
+            $stmt->execute();
+            return ($stmt->rowCount() ? true : false);
         }
 
     }
