@@ -29,8 +29,7 @@
 
 </head>
 <body>
-<?//session_start();?>
-<? $CI=&get_instance(); ?>
+
     <?// ovo ti je klasa navbara al me zezalo nesto pa
     // pa sam ga zakomentarisao
     //class="navbar navbar-default navbar-fixed-top" ?>
@@ -80,6 +79,9 @@
         </div><!-- /.navbar-collapse -->
     </div>
 </nav>
+    <br/>
+        <h2> Manthano je trenutno u fazi razvoja! Hvala na razumevanju! </h2>
+    <br/>
 
 <div ng-view></div>
 
