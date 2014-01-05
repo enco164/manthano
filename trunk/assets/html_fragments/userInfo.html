@@ -7,12 +7,23 @@
     <h1> Ovo NISAM ja! xD</h1>
 </div>
 
-<a ng-repeat="location in activity.path" href="#/activity/{{location.idActivity}}"> {{location.Name}} / </a>
+
 <br/>
-Ime: {{user.name}}
+Ime: {{userdata.name}}
 <br/>
-Prezime: {{user.surname}}
+Prezime: {{userdata.surname}}
 <br/>
-Korisničko ime: {{user.username}}
+Korisničko ime: {{userdata.username}}
+<br/>
+Ime: {{userdata.Mail}}
+<br/>
+Prezime: {{userdata.School}}
+<br/>
+Korisničko ime: {{userdata.Proffession}}
+<br/>
+Korisničko ime: {{userdata.www}}
+<br/>
+<img src="{{user.ProfilePicture}}" alt="nema slike"/>
 
 <p ng-if="showString == 1">{{activity.participants}} </p>
+
