@@ -10,6 +10,8 @@
 
         public function index(){
             $this->load->view('home');
+            //$korisnik=new Users($this->session->userdata('user_id'));
+            //var_dump();
         }
 
         public function activity_info(){

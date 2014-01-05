@@ -187,5 +187,12 @@ class Crud_model extends CI_Model{
         else return null;
     }
 
+    public function db_delete_user($user_id){
+        $where['user_id']=$user_id;
+        $this->db->delete('user', $where);
+        if($this->db->affected_rows()==1) return true;
+        else return null;
+    }
+
 
 }
