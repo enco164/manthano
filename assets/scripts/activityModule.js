@@ -33,6 +33,13 @@ activityModule.controller('activityShow', ['$scope','$http','$routeParams','$loc
             $scope.enrollButtonName = "Odjavi se!";
         else
             $scope.enrollButtonName = "Prijavi se!";
+
+        if(Object.keys($scope.activity.events).length === 0){
+            $scope.hasEvents = 0;
+        }
+        else{
+            $scope.hasEvents = 1;
+        }
     });
 
     /* TODO Add is_holder in rest response for display purposes */

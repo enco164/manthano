@@ -28,9 +28,17 @@ Sinovi:
 </ul>
 <br/>
 <br/>
+Events:
+        <ul  ng-if="hasEvents == 1">
+            <li ng-repeat="event in activity.events" ><a href="#/event/{{event.idEvent}}"> {{event.Name}} </a></li>
+        </ul>
+        <p ng-if="hasEvents == 0"> Activity nema evente </p>
+<br/>
 Ucesnici:
 <ul ng-if="showString == 0">
     <li ng-repeat="participant in activity.participants"><a href="#/user/{{participant.user_id}}"> {{participant.Name}} {{participant.Surname}} </a></li>
 </ul>
+
 <p ng-if="showString == 1">{{activity.participants}} </p>
+
 

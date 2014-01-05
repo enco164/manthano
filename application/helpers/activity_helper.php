@@ -32,7 +32,6 @@
             $this->BeginDate = $result['BeginDate'];
             $this->CoverPicture = $result['CoverPicture'];
         }
-
         public function __destruct(){
             $this->id = null;
             $this->Name = null;
@@ -43,21 +42,19 @@
             $this->exist = null;
         }
 
-        public function exists(){
-            return $this->exist;
-        }
 
         public function __toString(){
             return $this->Name.$this->Description.$this->BeginDate.$this->CoverPicture;
         }
-
         /* getters and setters*/
-
         public function Name(){ return $this->Name;}
         public function Description(){ return $this->Description;}
         public function BeginDate(){ return $this->BeginDate;}
         public function CoverPicture(){ return $this->CoverPicture;}
         public function id(){ return $this->id;}
+        public function exists(){
+            return $this->exist;
+        }
 
         public function setName($value){ $this->Name = $value;}
         public function setDescription($value){ $this->Description = $value;}
@@ -152,19 +149,11 @@
          * Array is numeric
          */
         public function getEvents(){
-            $stmt = $this->db->prepare("SELECT idEvent from ActivityContains where idActivity = :id");
+            $stmt = $this->db->prepare("SELECT e.Name, ac.idEvent from ActivityContains ac join Event e on e.idEvent = ac.idEvent where idActivity = :id");
             $stmt->bindParam(":id", $this->id, PDO::PARAM_INT);
             $stmt->execute();
-            if($stmt->rowCount() == 0)
-                return "Activity nema nijedan Event.";
-            else{
-                $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
-                $ret = array();
-                foreach($result as $i){
-                    array_push($ret, $i['idEvent']);
-                }
-                return $ret;
-            }
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+
         }
         /* Updates Activity.
          * Simply applies object changes to database;

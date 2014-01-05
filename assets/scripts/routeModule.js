@@ -19,6 +19,10 @@ manthanoApp.config(['$routeProvider', function ($routerProvider){
             templateUrl: '/assets/html_fragments/activityNew.html',
             controller: 'activityNew'
         }).
+        when('/event/:idEvent', {
+            templateUrl: '/assets/html_fragments/eventInfo.html',
+            controller: 'eventShow'
+        }).
         when('/user/:id', {
            templateUrl: '/assets/html_fragments/userInfo.html',
            controller: 'userInfo'
@@ -28,6 +32,6 @@ manthanoApp.config(['$routeProvider', function ($routerProvider){
             /*default page, should be /1 but it can be changed, as long as nubmer is
              * id of root activity
              * */
-            redirectTo: '/activity/3'
+            redirectTo: '/activity/1'
         });
 }]);
