@@ -6,3 +6,13 @@
 <div ng-if="globalUID != id" >
     <h1> Ovo NISAM ja! xD</h1>
 </div>
+
+<a ng-repeat="location in activity.path" href="#/activity/{{location.idActivity}}"> {{location.Name}} / </a>
+<br/>
+Ime: {{user.name}}
+<br/>
+Prezime: {{user.surname}}
+<br/>
+Korisničko ime: {{user.username}}
+
+<p ng-if="showString == 1">{{activity.participants}} </p>
