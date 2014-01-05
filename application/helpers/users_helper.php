@@ -22,6 +22,7 @@
                 $this->exist=1;
                 $this->id = $result['user_id'];
                 $this->Name=$result['Name'];
+                $this->Username=$result['username'];
                 $this->Surname = $result['Surname'];
                 $this->www = $result['www'];
                 $this->Proffession = $result['Proffession'];
@@ -38,6 +39,7 @@
             $this->id = 0;
             $this->Name=0;
             $this->Surname = 0;
+            $this->Username = 0;
             $this->www = 0;
             $this->Proffession = 0;
             $this->School = 0;
@@ -64,6 +66,7 @@
         public function setProffession($value){ $this->Proffession = $value;}
         public function setSchool($value){ $this->School = $value;}
         public function setwww($value){ $this->www = $value;}
+        public function setUsername($value){ $this->www = $value;}
 
         /* error handling for Accessing the wrong way to private properties of object*/
         public function __set($name, $value){
@@ -78,23 +81,23 @@
 
 
         public function update(){
-            $db_data['$Name']=$Name;
-            $db_data['Surname']=$Surname;
-            $db_data['username']=$Username;
-            $db_data['Mail']=$Mail;
-            $db_data['School']=$School;
-            $db_data['ProfilePicture']=$ProfilePicture;
-            $db_data['Proffession']=$Proffession;
-            $db_data['status']=$status;
-            $db_data['www']=$www;
+            $db_data['$Name']=$$this->Name;
+            $db_data['Surname']=$this->Surname;
+            $db_data['username']=$this->Username;
+            $db_data['Mail']=$this->Mail;
+            $db_data['School']=$this->School;
+            $db_data['ProfilePicture']=$this->ProfilePicture;
+            $db_data['Proffession']=$this->Proffession;
+            $db_data['status']=$this->status;
+            $db_data['www']=$this->www;
 
             $CI=&get_instance();
             $CI->crud_model->db_update_user_data($this->id, $db_data);
         }
 
-        public function delete(){
+        public function delete(){//srsly
             $CI=&get_instance();
-            $CI->crud_model->db_update_user($this->id);
+            //$CI->crud_model->db_delete_user($this->id);//srsly....
         }
 
         public static function is_holder($idUser, $idActivity, $db){}
