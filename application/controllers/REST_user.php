@@ -46,6 +46,7 @@
                                 "name" => $user->Name() ,
                                 "surname" => $user->Surname(),
                                 "Proffession" => $user->Proffession(),
+                                "Mail" => $user->Mail(),
                                 "School" => $user->School(),
                                 "status" => $user->status(),
                                 "www" => $user->www(),
@@ -61,24 +62,37 @@
 
                     /* Processing POST - CREATE request*/
                     case 'post':
+                        $status=404; break; //Creating users NOT SUPPORTED
+                    /* Processing PUT - UPDATE request */
+                    case 'put':
                         $ac_data=json_decode(file_get_contents('php://input'));
                         /* Checking user privileges, need to be implemented.
                          * Is one of activity holders or is it admin?
                          * $ac_data->id is id of activity.
                          */
-                        if(Activity::isHolder($this->session->userdata('user_id'), $id, $db)){
-                            $ind = Activity::addActivity($db, $ac_data->id, $ac_data->Name, $ac_data->Description, $ac_data->Date, $ac_data->Cover );
+                        if($this->session->userdata('user_id')==$id || is_admin()){
+                            $user=new User($id);
+                            $user->Name($ac_data->Name);
+                            $user->setSurname($ac_data->Surname);
+                            //$user->setMail($ac_data->Mail);
+                            //$user->setUsername($ac_data->username);
+                            $user->setSchool($ac_data->School);
+                            $user->setProffession($ac_data->Proffession);
+                            $user->setwww($ac_data->www);
+                            $user->setProfilePicture($ac_data->ProfilePicture);
+                            $ind=$user->update();
+
                             if($ind){
                                 $status=201;
                                 $data = array(
-                                    "message" => "Activity added"
+                                    "message" => "User updated succesfuly"
                                 );
                                 $data=json_encode($data);
                             }
                             else{
                                 $status=400;
                                 $error_description=array(
-                                    "message" => "Resource wasnt found!"
+                                    "message" => "Error updating user!"
                                 );
                                 $data=json_encode($error_description);
                             }
@@ -88,62 +102,20 @@
                             $status = 401;
                         }
                         break;
-                    /* Processing PUT - UPDATE request */
-                    case 'put':
-                        /* reading data */
-                        $ac_data=json_decode(file_get_contents('php://input'));
-                        /* Checking user privileges, need to be implemented.
-                         * Is one of activity holders or is it admin?
-                         * $ac_data->id is id of activity.
-                         */
-                        if(Activity::isHolder($this->session->userdata('user_id'), $id, $db)){
-                            $temp = new Activity($ac_data->id,$db);
-                            $etag = md5($temp);
-                            /* checking if resource was modified */
-                            if($ac_data->Etag == $etag){
-                                $temp->setName($ac_data->Name);
-                                $temp->setDescription($ac_data->Description);
-                                $temp->setBeginDate($ac_data->Date);
-                                $temp->setCoverPicture($ac_data->Cover);
-                                /* updating and proper action if update is ok or not*/
-                                if($temp->update()){
-                                    /* ok */
-                                    $status = 200;
-                                }
-                                else{
-                                    /*Bad request*/
-                                    $status=400;
-                                    $error_description=array(
-                                        "message"=>"los zahtev"
-                                    );
-                                    $data=json_encode($error_description);
-                                }
-                            }
-                            else{
-                                /* conflict */
-                                $status = 409;
-                                $data = json_encode(array("message" => "menjano vec!", "etagreturn"=>$etag));
-                            }
-                        }
-                        else{
-                            /*Unauthorized*/
-                            $status = 401;
-                        }
-                        break;
-                    /* Processing DELETE request */
+
                     case 'delete':
                         /* Checking user privileges, need to be implemented.
                          * Is one of activity holders or is it admin?
                          * $ac_data->id is id of activity.
                          *  */
-                        if(Activity::isHolder($this->session->userdata('user_id'), $id, $db)){
-                            if(Activity::deleteActivity($id, $db)){
+                        if($this->session->userdata('user_id') && is_admin()){
+                            if(User::delete($id)){
                                 $status=200;
                             }
                             else{
                                 $status=404;
                                 $error_description=array(
-                                    "message"=>"resurs nije pronadjen"
+                                    "message"=>"Korisnik nije obrisan"
                                 );
 
                                 $data=json_encode($error_description);
