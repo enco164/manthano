@@ -6,7 +6,12 @@
 <div ng-if="globalUID != id" >
     <h1> Ovo NISAM ja! xD</h1>
 </div>
-
+<div ng-if="globalAccType == 99" >
+    <h1> Ja sam svemocni admin</h1>
+</div>
+<script type="text/javascript">
+    console.log(globalAccType);
+</script>
 
 <br/>
 Ime: {{userdata.name}}
@@ -15,7 +20,7 @@ Prezime: {{userdata.surname}}
 <br/>
 Korisničko ime: {{userdata.username}}
 <br/>
-Ime: {{userdata.Mail}}
+email: {{userdata.Mail}}
 <br/>
 Prezime: {{userdata.School}}
 <br/>
@@ -25,5 +30,5 @@ Korisničko ime: {{userdata.www}}
 <br/>
 <img src="{{user.ProfilePicture}}" alt="nema slike"/>
 
-<p ng-if="canEdit == 1">{{activity.participants}} </p>
+<button ng-if="canEdit == 1">Edit settings</button>
 
