@@ -30,5 +30,5 @@ Korisničko ime: {{userdata.www}}
 <br/>
 <img src="{{user.ProfilePicture}}" alt="nema slike"/>
 
-<button ng-if="canEdit == 1">Edit settings</button>
+<a ng-if="canEdit == 1" href="#/user/settings/{{id}}"><button ng-if="canEdit == 1">Edit settings</button></a>
 

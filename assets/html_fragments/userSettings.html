@@ -1,0 +1,43 @@
+<h1>Hello user!</h1>
+<div></div>
+<div ng-if="globalUID == id" >
+    <h1> Ovo JESAM ja! xD</h1>
+</div>
+<div ng-if="globalUID != id" >
+    <h1> Ovo NISAM ja! xD</h1>
+</div>
+<div ng-if="globalAccType == 99" >
+    <h1> Ja sam svemocni admin</h1>
+</div>
+<script type="text/javascript">
+    console.log(globalAccType);
+</script>
+
+<ul ng-if="canEdit == 1">
+    <li>
+        <label>Ime:</label> <input type="text" value="{{userdata.name}}" />
+    </li>
+    <li>
+        <label>Prezime: </label><input type="text" value="{{userdata.surname}}" />
+    </li>
+    <li>
+        <label>Korisničko ime: </label><input type="text" value="{{userdata.username}}" />
+    </li>
+    <li>
+        <label>email: </label><input type="text" value="{{userdata.Mail}}" />
+    </li>
+    <li>
+        <label>Prezime: </label><input type="text" value="{{userdata.School}}" />
+    </li>
+    <li>
+        <label>Profesija ime: </label><input type="text" value="{{userdata.Proffession}}" />
+    </li>
+    <li>
+        <label>websajt: </label><input type="text" value="{{userdata.www}}" />
+    </li>
+    <li>
+        <img src="{{user.ProfilePicture}}" alt="nema slike"/>
+    </li>
+</ul>
+<button ng-if="canEdit == 1">Edit settings</button>
+
