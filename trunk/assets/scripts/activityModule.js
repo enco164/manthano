@@ -131,8 +131,6 @@ activityModule.controller('activityModify',['$scope','$http','$routeParams','$lo
                 window.alert("Activity unsuccessfully updated! ");
             });
     };
-
-
 }]);
 
 activityModule.controller('activityFoo',['$scope',function($scope){

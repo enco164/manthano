@@ -27,6 +27,10 @@ manthanoApp.config(['$routeProvider', function ($routerProvider){
            templateUrl: '/assets/html_fragments/userInfo.html',
            controller: 'userInfo'
         }).
+        when('/user/settings/:id', {
+            templateUrl: '/assets/html_fragments/userSettings.html',
+            controller: 'userSettings'
+        }).
         // Where to redirect if nothing above is applied
         otherwise({
             /*default page, should be /1 but it can be changed, as long as nubmer is
