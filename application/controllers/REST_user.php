@@ -66,20 +66,23 @@
                     /* Processing PUT - UPDATE request */
                     case 'put':
                         $ac_data=json_decode(file_get_contents('php://input'));
+                        //var_dump($ac_data);
                         /* Checking user privileges, need to be implemented.
                          * Is one of activity holders or is it admin?
                          * $ac_data->id is id of activity.
                          */
                         if($this->session->userdata('user_id')==$id || is_admin()){
-                            $user=new User($id);
-                            $user->Name($ac_data->Name);
+
+                            $user=new Users($id);
+                            $user->setName($ac_data->Name);
                             $user->setSurname($ac_data->Surname);
                             //$user->setMail($ac_data->Mail);
                             //$user->setUsername($ac_data->username);
                             $user->setSchool($ac_data->School);
                             $user->setProffession($ac_data->Proffession);
                             $user->setwww($ac_data->www);
-                            $user->setProfilePicture($ac_data->ProfilePicture);
+                            //TO-DO srediti uploadovanje slike
+                            //$user->setProfilePicture($ac_data->ProfilePicture);
                             $ind=$user->update();
 
                             if($ind){

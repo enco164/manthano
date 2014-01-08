@@ -83,10 +83,8 @@
             echo "<br/> At line ".__LINE__." in file ".__FILE__;
         }
 
-
-
         public function update(){
-            $db_data['$Name']=$$this->Name;
+            $db_data['Name']=$this->Name;
             $db_data['Surname']=$this->Surname;
             $db_data['username']=$this->Username;
             $db_data['mail']=$this->Mail;

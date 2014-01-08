@@ -42,7 +42,7 @@ userModule.controller('userSettings',['$scope','$http','$routeParams',function($
     $http.get(path).success(function(data){
         // loading data in $scope
         $scope.userdata = data;
-        console.log($scope.userdata);
+        //console.log($scope.userdata);
         if(typeof $scope.userdata.username == 'string' || $scope.userdata.username instanceof String)
         // There is no participants , show message
             $scope.showString = 1;
@@ -63,14 +63,19 @@ userModule.controller('userSettings',['$scope','$http','$routeParams',function($
     //TODO Write error function for $http
     // Actions when button for participating in Activity is clicked
     $scope.editSettings = function(){
+        //console.log(JSON.stringify($('#user_settings').serializeArray()));
         if($scope.canEdit)
             $http({
                 method: 'PUT',
-                url: "/REST_user/personal_data/"+id
+                url: "/REST_user/personal_data/"+id,
+                data:$('#user_settings').serializeObject(),
+                dataType:'json'
             }).success(function(data){
+                    console.log(data);
                     window.alert("Uspesno ste izmenili podatke");
                     $route.reload();
                 }).error(function(data, status, headers, config){
+                    console.log(data);
                     window.alert("Neuspele izmene!");
                 });
     };
