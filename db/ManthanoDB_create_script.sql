@@ -113,12 +113,6 @@ CREATE TABLE IF NOT EXISTS `ManthanoDB`.`Proposal` (
   `Name` VARCHAR(50) NOT NULL,
   `Description` MEDIUMTEXT NOT NULL,
   PRIMARY KEY (`idProposal`, `UserProposed`),
-  INDEX `Predlozio_idx` (`UserProposed` ASC),
-  CONSTRAINT `Predlozio`
-    FOREIGN KEY (`UserProposed`)
-    REFERENCES `ManthanoDB`.`User` (`user_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
   CONSTRAINT `fk_id_predlog`
     FOREIGN KEY (`idProposal`)
     REFERENCES `ManthanoDB`.`Entity` (`id`)
@@ -135,7 +129,6 @@ CREATE TABLE IF NOT EXISTS `ManthanoDB`.`ProposalSupport` (
   `idProposal` INT UNSIGNED NOT NULL,
   PRIMARY KEY (`user_id`, `idProposal`),
   INDEX `fk_Korisnik_has_Predlog_Predlog1_idx` (`idProposal` ASC),
-  UNIQUE INDEX `username_UNIQUE` (`user_id` ASC),
   CONSTRAINT `fk_Korisnik_has_Predlog_Korisnik1`
     FOREIGN KEY (`user_id`)
     REFERENCES `ManthanoDB`.`User` (`user_id`)
@@ -332,15 +325,9 @@ CREATE TABLE IF NOT EXISTS `ManthanoDB`.`EventAttendees` (
   `Was` TINYINT(1) NOT NULL,
   PRIMARY KEY (`username`, `idEvent`, `idActivity`),
   INDEX `fk_Korisnik_has_Predavanje_Predavanje2_idx` (`idEvent` ASC),
-  INDEX `fk_EventAttendees_ActivityParticipant1_idx` (`username` ASC, `idActivity` ASC),
   CONSTRAINT `fk_Korisnik_has_Predavanje_Predavanje2`
     FOREIGN KEY (`idEvent`)
     REFERENCES `ManthanoDB`.`Event` (`idEvent`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_EventAttendees_ActivityParticipant1`
-    FOREIGN KEY (`username` , `idActivity`)
-    REFERENCES `ManthanoDB`.`ActivityParticipant` (`user_id` , `idActivity`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
@@ -587,7 +574,7 @@ DELIMITER ;
 
 DELIMITER $$
 USE `ManthanoDB`$$
-CREATE PROCEDURE `addMaterial` (user VARCHAR(20), idPredavanja INT, Naziv VARCHAR(50), Link VARCHAR(100), Tip VARCHAR(50),Datum TIMESTAMP )
+CREATE PROCEDURE `addMaterial` (user int, idPredavanja INT, Naziv VARCHAR(50), Link VARCHAR(100), Tip VARCHAR(50),Datum TIMESTAMP )
 BEGIN
 	DECLARE id INT default -56;
 	INSERT INTO Entity(tipEntiteta) values('Material');
@@ -803,6 +790,59 @@ END$$
 
 DELIMITER ;
 
+-- -----------------------------------------------------
+-- procedure deleteMaterial
+-- -----------------------------------------------------
+
+DELIMITER $$
+USE `ManthanoDB`$$
+CREATE PROCEDURE `deleteMaterial` (id int)
+BEGIN
+	DELETE FROM EventContains where idMaterial = id;
+	DELETE FROM Material where idMaterial = id;
+END$$
+
+DELIMITER ;
+
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
+USE `ManthanoDB`;
+
+DELIMITER $$
+USE `ManthanoDB`$$
+CREATE TRIGGER `Activity_BDEL` BEFORE DELETE ON `Activity` FOR EACH ROW
+begin
+	DELETE FROM Comment Where idParent = old.idActivity;
+	DELETE FROM Notification Where idParent = old.idActivity;
+	DELETE FROM ActivityParticipant Where idActivity = old.idActivity;
+	DELETE FROM ActivityHolder Where idActivity = old.idActivity;
+	DELETE FROM ActivityContains Where idActivity = old.idActivity;
+	DELETE FROM Event Where idEvent not in (select idEvent from ActivityContains);
+end
+$$
+
+USE `ManthanoDB`$$
+CREATE TRIGGER `Event_BDEL` BEFORE DELETE ON `Event` FOR EACH ROW
+begin
+	DELETE FROM Ranking Where idEvent = old.idEvent;
+	DELETE FROM EventAttendees Where idEvent = old.idEvent;
+	DELETE FROM Comment Where idParent = old.idEvent;
+	DELETE FROM Notification Where idParent = old.idEvent;
+	DELETE FROM ActivityContains where idEvent = old.idEvent;
+	DELETE FROM EventHolder Where idEvent = old.idEvent;
+	DELETE FROM EventContains Where idEvent = old.idEvent;
+	DELETE FROM Material Where idMaterial not in (select idMaterial from EventContains);
+
+end$$
+
+USE `ManthanoDB`$$
+CREATE TRIGGER `Material_BDEL` BEFORE DELETE ON `Material` FOR EACH ROW
+begin
+	DELETE FROM Comment where idParent = old.idMaterial;
+	DELETE FROM Notification where idParent = old.idMaterial;
+end
+$$
+
+
+DELIMITER ;
