@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script>
+        function loadXMLDoc()
+        {
+            var xmlhttp;
+            if (window.XMLHttpRequest)
+            {// code for IE7+, Firefox, Chrome, Opera, Safari
+                xmlhttp=new XMLHttpRequest();
+            }
+            else
+            {// code for IE6, IE5
+                xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+            }
+            xmlhttp.onreadystatechange=function()
+            {
+                if (xmlhttp.readyState==4 && xmlhttp.status==200)
+                {
+                    document.getElementById("myDiv").innerHTML=xmlhttp.responseText;
+                }
+            }
+            var data = '{'
+                +'"User" : 6,'
+                +'"Proposal"  : 17'
+                +'}';
+            xmlhttp.open("POST","http://localhost/REST_proposal/proposalsupport/17",true);
+            xmlhttp.send(data);
+        }
+        function loadXMLDoc1()
+        {
+            var xmlhttp;
+            if (window.XMLHttpRequest)
+            {// code for IE7+, Firefox, Chrome, Opera, Safari
+                xmlhttp=new XMLHttpRequest();
+            }
+            else
+            {// code for IE6, IE5
+                xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+            }
+            xmlhttp.onreadystatechange=function()
+            {
+                if (xmlhttp.readyState==4 && xmlhttp.status==200)
+                {
+                    document.getElementById("myDiv").innerHTML=xmlhttp.responseText;
+                }
+            }
+            var data = '{'
+                    +'"User" : 6,'
+                    +'"Proposal"  : 17'
+                    +'}';
+            xmlhttp.open("DELETE","http://localhost/REST_proposal/proposalsupport/17",true);
+            xmlhttp.send(data);
+        }
+
+        function loadXMLDoc2()
+        {
+            var xmlhttp;
+            if (window.XMLHttpRequest)
+            {// code for IE7+, Firefox, Chrome, Opera, Safari
+                xmlhttp=new XMLHttpRequest();
+            }
+            else
+            {// code for IE6, IE5
+                xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+            }
+            xmlhttp.onreadystatechange=function()
+            {
+                if (xmlhttp.readyState==4 && xmlhttp.status==200)
+                {
+                    document.getElementById("myDiv").innerHTML=xmlhttp.responseText;
+                }
+            }
+            var data = '{'
+                    +'"User" : 6,'
+                    +'"Proposal"  : 17,'
+                    +'"Proposed" : 13'
+                    +'}';
+            xmlhttp.open("POST","http://localhost/REST_proposal/proposalowner/17",true);
+            xmlhttp.send(data);
+        }
+
+        function loadXMLDoc3()
+        {
+            var xmlhttp;
+            if (window.XMLHttpRequest)
+            {// code for IE7+, Firefox, Chrome, Opera, Safari
+                xmlhttp=new XMLHttpRequest();
+            }
+            else
+            {// code for IE6, IE5
+                xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+            }
+            xmlhttp.onreadystatechange=function()
+            {
+                if (xmlhttp.readyState==4 && xmlhttp.status==200)
+                {
+                    document.getElementById("myDiv").innerHTML=xmlhttp.responseText;
+                }
+            }
+            var data = '{'
+                    +'"User" : 6,'
+                    +'"Proposal"  : 17,'
+                    +'"Proposed" : 13'
+                    +'}';
+            xmlhttp.open("DELETE","http://localhost/REST_proposal/proposalowner/17",true);
+            xmlhttp.send(data);
+        }
+
+        function loadXMLDoc4()
+        {
+            var xmlhttp;
+            if (window.XMLHttpRequest)
+            {// code for IE7+, Firefox, Chrome, Opera, Safari
+                xmlhttp=new XMLHttpRequest();
+            }
+            else
+            {// code for IE6, IE5
+                xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+            }
+            xmlhttp.onreadystatechange=function()
+            {
+                if (xmlhttp.readyState==4 && xmlhttp.status==200)
+                {
+                    document.getElementById("myDiv").innerHTML=xmlhttp.responseText;
+                }
+            }
+            var data = '{'
+                    +'"User" : 13,'
+                    +'"Name"  : "RestTest1",'
+                    +'"Description" : "dffffd dffdd d"'
+                    +'}';
+            xmlhttp.open("POST","http://localhost/REST_proposal/proposal/0",true);
+            xmlhttp.send(data);
+        }
+
+        function loadXMLDoc5()
+        {
+            var xmlhttp;
+            if (window.XMLHttpRequest)
+            {// code for IE7+, Firefox, Chrome, Opera, Safari
+                xmlhttp=new XMLHttpRequest();
+            }
+            else
+            {// code for IE6, IE5
+                xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+            }
+            xmlhttp.onreadystatechange=function()
+            {
+                if (xmlhttp.readyState==4 && xmlhttp.status==200)
+                {
+                    document.getElementById("myDiv").innerHTML=xmlhttp.responseText;
+                }
+            }
+            xmlhttp.open("DELETE","http://localhost/REST_proposal/proposal/22",true);
+            xmlhttp.send();
+        }
+
+        function loadXMLDoc6()
+        {
+            var xmlhttp;
+            if (window.XMLHttpRequest)
+            {// code for IE7+, Firefox, Chrome, Opera, Safari
+                xmlhttp=new XMLHttpRequest();
+            }
+            else
+            {// code for IE6, IE5
+                xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+            }
+            xmlhttp.onreadystatechange=function()
+            {
+                if (xmlhttp.readyState==4 && xmlhttp.status==200)
+                {
+                    document.getElementById("myDiv").innerHTML=xmlhttp.responseText;
+                }
+            }
+            var data = '{'
+                    +'"User" : 13,'
+                    +'"Name"  : "RestTest1 izmena",'
+                    +'"Description" : "dffffd dffdd fdfsfs"'
+                    +'}';
+            xmlhttp.open("PUT","http://localhost/REST_proposal/proposal/21",true);
+            xmlhttp.send(data);
+        }
+    </script>
+</head>
+<body>
+
+<div id="myDiv"><h2>Let AJAX change this text</h2></div>
+<button type="button" onclick="loadXMLDoc()">Add Content</button>
+<button type="button" onclick="loadXMLDoc1()">Delete Content</button>
+
+<button type="button" onclick="loadXMLDoc2()">Add Owner</button>
+<button type="button" onclick="loadXMLDoc3()">Delete Owner</button>
+
+<button type="button" onclick="loadXMLDoc4()">Add Proposal</button>
+<button type="button" onclick="loadXMLDoc5()">Delete Proposal</button>
+<button type="button" onclick="loadXMLDoc6()">Update Proposal</button>
+</body>
+</html>

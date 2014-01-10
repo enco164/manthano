@@ -4,7 +4,7 @@ var proposalModule = angular.module('proposalModule', []);
 // Load full information about activity into activityFull
 proposalModule.controller('proposalInfo', ['$scope','$http','$routeParams','$location',function($scope, $http, $routeParams, $location){
     var id = $routeParams.idProposal;
-    var path = "/REST_proposal/proposal/"+id;
+    var path = "http://localhost/REST_proposal/proposal/"+id;
     $http.get(path).success(function(data){
         $scope.proposal = data;
     });
@@ -19,6 +19,6 @@ proposalModule.controller('proposalModify',['$scope','$http','$routeParams','$lo
 }]);
 
 proposalModule.controller('proposalFoo',['$scope',function($scope){
-    $scope.basic_info = "Ovo je sample foo informacija";
-    $scope.info = "Ovo je neka druga informacija";
+	$scope.basic_info = "Ovo je sample foo informacija";
+	$scope.info = "Ovo je neka druga informacija";
 }]);
