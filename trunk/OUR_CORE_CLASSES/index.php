@@ -6,16 +6,12 @@
 <body>
 
     <?php
-        include_once('Material.php');
+        include_once('DB.php');
 
-        $db = new PDO("mysql:localhost;dbname=manthanodb","root","",array(PDO::ATTR_PERSISTENT => true, PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
-        $db->exec("use manthanodb");
-        $kurs = new Material(200,$db);
-        echo $kurs->Name();
-        $kurs->Name = "Table";
-        echo $kurs->update();
+    $db = DB::singleton();
 
-
+    $db1 = DB::singleton();
+    echo $db1->execQuery("Select * from Proposal");
 
     ?>
 

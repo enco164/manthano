@@ -19,6 +19,6 @@
     <script src="/assets/scripts/angular-route.min.js"></script>
     <script src="/assets/scripts/routeModule.js"></script>
     <script src="/assets/scripts/activityModule.js"></script>
-
+    <script src="/assets/scripts/proposalModule.js"></script>
 </head>
 <body>

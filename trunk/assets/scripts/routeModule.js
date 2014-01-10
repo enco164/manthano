@@ -35,6 +35,18 @@ manthanoApp.config(['$routeProvider', function ($routerProvider){
             templateUrl: '/assets/html_fragments/userSettings.html',
             controller: 'userSettings'
         }).
+        when('/proposal/:idProposal', {
+            templateUrl: '/assets/html_fragments/proposalInfo.html',
+            controller: 'proposalInfo'
+        }).
+        when('/proposal/modify/:idProposal',{
+            templateUrl: '/assets/html_fragments/proposalModify.html',
+            controller: 'proposalModify'
+        }).
+        when('/proposal/new/:idProposal', {
+            templateUrl: '/assets/html_fragments/proposalNew.html',
+            controller: 'proposalNew'
+        }).
         // Where to redirect if nothing above is applied
         otherwise({
             /*default page, should be /1 but it can be changed, as long as nubmer is

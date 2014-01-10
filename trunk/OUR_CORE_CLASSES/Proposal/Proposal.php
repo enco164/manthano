@@ -1,7 +1,7 @@
 <?php
 /**
  * Created by PhpStorm.
- * User: Stefan
+ * User: Jupike
  * Date: 1/3/14
  * Time: 6:13 PM
  */
@@ -92,7 +92,7 @@ class Proposal
     {
         if($this>exists)
             $result = [ "idProposal" => $this->idProposal, "UserProposed" => $this->UserProposed,
-                        "Name" => $this->Name, "Description" => $this->Description];
+                "Name" => $this->Name, "Description" => $this->Description];
         else
             $result = "Predlog ne postoji! ";
 
