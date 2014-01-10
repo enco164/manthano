@@ -256,4 +256,10 @@
             return ($stmt->rowCount() ? true : false);
         }
 
+        static public function allActivities($db){
+            $stmt = $db->prepare("call treeFormated();");
+            $stmt->execute();
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        }
+
     }

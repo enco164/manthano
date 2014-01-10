@@ -51,6 +51,9 @@
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
                 <li><a href="/home">Home</a></li>
+
+                <!-- Jupi ovde setujes link do liste predloga :) -->
+                <li><a href="#/proposals/"> Predlozi </a></li>
                 <li class="active"><a href="news feed.html">News feed - logged</a></li>
 
             </ul>
