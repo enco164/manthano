@@ -1,0 +1,6 @@
+<a href="#/proposal/new/0"> Dodaj novi predlog</a>
+<br/>
+<div ng-repeat="proposal in proposallist">
+    <b><a  href="http://localhost/#/proposal/{{proposal.idProposal}}"> {{proposal.Name}} </a></b><br/>
+    Opis: {{proposal.Description}}<br/><br/>
+</div>

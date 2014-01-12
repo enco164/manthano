@@ -2,14 +2,22 @@ Ime: {{proposal.name}}
 <br/>
 Opis: {{proposal.description}}
 <br/>
+Predložio: {{proposal.user_proposed}}
+<br/>
+<button ng-click="addsupport()">{{enrollButtonName}}</button>
+<br/>
+<button ng-click="addmeowner()">{{addMeButtonName}}</button>
+<br/>
+<a href="#/proposal/modify/{{proposal.id}}" ng-if="proposal.is_creator"> Promeni predlog</a>
+<br/>
 Podrzavaju:
 <br/>
     <ul>
-        <li ng-repeat="user in proposal.support"> <a  href="http://localhost/#/user/{{user}}"> {{user}}  </a> </li>
+        <li ng-repeat="user in proposal.support"> <a  href="http://localhost/#/user/{{user.user_id}}"> {{user.Name}} {{user.Surname}}</a> </li>
     </ul>
 Vlasnici:
 <br/>
 <ul>
-    <li ng-repeat="owner in proposal.owners"> <a  href="http://localhost/#/user/{{owner.UserProposed}}"> {{owner.UserProposed}}  </a>
+    <li ng-repeat="owner in proposal.owners"> <a  href="http://localhost/#/user/{{owner.user_id}}"> {{owner.Name}} {{owner.Surname}}</a>
         {{owner.Count}} glasa</li>
 </ul>

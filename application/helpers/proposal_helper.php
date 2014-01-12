@@ -104,19 +104,16 @@ class Proposal
      */
     public function getSupport()
     {
-        $stmt = $this->db->prepare("SELECT user_id FROM ProposalSupport WHERE idProposal = :id");
+        $stmt = $this->db->prepare("SELECT u.user_id, u.Name, u.Surname from ProposalSupport ps join User u on ps.user_id = u.user_id                                   where idProposal = :id order by Name Desc, Surname Desc");
         $stmt->bindParam(":id", $this->idProposal, PDO::PARAM_INT);
         $stmt->execute();
-        if( $stmt->rowCount()  == 0)
-        {
-            return "Niko ne podržava ovaj predlog! ";
-        }
-        else
-        {
+        if($stmt->rowCount() == 0)
+            return "Niko ne podržava ovaj predlog!";
+        else{
             $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
             $ret = array();
             foreach($result as $i){
-                array_push($ret, $i['user_id']);
+                array_push($ret, $i);
             }
             return $ret;
         }
@@ -139,7 +136,12 @@ class Proposal
      */
     public function getOwners()
     {
-        $stmt = $this->db->prepare("SELECT UserProposed, Count(*) as 'Count' FROM ProposalOwner WHERE idProposal = :id GROUP BY UserProposed");
+        $stmt = $this->db->prepare("SELECT u.user_id, u.Name, u.Surname, Count(*) as 'Count' from ProposalOwner po join User u
+                                                    on po.UserProposed = u.user_id
+                              where idProposal = :id
+                              group by u.user_id, u.Name, u.Surname
+                              order by Name ASC, Surname ASC");
+
         $stmt->bindParam(":id", $this->idProposal, PDO::PARAM_INT);
         $stmt->execute();
         if( $stmt->rowCount()  == 0)
@@ -270,7 +272,11 @@ class Proposal
      */
     static public function getOwnersS($db, $id)
     {
-        $stmt = $db->prepare("SELECT UserProposed, Count(*) as 'Count' FROM ProposalOwner WHERE idProposal = :id GROUP BY UserProposed");
+        $stmt = $db->prepare("SELECT u.user_id, u.Name, u.Surname, Count(*) as 'Count' from ProposalOwner po join User u
+                                                    on po.UserProposed = u.user_id
+                              where idProposal = :id
+                              group by u.user_id, u.Name, u.Surname
+                              order by Name ASC, Surname ASC");
         $stmt->bindParam(":id", $id, PDO::PARAM_INT);
         $stmt->execute();
         if( $stmt->rowCount()  == 0)
@@ -303,19 +309,16 @@ class Proposal
      */
     static public function getSupportS($db, $id)
     {
-        $stmt = $db->prepare("SELECT user_id FROM ProposalSupport WHERE idProposal = :id");
+        $stmt = $db->prepare("SELECT u.user_id, u.Name, u.Surname from ProposalSupport ps join User u on ps.user_id = u.user_id                                   where idProposal = :id order by Name Desc, Surname Desc");
         $stmt->bindParam(":id", $id, PDO::PARAM_INT);
         $stmt->execute();
-        if( $stmt->rowCount()  == 0)
-        {
-            return "Niko ne podržava ovaj predlog! ";
-        }
-        else
-        {
+        if($stmt->rowCount() == 0)
+            return "Niko ne podržava ovaj predlog!";
+        else{
             $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
             $ret = array();
             foreach($result as $i){
-                array_push($ret, $i['user_id']);
+                array_push($ret, $i);
             }
             return $ret;
         }
@@ -334,7 +337,33 @@ class Proposal
         return $stmt->fetchColumn();
     }
 
+    static public function getAllProposals($db)
+    {
+        $stmt = $db->prepare("SELECT idProposal, UserProposed, Name, Description FROM Proposal ORDER BY idProposal DESC");
+        $stmt->execute();
 
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    static public function is_support($db, $userId, $proposalId)
+    {
+        $stmt = $db->prepare("SELECT user_id FROM ProposalSupport WHERE idProposal = :proposal AND user_id = :user");
+        $stmt->bindParam(":proposal", $proposalId, PDO::PARAM_INT);
+        $stmt->bindParam(":user", $userId, PDO::PARAM_INT);
+        $stmt->execute();
+
+        return $stmt->rowCount() ? true : false;
+    }
+
+    static public function is_owner($db, $userId, $proposalId)
+    {
+        $stmt = $db->prepare("SELECT UserProposed FROM ProposalOwner WHERE idProposal = :proposal AND UserProposed = :user");
+        $stmt->bindParam(":proposal", $proposalId, PDO::PARAM_INT);
+        $stmt->bindParam(":user", $userId, PDO::PARAM_INT);
+        $stmt->execute();
+
+        return $stmt->rowCount() ? true : false;
+    }
     /*todo otkrivanje slicnih predloga*/
     /*todo trigeri za update i delete i insert*/
 }

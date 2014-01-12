@@ -1,9 +1,19 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title></title>
-</head>
-<body>
-    Proposal modify!
-</body>
-</html>
+<!-- TODO only admins and creator of proposal-->
+<div ng-if="proposal.is_creator">
+<a href="#/proposal/{{proposal.id}}">Nazad</a>
+<br/>
+Predložio:
+<br/>
+<input type="text" ng-model="proposal.user_proposed" required/>
+<br/>
+Ime predloga:
+<br/>
+<input type="text" ng-model="proposal.name" required/>
+<br/>
+Opis predloga:
+<br/>
+<textarea name="acDesc" id="acDesc" cols="30" rows="10" ng-model="proposal.description" required></textarea>
+<br/>
+<button ng-click="modifyProposal()">Izmeni predlog!</button>
+{{dataR.etagreturn}}
+</div>
