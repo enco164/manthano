@@ -54,15 +54,20 @@ class REST_proposal extends MY_Controller
                     }
                     else
                     {
+                        $creator = $this->session->userdata('user_id')==$proposal->UserProposed()? true : false;
                         /* setting package that will be sent to client */
                         $arr = array(
                             "id" => $proposal->idProposal(),
+                            "user_proposed" => $proposal->UserProposed(),
                             "name" => $proposal->Name() ,
                             "description" => $proposal->Description(),
                             "support" => $proposal->getSupport(),
                             "support_count" => $proposal->getSupportCount(),
+                            "is_support" => Proposal::is_support($db, $this->session->userdata('user_id'), $proposal->idProposal()),
                             "owners" => $proposal->getOwners(),
-                            "owners_count" => $proposal->getOwnerCount()
+                            "owners_count" => $proposal->getOwnerCount(),
+                            "is_owner" => Proposal::is_owner($db, $this->session->userdata('user_id'), $proposal->idProposal()),
+                            "is_creator" => $creator
                         );
                         $data=json_encode($arr);
                         $etag = md5($proposal);
@@ -77,7 +82,11 @@ class REST_proposal extends MY_Controller
                      * Is one of activity holders or is it admin?
                      * $ac_data->id is id of activity.
                      */
-                        $ind = Proposal::addProposal($db, $pr_data->User, $pr_data->Name, $pr_data->Description);
+                    if(!isset($pr_data->User))
+                        $userId=$this->session->userdata('user_id');
+                    else
+                        $userId=$pr_data->User;
+                        $ind = Proposal::addProposal($db, $userId, $pr_data->Name, $pr_data->Description);
                         if($ind)
                         {
                             $status=201;
@@ -221,8 +230,11 @@ class REST_proposal extends MY_Controller
                     break;
                 case 'post':
                     $su_data=json_decode(file_get_contents('php://input'));
-
-                    $ind = Proposal::addSupport($db, $su_data->User, $su_data->Proposal);
+                    if(!isset($su_data->User))
+                        $userId=$this->session->userdata('user_id');
+                    else
+                        $userId=$su_data->User;
+                    $ind = Proposal::addSupport($db, $userId, $su_data->Proposal);
                     if($ind)
                     {
                         $status=201;
@@ -247,7 +259,12 @@ class REST_proposal extends MY_Controller
                      * $ac_data->id is id of activity.
                      */
                     $su_data=json_decode(file_get_contents('php://input'));
-                        if(Proposal::deleteSupport($db, $su_data->User, $su_data->Proposal))
+                        if(!isset($su_data->User))
+                            $userId=$this->session->userdata('user_id');
+                        else
+                            $userId=$su_data->User;
+
+                        if(Proposal::deleteSupport($db, $userId, $su_data->Proposal))
                         {
                             $status=200;
                             $data = array(
@@ -344,7 +361,17 @@ class REST_proposal extends MY_Controller
                 case 'post':
                     $su_data=json_decode(file_get_contents('php://input'));
 
-                    $ind = Proposal::addOwner($db, $su_data->User, $su_data->Proposal, $su_data->Proposed);
+                    if(!isset($su_data->User))
+                        $userId=$this->session->userdata('user_id');
+                    else
+                        $userId=$su_data->User;
+
+                    if(!isset($su_data->Proposed))
+                        $propId=$this->session->userdata('user_id');
+                    else
+                        $propId=$su_data->Proposed;
+
+                    $ind = Proposal::addOwner($db, $userId, $su_data->Proposal, $propId);
                     if($ind)
                     {
                         $status=201;
@@ -371,7 +398,18 @@ class REST_proposal extends MY_Controller
                      * $ac_data->id is id of activity.
                      */
                     $su_data=json_decode(file_get_contents('php://input'));
-                    if(Proposal::deleteOwner($db, $su_data->User, $su_data->Proposal, $su_data->Proposed))
+
+                    if(!isset($su_data->User))
+                        $userId=$this->session->userdata('user_id');
+                    else
+                        $userId=$su_data->User;
+
+                    if(!isset($su_data->Proposed))
+                        $propId=$this->session->userdata('user_id');
+                    else
+                        $propId=$su_data->Proposed;
+
+                    if(Proposal::deleteOwner($db, $userId, $su_data->Proposal, $propId))
                     {
                         $status=200;
                         $data = array(
@@ -389,6 +427,85 @@ class REST_proposal extends MY_Controller
 
                         $data=json_encode($error_description);
                     }
+                    break;
+            }
+        }
+        catch(Exception $e)
+        {
+            $status="500";
+            $error_description=array(
+                "blah" => $e->getMessage(),
+                "message"=>"Greška na serveru!",
+                "error" => "Greška!"
+            );
+
+            $data=json_encode($error_description);
+
+        }
+
+        /* Using pecl_http Apache extension to make HTTP response packets
+         * Simply setting status, contentType, header and data.
+         * */
+        /*
+        $response=new HTTPResponse();
+        $response::status($status);
+        $response::setContentType("application/json");
+        $response::setHeader("Connection:close");
+        if(isset($data))
+            $response::setData($data);
+        $response::send();
+        */
+        header("HTTP/1.1 ".$status);
+        header("Content-Type: application/json");
+        if(isset($data))
+            echo $data;
+    }
+
+    public function proposallist()
+    {
+        if(!in_array($this->method, $this->supported_methods))
+        {
+            //TODO Error report
+        }
+
+        $db = new PDO("mysql:localhost;dbname=manthanodb","root","",array(PDO::ATTR_PERSISTENT => true, PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
+        $db->exec("use manthanodb;");
+        /* setting status and data which will be returned */
+        $status=200;
+        $data="";
+
+        /* Big switch which REST service actually is */
+        try
+        {
+            switch($this->method)
+            {
+                /* processing GET - READ request */
+                case 'get':
+                    $arr = Proposal::getAllProposals($db);
+                    if(sizeof($arr)>0)
+                    {
+                        /* setting package that will be sent to client*/
+                        $data=json_encode($arr);
+                        $etag = md5(time()."");
+                        header('Etag:'.$etag);
+                        header("Expires: -1");
+                        $status=200;
+                    }
+                    else
+                    {
+                        $status=400;
+                        $error_description=array(
+                            "message" => "Lista predloga je prazna!",
+                            "error" => "Greška!"
+                        );
+                        $data=json_encode($error_description);
+                    }
+                    break;
+                case 'post':
+                    break;
+                case 'put':
+                    break;
+                case 'delete':
                     break;
             }
         }

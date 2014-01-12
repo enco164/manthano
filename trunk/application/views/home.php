@@ -53,7 +53,7 @@
                 <li><a href="/home">Home</a></li>
 
                 <!-- Jupi ovde setujes link do liste predloga :) -->
-                <li><a href="#/proposals/"> Predlozi </a></li>
+                <li><a href="#/proposals"> Predlozi </a></li>
                 <li class="active"><a href="news feed.html">News feed - logged</a></li>
 
             </ul>
