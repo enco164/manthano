@@ -13,11 +13,11 @@ Predložio: {{proposal.user_proposed}}
 Podrzavaju:
 <br/>
     <ul>
-        <li ng-repeat="user in proposal.support"> <a  href="http://localhost/#/user/{{user.user_id}}"> {{user.Name}} {{user.Surname}}</a> </li>
+        <li ng-repeat="user in proposal.support"> <a  href="#/user/{{user.user_id}}"> {{user.Name}} {{user.Surname}}</a> </li>
     </ul>
 Vlasnici:
 <br/>
 <ul>
-    <li ng-repeat="owner in proposal.owners"> <a  href="http://localhost/#/user/{{owner.user_id}}"> {{owner.Name}} {{owner.Surname}}</a>
+    <li ng-repeat="owner in proposal.owners"> <a  href="#/user/{{owner.user_id}}"> {{owner.Name}} {{owner.Surname}}</a>
         {{owner.Count}} glasa</li>
 </ul>
