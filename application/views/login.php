@@ -17,7 +17,7 @@
 
     <div class="panel panel-default">
         <div class="panel-body">
-            <div style="text-align:center"><?php echo validation_errors(); ?></div>
+            <div class="alert alert-danger" style="text-align:center"><?php echo validation_errors(); ?> Ovo srediti (ne mogu da nadjem funkciju validation_errors())</div>
             <div class="row">
 
                 <div class="col-md-6 form-group">
@@ -55,7 +55,6 @@
         </div>
     </div>
     <div class="form-group">
-        <a class="pull-right" href="#">Zaboravili ste lozinku?</a>
         <label for="inputPassword">Lozinka</label>
         <div class="input-group">
             <span class="input-group-addon"><span class="glyphicon glyphicon-lock"></span></span>
@@ -70,6 +69,7 @@
         <button type="submit" class="btn btn btn-primary js_submit">
             Uloguj me
         </button>
+        <a class="" href="#">Zaboravili ste lozinku?</a>
     </form>
 
 
