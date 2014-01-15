@@ -403,7 +403,8 @@ $config['recaptcha_private_key']="6Le0GeYSAAAAAMYXAFg8yE-pMmVpp9nQMSy7udRq";
 
 $config['user_start_pages']=array(
     1=>'/home',
-    99=>'/admin/home'
+    //99=>'/admin/home',
+    99=>'/home'
 );
 
 $config['cache_prefix']='manthano_';
