@@ -17,7 +17,7 @@
 
     <div class="panel panel-default">
         <div class="panel-body">
-            <div class="alert alert-danger" style="text-align:center"><?php echo validation_errors(); ?> Ovo srediti (ne mogu da nadjem funkciju validation_errors())</div>
+            <div class="alert alert-danger" style="text-align:center"><?php echo validation_errors(); ?> Ovo srediti (ne mogu da nadjem funkciju validation_errors()) //u pitanju je native CI funkcija koja lista sve greske uhvacene u validaciji. Sta treeba da uradim s njom?</div>
             <div class="row">
 
                 <div class="col-md-6 form-group">
