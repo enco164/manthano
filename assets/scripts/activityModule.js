@@ -40,6 +40,7 @@ activityModule.controller('activityShow', ['$scope','$http','$routeParams','$loc
         else{
             $scope.hasEvents = 1;
         }
+
     });
 
     /* TODO Add is_holder in rest response for display purposes */
