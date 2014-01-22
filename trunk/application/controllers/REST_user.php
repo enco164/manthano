@@ -45,11 +45,13 @@
                                 "id" => $user->id(),
                                 "name" => $user->Name() ,
                                 "surname" => $user->Surname(),
+                                "username" => $user->username(),
                                 "Proffession" => $user->Proffession(),
                                 "Mail" => $user->Mail(),
                                 "School" => $user->School(),
                                 "status" => $user->status(),
                                 "www" => $user->www(),
+                                "ProfilePicture" => $user->ProfilePicture(),
 
                             );
                             $data=json_encode($arr);
