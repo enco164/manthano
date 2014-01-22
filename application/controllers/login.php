@@ -10,6 +10,7 @@
         }
 
         function index(){
+            //$this->output->enable_profiler(TRUE);
             //making example of some
             /*$some_user=new Users(1);
             var_dump($some_user);*/
