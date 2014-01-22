@@ -185,14 +185,15 @@
             $this->email->message("Molimo vas da u narednih 24h kliknete na ovaj link, kako bi proces vaše registracije bio uspešno završen: ".$link."<br><br><img src='http://lakodokola.devcypher.com/assets/img/logo.png' />");
 
             if($this->email->send()){
-                $data['email_status']=1;
+                //SVE JE KUL, MAIL JE POSLAT
+                /*$data['email_status']=1;
                 $data['hash_time']=time();
 
                 $this->db->where('user_id', $uid);
                 $this->db->update('user',$data);
                 if($this->db->affected_rows()==1){
                     //echo $this->email->print_debugger();
-                }
+                }*/
             }
         }
 
