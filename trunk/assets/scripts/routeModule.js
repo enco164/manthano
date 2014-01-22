@@ -27,6 +27,10 @@ manthanoApp.config(['$routeProvider', function ($routerProvider){
            templateUrl: '/assets/html_fragments/eventModify.html',
            controller: 'eventModify'
         }).
+        when('/event/new/:nameActivity/:idActivity',{
+            templateUrl: '/assets/html_fragments/eventNew.html',
+            controller: 'eventNew'
+        }).
         when('/user/:id', {
            templateUrl: '/assets/html_fragments/userInfo.html',
            controller: 'userInfo'

@@ -132,6 +132,28 @@ class Event {
         $stmt->execute();
         return $stmt->rowCount() ? false : true;
     }
+/*
+ * INPUT: id of activity, user id, db
+ * */
+    static public function listExistingEventsForUser ($ida, $uid, $db){
+        $stmt = $db->prepare("select e.idEvent, e.name,CASE WHEN ac.idActivity = :ida THEN 1 ELSE 0  END as 'isMember'
+                              from event e join activitycontains ac on e.idEvent = ac.idEvent
+                              where exists(select * from eventholder where user_id = :uid and idEvent = e.idEvent)
+                              group by e.idEvent, e.name LIMIT 0, 1000");
+        $stmt->bindParam(":ida", $ida, PDO::PARAM_INT);
+        $stmt->bindParam(":uid", $uid, PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 
+    static public function isHolderStatic($user_id, $idEvent, $db){
+        $stmt = $db->prepare("select * from eventholder where user_id = :uid and idEvent = :ide ");
+        $stmt->bindParam(":ide", $idEvent, PDO::PARAM_INT);
+        $stmt->bindParam(":uid", $user_id, PDO::PARAM_INT);
+        $stmt->execute();
+        $isHolderV = $stmt->rowCount() ? true : false;
+        return $isHolderV || is_admin();
+    }
+   
 
 } 

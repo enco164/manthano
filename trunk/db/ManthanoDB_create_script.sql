@@ -25,7 +25,7 @@ CREATE TABLE IF NOT EXISTS `ManthanoDB`.`User` (
   `salt` VARCHAR(5) NULL,
   `status` INT NULL,
   `email_status` TINYINT(1) NOT NULL DEFAULT 0,
-  `hash_time` INT(10) UNSIGNED NOT NULL,
+  `hash_time` INT(10) NOT NULL DEFAULT 0,
   `hash` VARCHAR(32) NULL,
   PRIMARY KEY (`user_id`),
   UNIQUE INDEX `username_UNIQUE` (`username` ASC))
@@ -512,6 +512,22 @@ CREATE TABLE IF NOT EXISTS `ManthanoDB`.`EventContainsArchive` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
+
+-- -----------------------------------------------------
+-- Table `ManthanoDB`.`email_proxy`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `ManthanoDB`.`email_proxy` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(50) NOT NULL,
+  `email_from` VARCHAR(50) NOT NULL,
+  `email_to` VARCHAR(50) NOT NULL,
+  `subject` VARCHAR(100) NOT NULL,
+  `message` VARCHAR(1000) NOT NULL,
+  `sent` TINYINT(1) NOT NULL,
+  `date` INT NOT NULL,
+  PRIMARY KEY (`id`))
+ENGINE = InnoDB;
+
 USE `ManthanoDB` ;
 
 -- -----------------------------------------------------
@@ -632,7 +648,7 @@ USE `ManthanoDB`$$
 CREATE PROCEDURE `sonOfActivity` (id INT)
 BEGIN
 
-SELECT node.Name, node.idActivity, (COUNT(parent.idActivity) - (sub_tree.depth + 1)) AS depth
+SELECT node.Name, node.idActivity, (COUNT(parent.idActivity) - (sub_tree.depth + 1)) AS depth, node.CoverPicture
 FROM Activity AS node,
         Activity AS parent,
         Activity AS sub_parent,

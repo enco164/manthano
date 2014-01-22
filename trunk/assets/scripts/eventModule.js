@@ -22,3 +22,43 @@ eventModule.controller('eventModify',['$scope', '$http', '$routeParams', '$locat
         });
 
 }]);
+
+eventModule.controller('eventNew',['$scope','$http','$routeParams','$location', function($scope, $http, $routeParams, $location){
+    $scope.choises = [{Name: 'Novi', Value: true},{Name: 'Postojeci', Value: false}];
+    $scope.nameOfActivity = $routeParams.nameActivity;
+    $scope.idActivity = $routeParams.idActivity;
+    $scope.getEvents = function(){
+        $http.get('REST_event_b/eventsshort/'+$routeParams.idActivity).success(function(data){
+            $scope.eventsShort = data;
+            $scope.loading = "";
+        }).error(function(data, status, header, confihg){
+                windows.alert("smth wrong in eventNew" + status)
+            });
+    };
+    $scope.getEvents();
+
+    $scope.add = function( idEvent, idActivity){
+        $http({
+            method: 'POST',
+            url: '/REST_activity_b/event/'+$routeParams.idActivity,
+            data: {"idEvent" : idEvent , "idActivity": idActivity}
+        }).success(function(data){
+                $scope.loading = "loading...";
+                $scope.getEvents();
+            }).error(function(data, status, header, config){
+                window.alert("smth wrong in scope.add");
+            });
+    };
+    $scope.removeEvent = function( idEvent, idActivity){
+            $http({
+                method: 'DELETE',
+                url: '/REST_activity_b/event/'+$routeParams.idActivity,
+                data: {"idEvent" : idEvent , "idActivity": idActivity}
+            }).success(function(){
+                    $scope.loading = "loading...";
+                    $scope.getEvents();
+                }).error(function(data, status, header, config){
+                    window.alert("smth wrong in scope.remove");
+                });
+    };
+}]);

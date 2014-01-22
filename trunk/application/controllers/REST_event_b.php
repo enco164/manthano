@@ -50,7 +50,32 @@
                         }
                         break;
                     case 'post':
-
+                        $ac_data=json_decode(file_get_contents('php://input'));
+                        /* Checking user privileges, need to be implemented.
+                         * Is one of activity holders or is it admin?
+                         * $ac_data->id is id of activity.
+                         */
+                        if(Activity::isHolder($this->session->userdata('user_id'), $id, $db)){
+                            $ind = Activity::addActivity($db, $ac_data->id, $ac_data->Name, $ac_data->Description, $ac_data->Date, $ac_data->Cover );
+                            if($ind){
+                                $status=201;
+                                $data = array(
+                                    "message" => "Activity added"
+                                );
+                                $data=json_encode($data);
+                            }
+                            else{
+                                $status=400;
+                                $error_description=array(
+                                    "message" => "Resource wasnt found!"
+                                );
+                                $data=json_encode($error_description);
+                            }
+                        }
+                        else{
+                            /*Unauthorized*/
+                            $status = 401;
+                        }
                         break;
                     case 'put':
                         break;
@@ -72,4 +97,37 @@
             if(isset($data))
                 echo $data;
         }
+        public function eventsshort($id){
+            $data = "";
+            $status = 200;
+            $db = new PDO("mysql:localhost;dbname=manthanodb","root","",array(PDO::ATTR_PERSISTENT => true, PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
+            $db->exec("use manthanodb;");
+            try{
+                switch($this->method){
+                    case 'get':
+                        $data = json_encode(Event::listExistingEventsForUser($id, $this->session->userdata('user_id'), $db));
+                        break;
+                    case 'post':
+                        break;
+                    case 'put':
+                        break;
+                    case 'delete':
+                        break;
+                }
+            }catch(Exception $e){
+                $status="500";
+                $error_description=array(
+                    "blah" => $e->getMessage(),
+                    "message"=>"Server error!"
+                );
+
+                $data=json_encode($error_description);
+
+            }
+            header("HTTP/1.1 ".$status);
+            header("Content-Type: application/json");
+            if(isset($data))
+                echo $data;
+        }
+
     }

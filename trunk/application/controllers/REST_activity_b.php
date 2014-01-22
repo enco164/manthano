@@ -295,5 +295,86 @@
         if(isset($data))
             echo $data;
     }
+
+    public function event($id){
+        $data = "";
+        $status = 200;
+        $db = new PDO("mysql:localhost;dbname=manthanodb","root","",array(PDO::ATTR_PERSISTENT => true, PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
+        $db->exec("use manthanodb;");
+        try{
+            switch($this->method){
+                case 'get':
+                    break;
+                case 'post':
+                    $event_data=json_decode(file_get_contents('php://input'));
+                    /* Checking user privileges, need to be implemented.
+                     * Is one of activity holders or is it admin?
+                     * $ac_data->id is id of activity.
+                     */
+                    if(Event::isHolderStatic($this->session->userdata('user_id'), $id, $db)){
+                        $ind = Activity::addEvent($event_data->idEvent, $event_data->idActivity, $db);
+                        if($ind){
+                            $status=201;
+                            $data = array(
+                                "message" => "Event added"
+                            );
+                            $data=json_encode($data);
+                        }
+                        else{
+                            $status=400;
+                            $error_description=array(
+                                "message" => "Resource wasnt found!"
+                            );
+                            $data=json_encode($error_description);
+                        }
+                    }
+                    else{
+                        /*Unauthorized*/
+                        $data = json_encode(Event::isHolderStatic($this->session->userdata('user_id'), $id, $db));
+                        $status = 401;
+                    }
+                    break;
+                case 'put':
+                    break;
+                case 'delete':
+                    /* Checking user privileges, need to be implemented.
+                        * Is one of activity holders or is it admin?
+                        * $ac_data->id is id of activity.
+                        *  */
+                    $event_data=json_decode(file_get_contents('php://input'));
+                    if(Event::isHolderStatic($this->session->userdata('user_id'), $id, $db)){
+                        if(Activity::removeEvent($event_data->idEvent, $event_data->idActivity, $db)){
+                            $status=200;
+                        }
+                        else{
+                            $status=404;
+                            $error_description=array(
+                                "message"=>"resurs nije pronadjen"
+                            );
+
+                            $data=json_encode($error_description);
+                        }
+                    }
+                    else{
+                        /*Unauthorized*/
+                        $status = 401;
+                    }
+                    break;
+            }
+        }catch(Exception $e){
+            $status="500";
+            $error_description=array(
+                "blah" => $e->getMessage(),
+                "message"=>"Server error!"
+            );
+
+            $data=json_encode($error_description);
+
+        }
+        header("HTTP/1.1 ".$status);
+        header("Content-Type: application/json");
+        if(isset($data))
+            echo $data;
+    }
 }
 
