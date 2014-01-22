@@ -17,7 +17,16 @@
 
     <div class="panel panel-default">
         <div class="panel-body">
-            <div class="alert alert-danger" style="text-align:center"><?php echo validation_errors(); ?> Ovo srediti (ne mogu da nadjem funkciju validation_errors()) //u pitanju je native CI funkcija koja lista sve greske uhvacene u validaciji. Sta treeba da uradim s njom?</div>
+            
+            <?php 
+            $val_err = validation_errors();
+            if ($val_err){
+            ?>
+            <div class="alert alert-danger" style="text-align:center"> <?php echo $val_err; ?> </div>
+            <?php
+            }
+            ?> 
+
             <div class="row">
 
                 <div class="col-md-6 form-group">
@@ -42,8 +51,7 @@
             <span class="span-or">ili</span>
         </div>
     -->
-    <? $this->load->helper('form');?>
-
+    <?=$this->load->helper('form');?>
 
     <?=form_open('login');?>
     <div class="form-group">
@@ -61,7 +69,7 @@
             <input type="password" name="pass" class="form-control" id="inputPassword" required>
         </div>
     </div>
-        <button type="submit" class="btn btn btn-primary js_submit">
+        <button type="submit" class="btn btn-primary js_submit">
             Uloguj me
         </button>
         <a class="" href="#">Zaboravili ste lozinku?</a>
