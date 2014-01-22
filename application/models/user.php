@@ -181,7 +181,7 @@
 
             $this->email->from("no_reply@manthano.com","Portal Manthano");
             $this->email->to($data['email']);
-            $this->email->subject("Verifikacija kreiranja naloga na portalu Manthano");
+            $this->email->subject("Uspešno kreiran nalog naloga na portalu Manthano");
             $this->email->message("Molimo vas da u narednih 24h kliknete na ovaj link, kako bi proces vaše registracije bio uspešno završen: ".$link."<br><br><img src='http://lakodokola.devcypher.com/assets/img/logo.png' />");
 
             if($this->email->send()){
