@@ -14,18 +14,19 @@ CREATE TABLE IF NOT EXISTS `ManthanoDB`.`User` (
   `username` VARCHAR(20) UNICODE NOT NULL,
   `password` VARCHAR(64) NOT NULL,
   `acc_type` INT NOT NULL,
-  `Usercol` VARCHAR(45) NULL,
-  `Usercol1` VARCHAR(45) NULL,
   `mail` VARCHAR(40) NOT NULL,
   `Ext_login` TINYINT(1) NOT NULL,
   `Name` VARCHAR(15) NOT NULL,
   `Surname` VARCHAR(30) NOT NULL,
-  `www` VARCHAR(20) NULL,
+  `www` VARCHAR(150) NULL,
   `Proffession` VARCHAR(45) NULL,
   `School` VARCHAR(45) NULL,
-  `ProfilePicture` VARCHAR(45) NULL,
+  `ProfilePicture` VARCHAR(150) NULL,
   `salt` VARCHAR(5) NULL,
   `status` INT NULL,
+  `email_status` TINYINT(1) NOT NULL DEFAULT 0,
+  `hash_time` INT(10) UNSIGNED NOT NULL,
+  `hash` VARCHAR(32) NULL,
   PRIMARY KEY (`user_id`),
   UNIQUE INDEX `username_UNIQUE` (`username` ASC))
 ENGINE = InnoDB;
@@ -338,8 +339,8 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `ManthanoDB`.`Ranking` (
   `VotedFor` INT NOT NULL,
-  `Grade` INT NOT NULL,
-  `Vote` INT NOT NULL,
+  `Grade` INT NOT NULL DEFAULT 0,
+  `Vote` INT NOT NULL DEFAULT 0,
   `idEvent` INT UNSIGNED NOT NULL,
   `idActivity` INT UNSIGNED NOT NULL,
   PRIMARY KEY (`VotedFor`, `Vote`, `idEvent`, `idActivity`),
@@ -711,7 +712,7 @@ DELIMITER $$
 USE `ManthanoDB`$$
 CREATE PROCEDURE `treeFormated` ()
 BEGIN
-SELECT CONCAT( REPEAT( '| ', (COUNT(parent.Name) - 1) ), node.Name) AS name
+SELECT CONCAT( REPEAT( '* ', (COUNT(parent.Name) - 1) ), node.Name) AS name, node.idActivity
 	FROM Activity AS node,
         Activity AS parent
 	WHERE node.lft BETWEEN parent.lft AND parent.rgt
@@ -820,6 +821,14 @@ begin
 	DELETE FROM ActivityContains Where idActivity = old.idActivity;
 	DELETE FROM Event Where idEvent not in (select idEvent from ActivityContains);
 end
+$$
+
+USE `ManthanoDB`$$
+CREATE TRIGGER `Proposal_BDEL` BEFORE DELETE ON `Proposal` FOR EACH ROW
+begin
+	DELETE FROM ProposalOwner WHERE idProposal = old.idProposal;
+	DELETE FROM ProposalSupport WHERE idProposal = old.idProposal;
+END
 $$
 
 USE `ManthanoDB`$$

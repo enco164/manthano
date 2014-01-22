@@ -70,20 +70,32 @@
 					<li><a href="#/user/<?=$this->session->userdata('user_id')?>">
 						<span class="glyphicon glyphicon-user"></span> 
 	    					<?=$this->session->userdata('name');?> 
-	    					<?=$this->session->userdata('surname');?> </a></li>
-				<!--
+	    					<?=$this->session->userdata('surname');?> 
+						</a>
+					</li>	
+					<li>
+						<a href="/logout">
+							<span class="glyphicon glyphicon-off"></span> 
+							Izloguj se
+						</a>
+					</li>
+					<!--
 				<li class="dropdown">
 					<a href="#" class="dropdown-toggle" data-toggle="dropdown">External login <b class="caret"></b></a>
 					<ul class="dropdown-menu">
-						<li><a href="#">Google</a></li>
-						<li><a href="#">Facebook</a></li>
+						<li>
+							<a href="#">
+								<span class="glyphicon glyphicon-off"></span> 
+								Izloguj se
+							</a>
+						</li>
 					</ul>
 				</li>
-			-->
-		</ul>
-	</div><!-- /.navbar-collapse -->
-</div>
-</nav>
+				-->
+				</ul>
+			</div><!-- /.navbar-collapse -->
+		</div>
+	</nav>
 
 <br/><br/><br/><br/>
 <!-- Ova cetri br iznad su brzi hack da bi se video sadrzaj lepo, ne dirati ih!!! -->
