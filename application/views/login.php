@@ -61,15 +61,16 @@
             <input type="password" name="pass" class="form-control" id="inputPassword" required>
         </div>
     </div>
-    <div class="checkbox pull-right">
-        <label>
-            <input type="checkbox">
-            Zapamti me </label>
-        </div>
         <button type="submit" class="btn btn btn-primary js_submit">
             Uloguj me
         </button>
         <a class="" href="#">Zaboravili ste lozinku?</a>
+		<div class="checkbox pull-right">
+			<label>
+            <input type="checkbox"> Zapamti me 
+			</label>
+		</div>
+
     </form>
 
 
