@@ -124,7 +124,8 @@ class Event {
         $stmt->bindParam(":date", $Date, PDO::PARAM_STR);
         $stmt->bindParam(":time", $Time, PDO::PARAM_STR);
         $stmt->execute();
-        return $stmt->rowCount() ? true : false;
+        $res = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $res['id'] != null ? $res['id'] : 0;
     }
     static public function deleteEvent($idEvent, $db){
         $stmt = $db->prepare("DELETE FROM Event where idEvent = :id");
@@ -154,6 +155,21 @@ class Event {
         $isHolderV = $stmt->rowCount() ? true : false;
         return $isHolderV || is_admin();
     }
-   
+
+    static public function addHolder($idEvent, $user_id, $db){
+        $stmt = $db->prepare("INSERT INTO eventholder(user_id, idEvent) values(:uid, :ide) ");
+        $stmt->bindParam(":ide", $idEvent, PDO::PARAM_INT);
+        $stmt->bindParam(":uid", $user_id, PDO::PARAM_INT);
+        $ret =  $stmt->execute();
+        return $ret;
+    }
+
+    static public function removeHolder($idEvent, $user_id, $db){
+        $stmt = $db->prepare("DELETE FROM eventholder WHERE user_id = :uid and idEvent = :ide");
+        $stmt->bindParam(":ide", $idEvent, PDO::PARAM_INT);
+        $stmt->bindParam(":uid", $user_id, PDO::PARAM_INT);
+        $ret = $stmt->execute();
+        return $ret;
+    }
 
 } 

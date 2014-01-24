@@ -2,26 +2,26 @@
 Tip Eventa: <br/>
 <select ng-model="choiseNew" ng-options="item.Name for item in choises ">
 </select>
-
+<a class="btn btn-primary btn-large" href="#/activity/{{idActivity}}"> Vrati se </a>
 <br/>
 <br/>
 <div ng-if="choiseNew.Value == true">
     <p > Ime </p>
-    <input type="text"  value="ime novog eventa" />
+    <input type="text" ng-model="eventName"  /> {{eventName}}
     <br/>
     <p > Opis </p>
-    <textarea name="acDesc" id="acDesc" cols="30" rows="10" ng-model="activityDescription" required></textarea>
+    <textarea name="acDesc" id="acDesc" cols="30" rows="10" ng-model="eventDescription" required></textarea> {{eventDescription}}
     <br/>
     <p > Mesto odrzavanja </p>
-    <input type="text"  value="Mesto odrzavanja" />
+    <input type="text"  ng-model="eventVenue" /> {{eventVenue}}
     <br/>
     <p > Date </p>
-    <input type="date"  />
+    <input type="date" ng-model="eventDate" />{{eventDate}}
     <br/>
-    <p ng-if="choiseNew.Value == true"> Time </p>
-    <input type="text"  />
+    <p> Time </p>
+    <input type="text" ng-model="eventTime"  /> {{eventTime}}
     <br/>
-    <a class="btn btn-success btn-large" > Dodaj </a>
+    <a class="btn btn-success btn-large" ng-click="addNew(eventName, eventDescription, eventVenue, eventTime, eventDate)" > Dodaj </a>
 </div>
 <div ng-if="choiseNew.Value == false">
     <h2>{{loading}}</h2>

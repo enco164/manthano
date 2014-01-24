@@ -14,6 +14,12 @@
 				</button>
 
 			</div>
+
+            Pomeri kurs u: <select ng-model="choosenActivity" ng-options="item.name for item in activities ">
+                        </select>
+            {{choosenActivity.idActivity}}
+            <button class="btn btn-success pull-right" ng-click="moveActivity()"> Pomeri. </button>
+
 			<div class="row">
 				<br/>
 				<form action="" method="POST" role="form" class="form-group">
@@ -41,6 +47,14 @@
 				</form>
 
 			</div>
+            Eventi:
+            search: <input type="text" ng-model="searchFieldEvents"/>
+            <ul>
+                <li ng-repeat="item in activity.events | filter: searchFieldEvents" >
+                    <a href="#/event/{{item.idEvent}}"> {{item.Name}} </a> <button class="btn btn-primary pull-right" ng-click="removeEvent(item.idEvent)"> Izbaci. </button>
+                </li>
+            </ul>
+
 		</div>
 	</div>
 </div>

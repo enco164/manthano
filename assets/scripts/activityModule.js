@@ -119,6 +119,25 @@ activityModule.controller('activityModify',['$scope','$http','$routeParams','$lo
         $scope.activity = data;
         $scope.etag = headers("Etag");
     });
+    // getting data for select
+    $http.get('/REST_activity_b/activities/').success(function(data, status, headers){
+        $scope.activities = data;
+    }).error(function(){
+            window.alert("greska pri ucitavanju svih aktivitija");
+        });
+
+    $scope.moveActivity = function(){
+        $http({
+            method: 'PUT',
+            url: '/REST_activity_b/place/'+id+'/'+ $scope.choosenActivity.idActivity
+        }).success(function(data){
+                $scope.message = "Activity moved successfully!";
+                $location.path("/activity/"+id);
+            }).error(function(data, status, header, config){
+                $scope.message = "Activity move error!"
+            });
+    };
+
     /* button "modify Activity" action */
     $scope.modifyActivity = function(){
         $http({
@@ -132,6 +151,24 @@ activityModule.controller('activityModify',['$scope','$http','$routeParams','$lo
                 window.alert("Activity unsuccessfully updated! ");
             });
     };
+
+    $scope.removeEvent = function(idEvent){
+        $http({
+            method: 'DELETE',
+            url: '/REST_activity_b/event/'+id,
+            data: {"idEvent" : idEvent , "idActivity": id}
+        }).success(function(){
+                $scope.message = "Ok!";
+            }).error(function(data, status, header, config){
+                window.alert("smth wrong in scope.remove");
+            });
+
+        $http.get(path).success(function(data, status, headers){
+            $scope.activity = data;
+            $scope.etag = headers("Etag");
+        });
+    };
+
 }]);
 
 activityModule.controller('activityFoo',['$scope',function($scope){

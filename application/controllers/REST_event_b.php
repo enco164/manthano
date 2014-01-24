@@ -50,17 +50,19 @@
                         }
                         break;
                     case 'post':
-                        $ac_data=json_decode(file_get_contents('php://input'));
+                        $event_data=json_decode(file_get_contents('php://input'));
                         /* Checking user privileges, need to be implemented.
                          * Is one of activity holders or is it admin?
                          * $ac_data->id is id of activity.
                          */
+
                         if(Activity::isHolder($this->session->userdata('user_id'), $id, $db)){
-                            $ind = Activity::addActivity($db, $ac_data->id, $ac_data->Name, $ac_data->Description, $ac_data->Date, $ac_data->Cover );
+                            $ind = Event::addEvent($id, $db, $event_data->Name, $event_data->Description, $event_data->Venue, $event_data->Date, $event_data->Time );
                             if($ind){
                                 $status=201;
+                                Event::addHolder($ind, $this->session->userdata('user_id'), $db);
                                 $data = array(
-                                    "message" => "Activity added"
+                                    "message" => "Event added"
                                 );
                                 $data=json_encode($data);
                             }
