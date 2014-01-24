@@ -278,4 +278,11 @@
             return ($stmt->rowCount() ? true : false);
         }
 
+        static public function moveActivity($from, $to, $db){
+            $stmt = $db->prepare("call moveActivity(:from, :to);");
+            $stmt->bindParam(":from", $from, PDO::PARAM_INT);
+            $stmt->bindParam(":to", $to, PDO::PARAM_INT);
+            $stmt->execute();
+            return ($stmt->rowCount() ? true : false);
+        }
     }

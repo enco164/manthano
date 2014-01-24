@@ -16,7 +16,44 @@
         echo "hello!";
     }
 
+    public function place($from, $to){
+        $db = new PDO("mysql:localhost;dbname=manthanodb","root","",array(PDO::ATTR_PERSISTENT => true, PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
+        $db->exec("use manthanodb;");
+        $data = "";
+        $status = 200;
+        try{
+            switch($this->method){
+                case 'get':
+                    break;
+                case 'post':
+                    break;
+                case 'put':
+                    if(is_admin()){
+                        Activity::moveActivity($from, $to, $db);
+                    }
+                    else{
+                        /*Unauthorized*/
+                        $status = 401;
+                    }
+                    break;
+                case 'delete':
+                    break;
+            }
+        }catch(Exception $e){
+            $status="500";
+            $error_description=array(
+                "blah" => $e->getMessage(),
+                "message"=>"Server error!"
+            );
 
+            $data=json_encode($error_description);
+
+        }
+        header("HTTP/1.1 ".$status);
+        header("Content-Type: application/json");
+        if(isset($data))
+            echo $data;
+    }
     public function activity($id){
         if(!in_array($this->method, $this->supported_methods)){
             //TODO Error report
@@ -295,7 +332,6 @@
         if(isset($data))
             echo $data;
     }
-
     public function event($id){
         $data = "";
         $status = 200;
@@ -376,5 +412,6 @@
         if(isset($data))
             echo $data;
     }
+   
 }
 

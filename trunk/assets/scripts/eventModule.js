@@ -36,7 +36,24 @@ eventModule.controller('eventNew',['$scope','$http','$routeParams','$location', 
             });
     };
     $scope.getEvents();
-
+//    $scope.eventName = "";
+//    $scope.eventDescription = "";
+//    $scope.eventVenue = "";
+//    $scope.eventTime = "";
+//    $scope.eventDate = "";
+    $scope.addNew = function(eventName, eventDescription, eventVenue, eventTime, eventDate){
+        $http({
+            method: 'POST',
+            url: '/REST_event_b/event/'+$scope.idActivity,
+            data: {"Name":eventName, "Description":eventDescription, "Venue":eventVenue, "Time":eventTime, "Date":eventDate}
+        }).success(function(data){
+                window.alert("event succesfully added!");
+                $location.path("/activity/"+$scope.idActivity);
+            }).error(function(data, status, header, config){
+                window.alert("Event adding error!");
+            });
+    };
+    // adding existing event to current activity
     $scope.add = function( idEvent, idActivity){
         $http({
             method: 'POST',
@@ -49,6 +66,7 @@ eventModule.controller('eventNew',['$scope','$http','$routeParams','$location', 
                 window.alert("smth wrong in scope.add");
             });
     };
+    // removing existing event from current activity
     $scope.removeEvent = function( idEvent, idActivity){
             $http({
                 method: 'DELETE',
@@ -61,4 +79,5 @@ eventModule.controller('eventNew',['$scope','$http','$routeParams','$location', 
                     window.alert("smth wrong in scope.remove");
                 });
     };
+
 }]);
