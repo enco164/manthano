@@ -97,7 +97,7 @@
             //var_dump($result);
             if (!$result)
             {
-                $this->form_validation->set_message('email_exists', 'Email %s nije pronađen.');
+                $this->form_validation->set_message('email_exists', 'Email nije pronađen.');
                 return FALSE;
             }else{
                 //$this->form_validation->set_message('email_exists', 'Email %s not found');
