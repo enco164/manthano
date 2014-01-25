@@ -303,12 +303,87 @@
         if(isset($data))
             echo $data;
     }
-    public function holder($idActivity){
+    public function holder($idActivity, $user_id){
+        $db = new PDO("mysql:localhost;dbname=manthanodb","root","",array(PDO::ATTR_PERSISTENT => true, PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
+        $db->exec("use manthanodb;");
         $data = "";
         $status = 200;
         try{
             switch($this->method){
                 case 'get':
+                    $data = json_encode(Activity::getHoldersStatic($idActivity,$db));
+                    $status = 200;
+                    break;
+                    break;
+                case 'post':
+                    if(Activity::isHolder($this->session->userdata('user_id'), $idActivity, $db)){
+                        if(Activity::addHolder($user_id, $idActivity, $db)){
+                            $status=201;
+                            $data = array(
+                                "message" => "Activity holder added"
+                            );
+                            $data=json_encode($data);
+                        }
+                        else{
+                            $status=400;
+                            $error_description=array(
+                                "message" => "Resource wasnt found!"
+                            );
+                            $data=json_encode($error_description);
+                        }
+                    }
+                    else{
+                        /*Unauthorized*/
+                        $status = 401;
+                    }
+                    break;
+                case 'put':
+                    break;
+                case 'delete':
+                    if(Activity::isHolder($this->session->userdata('user_id'), $user_id, $db)){
+                        if(Activity::removeHolder($user_id, $idActivity, $db)){
+                            $status=200;
+                        }
+                        else{
+                            $status=404;
+                            $error_description=array(
+                                "message"=>"resurs nije pronadjen"
+                            );
+
+                            $data=json_encode($error_description);
+                        }
+                    }
+                    else{
+                        /*Unauthorized*/
+                        $status = 401;
+                    }
+                    break;
+            }
+        }catch(Exception $e){
+            $status="500";
+            $error_description=array(
+                "blah" => $e->getMessage(),
+                "message"=>"Server error!"
+            );
+
+            $data=json_encode($error_description);
+
+        }
+        header("HTTP/1.1 ".$status);
+        header("Content-Type: application/json");
+        if(isset($data))
+            echo $data;
+    }
+    public function nonholder($idActivity){
+        $db = new PDO("mysql:localhost;dbname=manthanodb","root","",array(PDO::ATTR_PERSISTENT => true, PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
+        $db->exec("use manthanodb;");
+        $data = "";
+        $status = 200;
+        try{
+            switch($this->method){
+                case 'get':
+                    $data = json_encode(Activity::getNonHolders($idActivity,$db));
+                    $status = 200;
                     break;
                 case 'post':
                     break;
@@ -332,6 +407,8 @@
         if(isset($data))
             echo $data;
     }
+
+
     public function event($id){
         $data = "";
         $status = 200;
@@ -412,6 +489,6 @@
         if(isset($data))
             echo $data;
     }
-   
+
 }
 

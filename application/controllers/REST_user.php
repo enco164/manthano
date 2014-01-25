@@ -161,5 +161,38 @@
                 echo $data;
 
         }
+        public function users(){
+            $data = "";
+            $status = 200;
+            $db = new PDO("mysql:localhost;dbname=manthanodb","root","",array(PDO::ATTR_PERSISTENT => true, PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
+            $db->exec("use manthanodb;");
+            try{
+                switch($this->method){
+                    case 'get':
+                        $temp = Users::allUsers($db);
+                        $data = json_encode($temp);
+                        $status=200;
+                        break;
+                    case 'post':
+                        break;
+                    case 'put':
+                        break;
+                    case 'delete':
+                        break;
+                }
+            }catch(Exception $e){
+                $status="500";
+                $error_description=array(
+                    "blah" => $e->getMessage(),
+                    "message"=>"Server error!"
+                );
 
+                $data=json_encode($error_description);
+
+            }
+            header("HTTP/1.1 ".$status);
+            header("Content-Type: application/json");
+            if(isset($data))
+                echo $data;
+        }
     }
