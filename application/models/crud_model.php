@@ -140,6 +140,12 @@ class Crud_model extends CI_Model{
 
     /*----------------------------------------------- update data in database ------------------------------------------------------*/
 
+    public function db_update_email($id,$data){
+        //ask database
+        $this->db->where('id',$id);
+        $this->db->update('email_proxy',$data);
+        return $this->db->affected_rows();
+    }
 
     public function db_update_somth($aid, $lid, $data){
         $this->db->where('aid', $aid);
@@ -154,7 +160,7 @@ class Crud_model extends CI_Model{
 
     public function db_update_user_password($email,$pass,$salt){
         //ask database
-        $this->db->where('email',$email);
+        $this->db->where('mail',$email);
         $data['password']=$pass;
         $data['salt']=$salt;
         $this->db->update('user',$data);

@@ -28,6 +28,26 @@
             $this->load->view('base/footer');
         }
 
+        public function validate_user_registration(){
+            $user_types=$this->config->item('user_accounts');
+            $this->load->library('form_validation');
+            //$this->load->helper('recaptchalib_helper');
+            $validation_arr = $this->validation_model->config['user_register'];
+            $this->form_validation->set_error_delimiters('', '');
+            $this->form_validation->set_rules($validation_arr);
+
+            if($this->form_validation->run()==FALSE){
+                $this->load->view('user_registration');
+
+            } else {
+                $data = $_POST;
+                $data['acc_type']=1;
+                $this->user->add_user($data, 1);
+                //$this->user->get_user_data();
+                $this->load->view('success');
+            }
+        }
+
         public function test_register(){
             $this->load->library('form_validation');
             //$this->load->helper('recaptchalib_helper');
