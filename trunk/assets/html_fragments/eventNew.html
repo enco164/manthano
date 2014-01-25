@@ -1,3 +1,17 @@
+<div class = "container">
+    <div class="row">
+        <div class="col-md-7 col-md-offset-2">
+            <legend>Dodavanje eventa u {{nameOfActivity}} </legend>
+
+            <ul class="nav nav-tabs" ng-model="choiseNew" >
+            <li class="" ng-repeat="item in choises " ><a href="#">{{item.Name}}</a></li>
+            </ul>
+
+        </div>
+    </div>
+</div>
+
+
 <h1>{{nameOfActivity}}</h1>
 Tip Eventa: <br/>
 <select ng-model="choiseNew" ng-options="item.Name for item in choises ">
