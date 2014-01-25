@@ -14,7 +14,7 @@ CREATE TABLE IF NOT EXISTS `ManthanoDB`.`User` (
   `username` VARCHAR(20) UNICODE NOT NULL,
   `password` VARCHAR(64) NOT NULL,
   `acc_type` INT NOT NULL,
-  `mail` VARCHAR(40) NOT NULL,
+  `mail` VARCHAR(50) NOT NULL,
   `Ext_login` TINYINT(1) NOT NULL,
   `Name` VARCHAR(15) NOT NULL,
   `Surname` VARCHAR(30) NOT NULL,
@@ -526,6 +526,17 @@ CREATE TABLE IF NOT EXISTS `ManthanoDB`.`email_proxy` (
   `sent` TINYINT(1) NOT NULL,
   `date` INT NOT NULL,
   PRIMARY KEY (`id`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `ManthanoDB`.`forgot_password`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `ManthanoDB`.`forgot_password` (
+  `idforgot_password` INT NOT NULL AUTO_INCREMENT,
+  `hash` VARCHAR(50) NOT NULL,
+  `email` VARCHAR(50) NOT NULL,
+  PRIMARY KEY (`idforgot_password`))
 ENGINE = InnoDB;
 
 USE `ManthanoDB` ;
