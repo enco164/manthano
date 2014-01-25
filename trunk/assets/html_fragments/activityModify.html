@@ -17,7 +17,7 @@
 
             Pomeri kurs u: <select ng-model="choosenActivity" ng-options="item.name for item in activities ">
                         </select>
-            {{choosenActivity.idActivity}}
+
             <button class="btn btn-success pull-right" ng-click="moveActivity()"> Pomeri. </button>
 
 			<div class="row">
@@ -47,6 +47,26 @@
 				</form>
 
 			</div>
+
+            <!--Vidi odvajaj ova osetljivija podesavanja u posebne divove, tipa menjanje strukture drveta (pomeranja), zezanje sa holderima-->
+            <!--da bi posle moglo da se doda ng-if u zavisnosti od toga sta zelimo za koga da se vidi-->
+
+            Dodaj holdera: <input type="text" ng-model="userSearch"/>
+            <ul>
+                <li ng-repeat="item in users | filter: userSearch">
+                    <a href="#/user/{{item.user_id}}"> {{item.nameu}} </a> {{item.username}}
+                    <button class="btn btn-primary pull-right" ng-click="addHolder(item.user_id)"> Postavi. </button>
+                </li>
+            </ul>
+            <br/>
+            Ukloni holdera: <input type="text" ng-model="userSearchHold"/>
+            <ul>
+                <li ng-repeat="item in holders | filter: userSearchHold">
+                    <a href="#/user/{{item.user_id}}"> {{item.nameu}} </a> {{item.username}}
+                    <button class="btn btn-danger pull-right" ng-click="removeHolder(item.user_id)"> Izbaci. </button>
+                </li>
+            </ul>
+            <br/>
             Eventi:
             search: <input type="text" ng-model="searchFieldEvents"/>
             <ul>

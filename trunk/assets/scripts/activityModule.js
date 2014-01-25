@@ -124,8 +124,17 @@ activityModule.controller('activityModify',['$scope','$http','$routeParams','$lo
         $scope.activities = data;
     }).error(function(){
             window.alert("greska pri ucitavanju svih aktivitija");
-        });
+    });
 
+    $http.get('/REST_activity_b/holder/'+id+'/1').success(function(data){
+       $scope.holders = data;
+    });
+
+    $http.get('/REST_activity_b/nonholder/'+id).success(function (data){
+        $scope.users = data;
+    });
+
+    // move activity button
     $scope.moveActivity = function(){
         $http({
             method: 'PUT',
@@ -165,7 +174,38 @@ activityModule.controller('activityModify',['$scope','$http','$routeParams','$lo
 
         $http.get(path).success(function(data, status, headers){
             $scope.activity = data;
-            $scope.etag = headers("Etag");
+        });
+    };
+
+    $scope.addHolder = function(uid){
+        $http({
+            method: 'POST',
+            url: '/REST_activity_b/holder/'+id+'/'+uid
+        }).success(function(data){
+            }).error(function(data, status, header, config){
+                window.alert("Adding holder error!");
+        });
+        $http.get('/REST_activity_b/nonholder/'+id).success(function (data){
+            $scope.users = data;
+        });
+        $http.get('/REST_activity_b/holder/'+id+'/1').success(function(data){
+            $scope.holders = data;
+        });
+    };
+
+    $scope.removeHolder = function(uid){
+        $http({
+            method: 'DELETE',
+            url: '/REST_activity_b/holder/'+id+'/'+uid
+        }).success(function(data){
+            }).error(function(data, status, header, config){
+                window.alert("Removing holder error!");
+            });
+        $http.get('/REST_activity_b/holder/'+id+'/1').success(function(data){
+            $scope.holders = data;
+        });
+        $http.get('/REST_activity_b/nonholder/'+id).success(function (data){
+            $scope.users = data;
         });
     };
 

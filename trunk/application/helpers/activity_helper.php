@@ -176,7 +176,7 @@
          * INPUT: ID of user
          * Return boolean indicator of how operation went.
          * */
-        static public function removeHolder($idUser, $db, $idActivity){
+        static public function removeHolder($idUser, $idActivity, $db){
             $stmt = $db->prepare("DELETE FROM ActivityHolder WHERE user_id = :uid and idActivity = :aid");
             $stmt->bindParam(":uid", $idUser, PDO::PARAM_INT);
             $stmt->bindParam(":aid", $idActivity, PDO::PARAM_INT);
@@ -232,13 +232,21 @@
          * INPUT: ID of user
          * Return boolean indicator of how operation went.
          * */
-        static public function addHolder($idUser, $db, $idActivity){
+        static public function addHolder($idUser, $idActivity, $db){
             $stmt = $db->prepare("INSERT INTO ActivityHolder(user_id, idActivity) VALUES(:uid, :aid)");
             $stmt->bindParam(":uid", $idUser, PDO::PARAM_INT);
             $stmt->bindParam(":aid", $idActivity, PDO::PARAM_INT);
             $stmt->execute();
             return $stmt->rowCount() ? true : false;
         }
+
+//        static public function removeHolder($idUser, $idActivity, $db){
+//            $stmt = $db->prepare("DELETE FROM activityHolder WHERE idUser = :uid and $idActivity = :aid");
+//            $stmt->bindParam(":uid", $idUser, PDO::PARAM_INT);
+//            $stmt->bindParam(":aid", $idActivity, PDO::PARAM_INT);
+//            $stmt->execute();
+//            return $stmt->rowCount() ? true : false;
+//        }
 
         static public function isHolder($idUser, $idActivity, $db){
             $stmt = $db->prepare("SELECT * FROM activityHolder WHERE user_id = :uid and idActivity = :aid");
@@ -270,7 +278,7 @@
             return ($stmt->rowCount() ? true : false);
         }
 
-        static public function removeEvent($idEvent, $idActivity, $db){
+        static public function Event($idEvent, $idActivity, $db){
             $stmt = $db->prepare("DELETE FROM ActivityContains WHERE idEvent = :ide and idActivity = :ida");
             $stmt->bindParam(":ide", $idEvent, PDO::PARAM_INT);
             $stmt->bindParam(":ida", $idActivity, PDO::PARAM_INT);
@@ -284,5 +292,25 @@
             $stmt->bindParam(":to", $to, PDO::PARAM_INT);
             $stmt->execute();
             return ($stmt->rowCount() ? true : false);
+        }
+
+        static public function getNonHolders($idActivity, $db){
+            $stmt = $db->prepare("Select distinct concat(u.name, ' ', u.surname) as nameu, u.user_id, username
+                                    from user u
+                                    where not exists (select * from activityHolder ah where ah.idActivity = 2 and ah.user_id = u.user_id)
+                                    order by nameu");
+            $stmt->bindParam(":aid", $idActivity, PDO::PARAM_INT);
+            $stmt->execute();
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        }
+
+        static public function getHoldersStatic($idActivity, $db){
+            $stmt = $db->prepare("Select distinct concat(u.name, ' ', u.surname) as nameu, u.user_id, username
+                                    from user u join activityholder ah on u.user_id = ah.user_id
+                                    where ah.idActivity = :aid
+                                    order by nameu");
+            $stmt->bindParam(":aid", $idActivity, PDO::PARAM_INT);
+            $stmt->execute();
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
         }
     }

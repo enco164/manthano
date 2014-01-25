@@ -105,4 +105,9 @@
         }
 
         public static function is_holder($idUser, $idActivity, $db){}
+        public static function allUsers($db){
+            $stmt = $db->prepare("SELECT concat(name,' ', surname) as nameu, user_id, username FROM user order by name, surname");
+            $stmt->execute();
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        }
     }
