@@ -10,7 +10,7 @@
                 <li>
                     <label>Vaša email adresa</label>
                     <input type="text" name="email" id="email">
-                    <?add_error_handler_input(form_error('email'), 'email')?>
+                    <?=form_error('email');?>
                 </li>
                 <li>
                     <!--<div class="pass log_btn space js_submit">Pošalji</div>-->
