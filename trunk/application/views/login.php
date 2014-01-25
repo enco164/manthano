@@ -72,7 +72,7 @@
         <button type="submit" class="btn btn-primary js_submit">
             Uloguj me
         </button>
-        <a class="" href="#">Zaboravili ste lozinku?</a>
+        <a class="" href="/user/forgot_password">Zaboravili ste lozinku?</a>
 		<div class="checkbox pull-right">
 			<label>
             <input type="checkbox"> Zapamti me 

@@ -80,7 +80,7 @@
 
                     //posalji email,opciono
                     echo "<script>alert('Šifra uspešno promenjena!');
-                      window.location.href='/login/';
+                      //window.location.href='/login/';
                 </script>";
                 }
             }else{

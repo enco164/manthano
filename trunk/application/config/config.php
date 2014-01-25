@@ -361,14 +361,14 @@ $config['proxy_ips'] = '';
 /* End of file config.php */
 
 //$config['email_host']='office@lakodokola.com';
-$config['email_host']='marjanovic.danijel@gmail.com';
+$config['email_host']='manthanoapp@gmail.com';
 
 $config['email_config']['useragent'] = 'CodeIgniter';
 $config['email_config']['protocol'] = 'smtp';
 //$config['email_config']['mailpath'] = '/usr/sbin/sendmail';
 $config['email_config']['smtp_host'] = 'ssl://smtp.googlemail.com';
-$config['email_config']['smtp_user'] = 'marjanovic.danijel@gmail.com';
-$config['email_config']['smtp_pass'] = '******';
+$config['email_config']['smtp_user'] = 'manthanoapp@gmail.com';
+$config['email_config']['smtp_pass'] = 'webmanthano';
 $config['email_config']['smtp_port'] = 465;
 $config['email_config']['smtp_timeout'] = 5;
 $config['email_config']['wordwrap'] = TRUE;
