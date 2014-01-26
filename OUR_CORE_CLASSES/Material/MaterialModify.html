@@ -1,0 +1,14 @@
+<a href="#/material/{{material.id}}"> Back </a>
+<br/>
+Name of Material: <input type="text" ng-model="material.Name" required/>
+<br/>
+Type: <input type="text" ng-model="material.Type" required/>
+<br/>
+URI: <input type="text" ng-model="material.URI" required/>
+<br/>
+Date: <input type="date" name="materialDate" ng-model="material.date" required/>
+<br/>
+Owner ID: <input type="text" name="materialOwnerID" ng-model="material.OwnerID" required />
+<br/>
+<button ng-click="modifymaterial()">Modify material!</button>
+{{dataR.etagreturn}}

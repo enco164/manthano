@@ -1,0 +1,70 @@
+<!-- TIP 
+<h1>Hello user!</h1>
+<div></div>
+<div ng-if="globalUID == id" >
+    <h1> Ovo JESAM ja! xD</h1>
+</div>
+<div ng-if="globalUID != id" >
+    <h1> Ovo NISAM ja! xD</h1>
+</div>
+<div ng-if="globalAccType == 99" >
+    <h1> Ja sam svemocni admin</h1>
+</div>
+<script type="text/javascript">
+    console.log(globalAccType);
+</script>
+
+<br/>
+Ime: {{userdata.name}}
+<br/>
+Prezime: {{userdata.surname}}
+<br/>
+Korisničko ime: {{userdata.username}}
+<br/>
+email: {{userdata.Mail}}
+<br/>
+Prezime: {{userdata.School}}
+<br/>
+Korisničko ime: {{userdata.Proffession}}
+<br/>
+Korisničko ime: {{userdata.www}}
+<br/>
+<img src="{{user.ProfilePicture}}" alt="nema slike"/>
+
+<a ng-if="canEdit == 1" href="#/user/settings/{{id}}"><button ng-if="canEdit == 1">Edit settings</button></a>
+-->
+<div class="container">
+	<div class="row">
+		<div class="col-md-3" style="padding: 0px 50px;">
+
+			<img class="img-responsive img-circle" src="{{userdata.ProfilePicture}}" alt="Nema slike" >
+			<br/>
+			<a class="btn btn-primary btn-block" ng-if="canEdit == 1" href="#/user/settings/{{id}}">
+				Izmeni podatke <span class="glyphicon glyphicon-edit"></span></a>
+
+		</div>
+		<div class="col-md-6">
+			<h1>{{userdata.name}} {{userdata.surname}} <small>{{userdata.username}}</small></h1>
+			<div class="table-responsive">
+				<table class="table">
+			    	<tr> <td><span class="glyphicon glyphicon-envelope"></span></td> 
+			    			<td> <a href="mailto:{{userdata.Mail}}">{{userdata.Mail}}</a></td>
+			    	</tr>
+
+			    	<tr> <td><span class="glyphicon glyphicon-home"></span></td> 
+			    		<td>{{userdata.School}}</td>
+			    	</tr>
+
+			    	<tr> <td><span class="glyphicon glyphicon-briefcase"></span></td> 
+			    		<td>{{userdata.Proffession}}</td>
+			    	</tr>
+
+			    	<tr> <td><span class="glyphicon glyphicon-globe"></span></td>
+			    		 <td><a href="{{userdata.www}}">{{userdata.www}}</a></td>
+			    	</tr>
+
+				</table>
+			</div>
+		</div>
+	</div>
+</div>
