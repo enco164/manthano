@@ -31,11 +31,11 @@
                 if(strlen($user_data['mail'])>3){
                     $this->db->insert('user',$user_data);
                     $this->user_id=$this->db->insert_id();
-                    //$user_data['hash'] = md5($this->user_id.time());
-                    //$user_data['hash_time']=time();
+                    $user_data['hash'] = md5($this->user_id.time());
+                    $user_data['hash_time']=time();
                     $this->db->where('user_id', $this->user_id);
                     $this->db->update('user', $user_data);
-                    //$this->send_verification_email($user_data, $this->user_id);
+                    $this->send_verification_email($user_data, $this->user_id);
 
                 }
             }
@@ -175,25 +175,23 @@
         }
 
         public function send_verification_email($data, $uid){
-            $link = base_url()."#registration=".$data['hash'];
+            $link = base_url()."login/verify/".$data['hash'];
             $this->load->library('email','parser');
             $this->email->initialize($this->config->item('email_config'));
 
             $this->email->from("no_reply@manthano.com","Portal Manthano");
-            $this->email->to($data['email']);
+            $this->email->to($data['mail']);
             $this->email->subject("Uspešno kreiran nalog naloga na portalu Manthano");
-            $this->email->message("Molimo vas da u narednih 24h kliknete na ovaj link, kako bi proces vaše registracije bio uspešno završen: ".$link."<br><br><img src='http://lakodokola.devcypher.com/assets/img/logo.png' />");
+            $this->email->message("Molimo vas da u narednih 24h kliknete na ovaj link, kako bi proces vaše registracije bio uspešno završen: ".$link."<br><br>");
 
             if($this->email->send()){
-                //SVE JE KUL, MAIL JE POSLAT
-                /*$data['email_status']=1;
                 $data['hash_time']=time();
 
                 $this->db->where('user_id', $uid);
                 $this->db->update('user',$data);
                 if($this->db->affected_rows()==1){
                     //echo $this->email->print_debugger();
-                }*/
+                }
             }
         }
 
@@ -206,11 +204,9 @@
             if($result[0]['status']==0){
                 if($result[0]['hash_time']>time()-86400){
                     if($query->num_rows()==1){
-
-                        $result[0]['status']=1;
-                        $result[0]['date_joined']=time();
+                        $db_data['status']=1;
                         $this->db->where('user_id', $result[0]['user_id']);
-                        $this->db->update('user', $result[0]);
+                        $this->db->update('user', $db_data);
                         if($this->db->affected_rows()==1){
                             $msg['status']="success";
                             $msg['message']="Uspešno ste se registrovali,";
@@ -236,7 +232,7 @@
 
         public function verify_user_data($data){
             $result = $this->db->select('*')->from('user')->where('hash', $data)->get()->result_array();
-            print_r($result[0]);
+            //print_r($result[0]);
             if(count($result)){
                 if($result[0]['status']==0){
                     if($result[0]['hash_time']<time()-86400){
