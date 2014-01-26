@@ -6,10 +6,12 @@ Name: {{material.name}}
 <br/>
 URI: {{material.URI}}
 <br/>
+Type: {{material.Type}}
+<br/>
 Date: {{material.date}}
 <br/>
-Owner ID: {{material.ownerID}}
 <br/>
+Owner ID: <input type="text" name="Material Owner ID" ng-model="materialOwnerID" required />
 <a  href="#/material/new/{{material.id}}"> Add Material.  </a>
 <br/>
 <a href="#/material/modify/{{material.id}}"> Modify Material. </a>
