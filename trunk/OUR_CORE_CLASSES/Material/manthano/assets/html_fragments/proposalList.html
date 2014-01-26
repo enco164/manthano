@@ -1,0 +1,32 @@
+<div class="row">
+	<div class= "col-md-6 col-md-offset-3">
+		<a class="btn btn-success" href="#/proposal/new/0"><span class="glyphicon glyphicon-plus"></span> Dodaj novi predlog </a>
+		<br/>
+		<br/>
+
+
+		<div class="panel panel-default" ng-repeat="proposal in proposallist">
+			<div class="panel-heading">
+				<a  href="#/proposal/{{proposal.idProposal}}"><h3 class="panel-title">{{proposal.Name}}</h3></a>
+			</div>
+			<div class="panel-body">
+				{{proposal.Description}}
+			</div>
+		</div>
+
+	</div>
+
+
+</div>
+
+
+<!--
+
+<a href="#/proposal/new/0"> Dodaj novi predlog</a>
+<br/>
+<div ng-repeat="proposal in proposallist">
+    <b><a  href="#/proposal/{{proposal.idProposal}}"> {{proposal.Name}} </a></b><br/>
+    Opis: {{proposal.Description}}<br/><br/>
+</div>
+
+-->

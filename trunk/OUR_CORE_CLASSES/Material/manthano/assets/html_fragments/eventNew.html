@@ -1,0 +1,51 @@
+<div class = "container">
+    <div class="row">
+        <div class="col-md-7 col-md-offset-2">
+            <legend>Dodavanje eventa u {{nameOfActivity}} </legend>
+
+            <ul class="nav nav-tabs" ng-model="choiseNew" >
+            <li class="" ng-repeat="item in choises " ><a href="#">{{item.Name}}</a></li>
+            </ul>
+
+        </div>
+    </div>
+</div>
+
+
+<h1>{{nameOfActivity}}</h1>
+Tip Eventa: <br/>
+<select ng-model="choiseNew" ng-options="item.Name for item in choises ">
+</select>
+<a class="btn btn-primary btn-large" href="#/activity/{{idActivity}}"> Vrati se </a>
+<br/>
+<br/>
+<div ng-if="choiseNew.Value == true">
+    <p > Ime </p>
+    <input type="text" ng-model="eventName"  /> {{eventName}}
+    <br/>
+    <p > Opis </p>
+    <textarea name="acDesc" id="acDesc" cols="30" rows="10" ng-model="eventDescription" required></textarea> {{eventDescription}}
+    <br/>
+    <p > Mesto odrzavanja </p>
+    <input type="text"  ng-model="eventVenue" /> {{eventVenue}}
+    <br/>
+    <p > Date </p>
+    <input type="date" ng-model="eventDate" />{{eventDate}}
+    <br/>
+    <p> Time </p>
+    <input type="text" ng-model="eventTime"  /> {{eventTime}}
+    <br/>
+    <a class="btn btn-success btn-large" ng-click="addNew(eventName, eventDescription, eventVenue, eventTime, eventDate)" > Dodaj </a>
+</div>
+<div ng-if="choiseNew.Value == false">
+    <h2>{{loading}}</h2>
+    <ul>
+        <li ng-repeat="event in eventsShort">
+            <a href="#/event/{{event.idActivity}}">{{event.name}}</a>
+            <a class="btn btn-success btn-large" ng-click="add(event.idEvent, idActivity)" ng-if="event.isMember == 0"> Dodaj </a>
+            <a class="btn btn-danger btn-large" ng-click="removeEvent(event.idEvent, idActivity)" ng-if="event.isMember == 1"> Ukloni </a>
+        </li>
+    </ul>
+    {{selected}}
+</div>
+<br/>
