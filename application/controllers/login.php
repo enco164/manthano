@@ -36,6 +36,45 @@
             }
         }
 
+        public function verify($data){
+            $this->load->model('user');
+
+            $message=$this->user->activate_user($data);
+
+            if($message['status']=="success"){
+                $user=$this->db->select('*')->from('user')->where('hash',$data)->get()->row_array();
+                if(isset($user['user_id'])){
+                    $this->user_id=$user['user_id'];
+                }
+                //var_dump($this->user_id);
+
+                $page_data['message']=$message['message'];
+                $this->user->set_user_data($user['user_id']);
+                $user_id=$this->session->userdata('user_id');
+                $script="";
+                if($user_id){
+                    $page_data['message'].=' bićete automatski prijavljeni na sistem.'.$script;
+                } else {
+                    $page_data['message'].=" Možete se prijaviti na sistem";
+                }
+                $this->load->view('message',$page_data);
+
+            } elseif($message['status']=="warning"){
+                $page_data['message']="Vaš aktivacioni link je istekao. Da li želite da vam pošaljemo novi aktivacioni link na vašu email adresu?";
+                $this->load->view('resend',$page_data);
+
+            } else {
+                $page_data['message']=$message['message'];
+                $temp =$_SERVER["REQUEST_URI"];
+                $temp = explode("/", $temp);
+                $page_data['hash'] = $temp[3];
+                $this->load->view('message',$page_data);
+
+            }
+            //var_dump($this->session->userdata);
+        }
+
+
         function check_database($password){
             //Field validation succeeded.  Validate against database
             $username = $this->input->post('name');
