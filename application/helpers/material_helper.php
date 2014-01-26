@@ -94,6 +94,21 @@
                 return $result;
             }
         }
+		 public function getOwner(){
+            $stmt = $this->db->prepare("SELECT u.Name, u.Surname, u.username from Material mat join User u on mat.ownerId = u.user_id  where idMaterial = :id ");
+            $stmt->bindParam(":id", $this->id, PDO::PARAM_INT);
+            $stmt->execute();
+            if($stmt->rowCount() == 0)
+                return "Material doesn't have owner.";
+            else{
+                $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                $ret = array();
+                foreach($result as $i){
+                    array_push($ret, $i);
+                }
+                return $ret;
+            }
+        }
 
         /* Updates Material.
          * Update few attributes of one or more record from Material table;
@@ -105,7 +120,6 @@
             $db_data['URI']=$this->URI;
             $db_data['Type']=$this->Type;
             $db_data['Date']=$this->Date;
-            $db_data['OwnerId']=$this->OwnerId;
             $where['OwnerId']=$this->OwnerId;
             return $CI->crud_model->db_update_Material($where,$db_data);
 
