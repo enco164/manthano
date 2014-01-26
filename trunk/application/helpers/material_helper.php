@@ -76,35 +76,9 @@
             echo "You are trying to direct access property ".$name."and that is not possible. Use ".$name."() method";
             echo "<br/> At line ".__LINE__." in file ".__FILE__;
         }
-        /* getting path from top of tree to chosen Material */
-        public function getPath(){
-            $db = new PDO("mysql:localhost;dbname=manthanodb","root","",array(PDO::ATTR_PERSISTENT => true, PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
-            $stmt = $db->prepare("call pathToMaterial(:id)");
-            $stmt->bindParam(":id", $this->id, PDO::PARAM_INT);
-            $stmt->execute();
-            $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
-            $ret = array();
-            foreach($result as $i){
-                array_push($ret, $i['idMaterial']);
-            }
-            return $ret;
-        }
+       
 
-        /* Find all direct instances of Material
-         *  Return value is array with id of Materials.
-         *
-         */
-        public function getInstances(){
-            $stmt = $this->db->prepare("call sonOfActivity(:id)");
-            $stmt->bindParam(":id", $this->id, PDO::PARAM_INT);
-            $stmt->execute();
-            $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
-            $ret = array();
-            foreach($result as $i){
-                array_push($ret,$i['idActivity']);
-            }
-            return $ret;
-        }
+       
         /* Finding Materials by id and return all relevant informations.
          * Return value is array if Materials exist, otherwise returns String.
          * Array has Name, URI, Type, Date, OwnerID, Active
