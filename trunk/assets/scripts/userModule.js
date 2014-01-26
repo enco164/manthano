@@ -28,6 +28,12 @@ userModule.controller('userInfo',['$scope','$http','$routeParams',function($scop
         else{
             $scope.canEdit = 0;
         }
+        if(globalAccType==99){
+            $scope.isAdmin = 1;
+        }
+        else{
+            $scope.isAdmin = 0;
+        }
     });
 }]);
 
@@ -36,8 +42,6 @@ userModule.controller('userSettings',['$scope','$http','$routeParams',function($
     $scope.globalUID = globalUID;
     var id = $routeParams.id;
     var path = "/REST_user/personal_data/"+id;
-
-
 
     $http.get(path).success(function(data){
         // loading data in $scope

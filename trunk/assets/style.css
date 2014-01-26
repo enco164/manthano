@@ -1,0 +1,68 @@
+.footable .pagination.pagination-centered {
+    text-align: center;
+    width:100%;
+}
+.footable .pagination.pagination-centered ul{
+    margin: 0 auto;
+    width:35%;
+}
+
+.footable .pagination {
+    margin: 5px auto !important;
+    height: auto;
+}
+
+.footable .pagination li{
+    list-style-type: none;!important
+    /*height: 28px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    width: 100%;*/
+    position: relative;
+    float: left;
+    display: inline;
+}
+
+.footable .pagination > ul > li > a, .footable .pagination > ul > li > span {
+    float: left;
+    padding: 4px 12px;
+    line-height: 20px;
+    text-decoration: none;
+    border: 1px solid #cccccc;
+    border-left-width: 0;
+}
+
+.admin_user_list table, .admin_ad_list table {
+    border-collapse: collapse;
+    border: 1px solid #d2d2d2;
+    width: 100%;
+}
+
+.admin_user_list, .admin_ad_list {
+    margin: 10px 0;
+    font-size: 13px;
+    color: #545454;
+}
+.my_user_list, .my_ad_list {
+    width: 100%;
+    height: auto;
+    margin: 25px auto 18px auto;
+    padding-bottom: 10px;
+}
+.wrap {
+    width: 1020px;
+    margin: 0 auto;
+    padding: 0 10px;
+}
+.admin_user_list th, .admin_ad_list th {
+    border-right: 1px solid #d2d2d2;
+}
+
+.admin_user_list tr:nth-child(odd), .admin_ad_list tr:nth-child(odd) {
+    background: #f6f6f6;
+}
+.admin_user_list td, .admin_ad_list td {
+    padding-left: 5px;
+    padding-right: 5px;
+    border-right: 1px solid #d2d2d2;
+}
