@@ -1,26 +1,53 @@
-Ime: {{proposal.name}}
-<br/>
-Opis: {{proposal.description}}
-<br/>
-Predložio: <a  href="#/user/{{proposal.user_proposed.user_id}}"> {{proposal.user_proposed.Name}} {{proposal.user_proposed.Surname}}</a>
-<br/>
-<button ng-click="addsupport()">{{enrollButtonName}}</button>
-<br/>
-<button ng-click="addmeowner()">{{addMeButtonName}}</button>
-<br/>
-<a href="#/proposal/modify/{{proposal.id}}" ng-if="proposal.is_creator || proposal.is_admin==1"> Izmeni predlog</a>
-<br/>
-Podržavaju:
-<br/>
-    <ul>
-        <li ng-repeat="user in proposal.support"> <a  href="#/user/{{user.user_id}}"> {{user.Name}} {{user.Surname}}</a> </li>
-    </ul>
-Vlasnici:
-<br/>
-<ul>
-    <li ng-repeat="owner in proposal.owners"> <a  href="#/user/{{owner.user_id}}"> {{owner.Name}} {{owner.Surname}}</a>
-        {{owner.Count}} glasa</li>
-</ul>
+<div class="container">
+	<div class = "row">
+		<div class = "col-md-6 col-md-offset-2">
+			<div>
+
+			<a class="btn btn-primary" href="#/proposals">
+						<span class="glyphicon glyphicon-chevron-left"></span> 
+						Nazad
+					</a>
+				</div>
+					<br>
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<h3 class="panel-title">{{proposal.name}}</h3>
+				</div>
+				<div class="panel-body">
+					{{proposal.description}}
+				</div>
+			</div>
+			<div class="table-responsive">
+				<table class="table">
+			    	<tr> <td>Predložio kurs:</td> 
+			    			<td> <a href="#/user/{{proposal.user_proposed.user_id}}">{{proposal.user_proposed.Name}} {{proposal.user_proposed.Surname}}</a></td>
+			    	</tr>
+
+			    	<tr> <td><button class="btn btn-warning" ng-click="addsupport()">{{enrollButtonName}}</button></td> 
+			    		<td><button class="btn btn-info" ng-click="addmeowner()">{{addMeButtonName}}</button></td>
+			    	</tr>
+
+			    	
+
+				</table>
+			</div>
+		</div>
+		<div class="col-md-3">
+
+			<ul class="nav nav-pills nav-stacked" ng-if="proposal.owners_count != 0" > <h4>Vlasnici kursa:</h4>
+				<li ng-repeat="owner in proposal.owners">
+					<a href="#/user/{{owner.user_id}}">{{owner.Name}} {{owner.Surname}}</a>
+				</li>
+			</ul>
+			<ul class="nav nav-pills nav-stacked" ng-if="proposal.support_count != 0"> <h4>Kurs podržavaju:</h4>
+				<li ng-repeat="user in proposal.support">
+					<a href="#/user/{{user.user_id}}">{{user.Name}} {{user.Surname}}</a>
+				</li>
+			</ul>
+		</div>
+	</div>
+</div>
+
 Korisnici:
 <input type="text" ng-model="userSearch"/>
 <ul>
@@ -31,3 +58,31 @@ Korisnici:
     </li>
 </ul>
 <br/>
+
+
+<!--
+
+Ime: {{proposal.name}}
+<br/>
+Opis: {{proposal.description}}
+<br/>
+Predložio: {{proposal.user_proposed}}
+<br/>
+<button ng-click="addsupport()">{{enrollButtonName}}</button>
+<br/>
+<button ng-click="addmeowner()">{{addMeButtonName}}</button>
+<br/>
+<a href="#/proposal/modify/{{proposal.id}}" ng-if="proposal.is_creator"> Promeni predlog</a>
+<br/>
+Podrzavaju:
+<br/>
+    <ul>
+        <li ng-repeat="user in proposal.support"> <a  href="#/user/{{user.user_id}}"> {{user.Name}} {{user.Surname}}</a> </li>
+    </ul>
+Vlasnici:
+<br/>
+<ul>
+    <li ng-repeat="owner in proposal.owners"> <a  href="#/user/{{owner.user_id}}"> {{owner.Name}} {{owner.Surname}}</a>
+        {{owner.Count}} glasa</li>
+</ul>
+-->
