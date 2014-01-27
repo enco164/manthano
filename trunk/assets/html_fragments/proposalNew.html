@@ -1,3 +1,52 @@
+<div class="container">
+	<div class="row">
+		<div class="col-md-7 col-md-offset-2">
+			<div class="row">
+				<legend>Dodavanje predloga</legend>
+				<a class="btn btn-primary" href="#/proposals">
+					<span class="glyphicon glyphicon-chevron-left"></span> 
+					Nazad
+				</a>
+				<button class="btn btn-success pull-right" ng-click="newProposal()">
+					Dodaj
+					<span class="glyphicon glyphicon-ok"></span> 
+				</button>
+
+			</div>
+			<div class="row">
+				<br/>
+				<form action="" method="POST" role="form" class="form-group">
+					<div class="form-group">
+						<label>Ime predloga</label>
+						<input type="text" class="form-control" ng-model="proposal.name" required />
+					</div>
+
+					<div class="form-group">
+						<label for="acDesc">Opis predloga</label>
+						<textarea class="form-control"  rows="10" ng-model="proposal.description" required />
+					</div>
+
+					
+					
+				</form>
+
+			</div>
+		</div>
+	</div>
+</div>
+
+
+
+
+
+
+
+
+
+<!--
+
+
+
 <a href="#/proposals">Nazad na listu predloga</a>
 <br/>
 Ime predloga:
@@ -10,3 +59,5 @@ Opis predloga:
 <br/>
 <button ng-click="newProposal()">Dodaj predlog!</button>
 {{dataR.etagreturn}}
+
+-->
