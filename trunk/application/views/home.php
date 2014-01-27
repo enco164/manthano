@@ -102,7 +102,17 @@
 <!-- Ova cetri br iznad su brzi hack da bi se video sadrzaj lepo, ne dirati ih!!! -->
 <h2> Manthano je trenutno u fazi razvoja! Hvala na razumevanju! </h2>
 
-<div ng-view></div>
+<div ng-view>
+    <!-- link to Material forms-->
+    <div class="material">
+        <ul class="material-nav">
+            <li><a href="../../assets/html_fragments/materialInfo.html">Material Info</a></li>
+            <li><a href="../../assets/html_fragments/materialNew.html">Add New Material </a></li>
+            <li><a href="../../assets/html_fragments/materialModify.html">Modify Material </a></li>
+        </ul>
+    </div>
+
+</div>
 
 <?$stefan="STEFAN!"?>
 </body>
