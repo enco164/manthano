@@ -30,20 +30,20 @@
                 switch($this->method){
                     case 'get':
                         $event = new Event($id, $db);
-                        if($event->exists()){
-                            $status = 200;
-                            $data = array(
-                                "Name" => $event->Name(),
-                                "Description" => $event->Description(),
-                                "Venue" => $event->Venue(),
-                                "Date" => $event->Date(),
-                                "Time" => $event->Time(),
-                                "materials" => $event->getMaterials(),
-                                "holders" => $event->getHolders(),
-                                "is_holder" => $event->isHolder($this->session->userdata('user_id')),
-                                "parents" => $event->getParentActivities()
-                            );
-                            $data = json_encode($data);
+                            if($event->exists()){
+                                $status = 200;
+                                $data = array(
+                                    "Name" => $event->Name(),
+                                    "Description" => $event->Description(),
+                                    "Venue" => $event->Venue(),
+                                    "Date" => $event->Date(),
+                                    "Time" => $event->Time(),
+                                    "materials" => $event->getMaterials(),
+                                    "holders" => $event->getHolders(),
+                                    "is_holder" => $event->isHolder($this->session->userdata('user_id')),
+                                    "parents" => $event->getParentActivities()
+                                );
+                                $data = json_encode($data);
                         }
                         else{
                             $status = 404;
@@ -56,7 +56,7 @@
                          * $ac_data->id is id of activity.
                          */
 
-                        if(Activity::isHolder($this->session->userdata('user_id'), $id, $db)){
+                        if(Event::isHolderStatic($this->session->userdata('user_id'), $id, $db)){
                             $ind = Event::addEvent($id, $db, $event_data->Name, $event_data->Description, $event_data->Venue, $event_data->Date, $event_data->Time );
                             if($ind){
                                 $status=201;
@@ -80,8 +80,43 @@
                         }
                         break;
                     case 'put':
+                        if(Event::isHolderStatic($this->session->userdata('user_id'), $id, $db))
+                        {
+
+                        }
+                        else
+                        {
+                            /*Unauthorized*/
+                            $status = 401;
+                        }
                         break;
                     case 'delete':
+                        if(Event::isHolderStatic($this->session->userdata('user_id'), $id, $db))
+                        {
+                            $ind = Event::deleteEvent($id, $db);
+                            if($ind)
+                            {
+                                $status = 200;
+                                $data = array(
+                                    "message" => "Event was successfully deleted!"
+                                );
+                                $data=json_encode($data);
+                            }
+                            else
+                            {
+                                $status=400;
+                                $error_description=array(
+                                    "message" => "Resource wasnt found!"
+                                );
+                                $data=json_encode($error_description);
+                            }
+
+                        }
+                        else
+                        {
+                            /*Unauthorized*/
+                            $status = 401;
+                        }
                         break;
                 }
             }catch(Exception $e){

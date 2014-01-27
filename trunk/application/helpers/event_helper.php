@@ -94,12 +94,12 @@ class Event {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function isHolder($id){
+    public function isHolder($uid){
         $stmt = $this->db->prepare("SELECT * FROM  eventHolder WHERE idEvent = :id and user_id = :uid");
-        $stmt->bindParam(":id",$this->id,PDO::PARAM_INT);
-        $stmt->bindParam(":uid", $id, PDO::PARAM_INT);
+        $stmt->bindParam(":id",$this->id, PDO::PARAM_INT);
+        $stmt->bindParam(":uid", $uid, PDO::PARAM_INT);
         $stmt->execute();
-        return $stmt->rowCount()? 1:0;
+        return $stmt->rowCount()? 1:0 or is_admin() ? 1:0;
     }
 
     public function upload(){
@@ -131,7 +131,7 @@ class Event {
         $stmt = $db->prepare("DELETE FROM Event where idEvent = :id");
         $stmt->bindParam(":id", $idEvent, PDO::PARAM_INT);
         $stmt->execute();
-        return $stmt->rowCount() ? false : true;
+        return $stmt->rowCount() ? true : false;
     }
 /*
  * INPUT: id of activity, user id, db

@@ -8,9 +8,23 @@ eventModule.controller('eventShow', ['$scope','$http', '$routeParams', '$locatio
     var path = '/REST_event_b/event/'+id;
     $http.get(path).success(function(data){
         $scope.event = data;
+        $scope.deleteEventButton = "Obriši event";
     }).error(function(data, status, header, config){
            window.alert("smth wrong");
         });
+
+    $scope.deleteEvent = function(idEvent){
+        $http({
+            method: 'DELETE',
+            url: '/REST_event_b/event/'+$routeParams.idEvent,
+            data: {"idEvent" : idEvent}
+        }).success(function(){
+                window.alert("Event je uspešno obrisan!");
+                $location.path("/activity/1");
+            }).error(function(data, status, header, config){
+                window.alert("Event nije uspešno obrisan!");
+            });
+    };
 }]);
 
 eventModule.controller('eventModify',['$scope', '$http', '$routeParams', '$location', function($scope, $http, $routeParams, $location){
