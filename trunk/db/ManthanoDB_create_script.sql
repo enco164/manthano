@@ -284,7 +284,9 @@ CREATE TABLE IF NOT EXISTS `ManthanoDB`.`Notification` (
   `Flag` BINARY(3) NOT NULL,
   `idParent` INT UNSIGNED NOT NULL,
   `typeParent` VARCHAR(10) UNICODE NOT NULL,
-  PRIMARY KEY (`time`, `idParent`),
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `body` MEDIUMTEXT NOT NULL,
+  PRIMARY KEY (`id`),
   INDEX `id_idx` (`idParent` ASC),
   CONSTRAINT `fk_id_obavestenje`
     FOREIGN KEY (`idParent`)
@@ -537,6 +539,29 @@ CREATE TABLE IF NOT EXISTS `ManthanoDB`.`forgot_password` (
   `hash` VARCHAR(50) NOT NULL,
   `email` VARCHAR(50) NOT NULL,
   PRIMARY KEY (`idforgot_password`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `ManthanoDB`.`notification_user`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `ManthanoDB`.`notification_user` (
+  `reciever_id` INT NOT NULL,
+  `Notification_id` INT NOT NULL,
+  `is_read` TINYINT(1) NOT NULL DEFAULT 0,
+  PRIMARY KEY (`reciever_id`, `Notification_id`),
+  INDEX `fk_notification_user_User1_idx` (`reciever_id` ASC),
+  INDEX `fk_notification_user_Notification1_idx` (`Notification_id` ASC),
+  CONSTRAINT `fk_notification_user_User1`
+    FOREIGN KEY (`reciever_id`)
+    REFERENCES `ManthanoDB`.`User` (`user_id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_notification_user_Notification1`
+    FOREIGN KEY (`Notification_id`)
+    REFERENCES `ManthanoDB`.`Notification` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 USE `ManthanoDB` ;
@@ -879,6 +904,16 @@ begin
 	DELETE FROM Notification where idParent = old.idMaterial;
 end
 $$
+
+USE `ManthanoDB`$$
+CREATE TRIGGER `Notification_AINS` AFTER INSERT ON `Notification` FOR EACH ROW
+BEGIN
+	IF typeParent = 'Activity' THEN
+		INSERT INTO notification_user(reciever_id, Notification_id) select user_id, new.id from ActivityParticipant;
+		INSERT INTO notification_user(reciever_id, Notification_id) select user_id, new.id from ActivityHolder;
+	end if;
+	
+END$$
 
 
 DELIMITER ;

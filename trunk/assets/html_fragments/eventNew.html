@@ -13,8 +13,10 @@
             <ul class="nav nav-tabs" ng-model="choiseNew" >
                 <li ng-repeat="item in choises"><a href="#{{item.Name}}" data-toggle="tab">{{item.Name}}</a></li>
             </ul>
+            <a href="" ng-click="noviEnko()"> Novi </a>
+            <a href="" ng-click="postojeciEnko()"> Postojeci </a>
 <br>
-            <div id="Novi">
+            <div id="Novi" ng-if="choise == true">
                 <div class="form-group">
                         <label for="acName">Ime predavanja</label>
                         <input type="text" class="form-control" ng-model="eventName" required /> {{eventName}}
@@ -39,7 +41,7 @@
                     <div class="row"></div>
 
             </div>
-            <div id="Postojeci">
+            <div id="Postojeci" ng-if="choise == false">
                 <h2>{{loading}}</h2>
                 <ul class="list-group">
                     <li class="list-group-item" ng-repeat="event in eventsShort">
