@@ -8,7 +8,7 @@ Datum: {{event.Date}}
 <br/>
 Vreme: {{event.Time}}
 <br/>
-
+<button ng-if="event.is_holder" ng-click="deleteEvent()">{{deleteEventButton}}</button><br/>
 Event Holderi:
 <br/>
 <ul>
