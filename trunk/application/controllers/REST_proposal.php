@@ -56,9 +56,13 @@ class REST_proposal extends MY_Controller
                     {
                         $creator = $this->session->userdata('user_id')==$proposal->UserProposed()? true : false;
                         /* setting package that will be sent to client */
+                        $user = new Users($proposal->UserProposed());
+                        $arr1 = array("user_id" => $proposal->UserProposed(),
+                                        "Name" => $user->Name(),
+                                        "Surname" => $user->Surname());
                         $arr = array(
                             "id" => $proposal->idProposal(),
-                            "user_proposed" => $proposal->UserProposed(),
+                            "user_proposed" => $arr1,
                             "name" => $proposal->Name() ,
                             "description" => $proposal->Description(),
                             "support" => $proposal->getSupport(),
@@ -67,7 +71,8 @@ class REST_proposal extends MY_Controller
                             "owners" => $proposal->getOwners(),
                             "owners_count" => $proposal->getOwnerCount(),
                             "is_owner" => Proposal::is_owner($db, $this->session->userdata('user_id'), $proposal->idProposal()),
-                            "is_creator" => $creator
+                            "is_creator" => $creator,
+                            "is_admin" => is_admin()
                         );
                         $data=json_encode($arr);
                         $etag = md5($proposal);
@@ -539,5 +544,43 @@ class REST_proposal extends MY_Controller
         if(isset($data))
             echo $data;
     }
+
+    public function nonusers($idActivity)
+    {
+        $db = new PDO("mysql:localhost;dbname=manthanodb","root","",array(PDO::ATTR_PERSISTENT => true, PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
+        $db->exec("use manthanodb;");
+        $data = "";
+        $status = 200;
+        try
+        {
+            switch($this->method)
+            {
+                case 'get':
+                    $data = json_encode(Proposal::getAll($idActivity, $this->session->userdata('user_id'), $db));
+                    $status = 200;
+                    break;
+                case 'post':
+                    break;
+                case 'put':
+                    break;
+                case 'delete':
+                    break;
+            }
+        }catch(Exception $e){
+            $status="500";
+            $error_description=array(
+                "blah" => $e->getMessage(),
+                "message"=>"Server error!"
+            );
+
+            $data=json_encode($error_description);
+
+        }
+        header("HTTP/1.1 ".$status);
+        header("Content-Type: application/json");
+        if(isset($data))
+            echo $data;
+    }
+
 }
 ?>
