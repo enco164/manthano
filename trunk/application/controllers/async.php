@@ -76,5 +76,65 @@
                 //$this->form_validation->set_message('check_database', 'Invalid username or password');
             }
         }
+
+        public function upload_user_image($user_id){//ova metoda ne brise postojece slike, vec samo dodaje nove sa nazivima i=1:n.jpg
+            if(!is_admin()){//SAMO ADMIN SME DA DIRA TUDJE SLIKE, inace deafultuje na tvoju sliku
+                $user_id=$this->session->userdata('user_id');
+            }
+            set_time_limit(0);
+            //$user_id = $this->session->userdata('user_id');
+            $limit_width=$_POST['limit_width'];
+            $max_size=5*1024*1024;
+            $allowed=array("jpeg","jpg","png","JPG");
+            $files=$_FILES['file_upload_input'];
+            $output=array();
+            $output['error']="";
+            $root=$_SERVER['DOCUMENT_ROOT'];
+            //var_dump($user_id);
+            if(is_array($files)){
+                $folder="$root/assets/resources/images/users/$user_id";     // for user files
+                $relative_path="/assets/resources/images/users/$user_id";
+
+                if(!is_dir($folder)){mkdir($folder,0777);}
+                //$br = count(glob($folder."/*.{jpg,png,jpeg}",GLOB_BRACE))+1;
+                foreach($files['name'] as $file=>$name){
+                    $exp=explode(".",$name);
+                    $extension=$exp[count($exp)-1];
+                    unset($exp[count($exp)-1]);
+                    $f_name=implode(".",$exp);
+                    header("Content-Length: ".$files['size'][$file]);
+                    if(in_array($extension,$allowed)){
+                        if($files['size'][$file]<=$max_size){
+                            for($i=1;$i<=12;$i++){
+                                $ch_file = count(glob($folder."/".$i.".{jpg,png,jpeg}",GLOB_BRACE));
+                                if($ch_file==0){
+                                    $new_filename=$i.'.jpg'; break;
+                                }
+                            }
+                            $new_image_path=$folder.'/'.$new_filename;
+                            $new_image_relative_path=$relative_path.'/'.$new_filename;
+                            if(isset($new_filename) && move_uploaded_file($files["tmp_name"][$file],$new_image_path)){
+                                if(is_numeric($limit_width)){
+                                    //if(!is_numeric($limit_quality)){
+                                    $limit_quality=100;
+                                    //}
+                                    resize_img($new_image_path,"jpg",$limit_width,$limit_quality);
+                                }
+
+                                $output['file'][$file]=$relative_path.'/'.$new_filename;
+                                $db_data['ProfilePicture']=$new_image_relative_path;
+                                $this->crud_model->db_update_user_data($user_id,$db_data);
+                            }
+                        } else {
+                            $output['error'] = "Prekoračili ste dozvoljenu veličinu slike. Maksimalna veličina je 5MB.";
+                        }
+                    } else {
+                        $output['error']="Nedozvoljeni tip datoteke";
+                    }
+                }
+                echo json_encode($output);
+            }
+
+        }
     }
 

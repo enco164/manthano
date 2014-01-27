@@ -1,9 +1,9 @@
 <div class="container" ng-if="globalUID == id  || canEdit == 1">
     <div class="row">
         <div class="col-md-2 col-md-offset-1">
-<div  style="padding: 0px 50px;">
+<div  style="padding: 0px 50px;" class="js_user_logo_image_container">
 
-            <img class="img-responsive img-circle" src="{{userdata.ProfilePicture}}" alt="Nema slike" >
+            <img class="img-responsive img-circle js_user_logo_image" src="{{userdata.ProfilePicture}}" alt="Nema slike" >
             <br/>
 
         </div>
@@ -56,7 +56,7 @@
                     </div>                     
                     <div class="form-group ">
                         <label for="www">Promeni sliku</label>
-                        <input class="btn btn-primary" type="file" name="ProfilePicture"/>
+                        <input class="btn btn-primary" type="file" name="file" id="file_upload_input" data-id="{{userdata.id}}"/>
                     </div>                     
 
        
