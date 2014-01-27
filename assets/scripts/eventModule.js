@@ -24,7 +24,6 @@ eventModule.controller('eventModify',['$scope', '$http', '$routeParams', '$locat
 }]);
 
 eventModule.controller('eventNew',['$scope','$http','$routeParams','$location', function($scope, $http, $routeParams, $location){
-    $scope.choises = [{Name: 'Novi', Value: true},{Name: 'Postojeci', Value: false}];
     $scope.nameOfActivity = $routeParams.nameActivity;
     $scope.idActivity = $routeParams.idActivity;
     $scope.getEvents = function(){
@@ -34,6 +33,14 @@ eventModule.controller('eventNew',['$scope','$http','$routeParams','$location', 
         }).error(function(data, status, header, confihg){
                 windows.alert("smth wrong in eventNew" + status)
             });
+    };
+    $scope.choise = true;
+    $scope.noviEnko = function (){
+      $scope.choise = true;
+    };
+
+    $scope.postojeciEnko = function (){
+        $scope.choise = false;
     };
     $scope.getEvents();
 //    $scope.eventName = "";
