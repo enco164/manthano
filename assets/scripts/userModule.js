@@ -16,10 +16,10 @@ userModule.controller('userInfo',['$scope','$http','$routeParams',function($scop
         $scope.userdata = data;
         console.log($scope.userdata);
         if(typeof $scope.userdata.username == 'string' || $scope.userdata.username instanceof String)
-        // There is no participants , show message
+        // There is no user , show message
             $scope.showString = 1;
         else
-        // There is some participants, show list
+        // There is some user, show it
             $scope.showString = 0;
         // setting button text
         if(globalUID == id || globalAccType==99){
