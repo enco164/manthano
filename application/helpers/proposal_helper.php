@@ -76,7 +76,8 @@ class Proposal
     public function setDescription($value){ $this->Description = $value;}
 
     /* error handling for Accessing the wrong way to private properties of object*/
-    public function __set($name, $value){
+    public function __set($name, $value)
+    {
         echo "You are trying to direct set property ".$name." to value ".$value." and thats not possible. Use set".$name."(\$value) method.";
         echo "<br/> At line ".__LINE__." in file ".__FILE__;
     }
@@ -339,7 +340,7 @@ class Proposal
 
     static public function getAllProposals($db)
     {
-        $stmt = $db->prepare("SELECT idProposal, UserProposed, Name, Description FROM Proposal ORDER BY idProposal DESC");
+        $stmt = $db->prepare("SELECT p.idProposal, UserProposed, Name, Description, Count(*) as 'support_count' FROM Proposal p join proposalSupport ps on p.idProposal = ps.idProposal  GROUP BY idProposal, UserProposed, Name, Description ORDER BY idProposal DESC");
         $stmt->execute();
 
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -363,6 +364,20 @@ class Proposal
         $stmt->execute();
 
         return $stmt->rowCount() ? true : false;
+    }
+
+    static public function getAll($idProposal, $userId, $db)
+    {
+        $stmt = $db->prepare("Select concat(u.name, ' ', u.surname) as nameu, u.user_id, username, ps.user_id as support, po.userProposed as owner
+                              from `user` u left outer join proposalOwner po on po.userProposed=u.user_id and po.idProposal=:idProp2 and po.UserPropose=:userPropose
+                                    left outer join proposalSupport ps on ps.user_id=u.user_id and ps.idProposal=:idProp1
+                                    order by nameu");
+        $stmt->bindParam(":idProp2", $idProposal, PDO::PARAM_INT);
+        $stmt->bindParam(":userPropose", $userId, PDO::PARAM_INT);
+        $stmt->bindParam(":idProp1", $idProposal, PDO::PARAM_INT);
+        $stmt->execute();
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
     /*todo otkrivanje slicnih predloga*/
     /*todo trigeri za update i delete i insert*/

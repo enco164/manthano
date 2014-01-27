@@ -19,7 +19,32 @@ proposalModule.controller('proposalInfo', ['$scope','$http','$routeParams','$loc
             $scope.addMeButtonName = "Neću da budem vlasnik";
         else
             $scope.addMeButtonName = "Hoću da budem vlasnik";
+
+        $scope.addOwnerButtonName = "Predloži vlasnika";
+        $scope.addSupportButtonName = "Predloži podršku";
+
+
     });
+
+    $http.get('/REST_proposal/nonusers/'+id).success(function (data){
+        $scope.users = data;
+    });
+
+    $scope.addHolder = function(uid){
+        $http({
+            method: 'POST',
+            url: '/REST_activity_b/holder/'+id+'/'+uid
+        }).success(function(data){
+            }).error(function(data, status, header, config){
+                window.alert("Adding holder error!");
+            });
+        $http.get('/REST_activity_b/nonholder/'+id).success(function (data){
+            $scope.users = data;
+        });
+        $http.get('/REST_activity_b/holder/'+id+'/1').success(function(data){
+            $scope.holders = data;
+        });
+    };
 
     // Actions when button for add support to proposal clicked
     $scope.addsupport = function(){
@@ -52,6 +77,41 @@ proposalModule.controller('proposalInfo', ['$scope','$http','$routeParams','$loc
                     $route.reload();
                 }).error(function(data, status, headers, config){
                     window.alert("Neuspešna pokušaj podrške predloga! ");
+                });
+        }
+    };
+
+    function getObjects(obj, key, val)
+    {
+        var objects = [];
+        for (var i in obj) {
+            if (!obj.hasOwnProperty(i)) continue;
+            if (typeof obj[i] == 'object') {
+                objects = objects.concat(getObjects(obj[i], key, val));
+            } else if (i == key && obj[key] == val) {
+                objects.push(obj);
+            }
+        }
+        return objects;
+    }
+    //add support
+    $scope.addOwnerUser = function(uid){
+        if(getObjects($scope.users, 'id', uid))
+        {
+            var data = '{'
+                +'"Proposal"  : ' + $scope.proposal.idProposal
+                +'}';
+            // add support to proposal
+            $http({
+                method: 'POST',
+                url: "/REST_proposal/proposalowner/" + id,
+                data: '{ "Proposal"  : ' + id + ',' +
+                        '"Proposed" : ' + uid + '}'
+            }).success(function(data){
+                    window.alert("Uspešno ste prijavili korisnika za vlasnika!");
+                    $route.reload();
+                }).error(function(data, status, headers, config){
+                    window.alert("Neuspešna pokušaj prijave korisnika za vlasnika! ");
                 });
         }
     };

@@ -13,12 +13,12 @@
 
 
 <!-- TODO only admins and creator of proposal-->
-<div ng-if="proposal.is_creator">
+<div ng-if="proposal.is_creator || proposal.is_admin">
 <a href="#/proposal/{{proposal.id}}">Nazad</a>
 <br/>
 Predložio:
 <br/>
-<input type="text" ng-model="proposal.user_proposed" required/>
+<input type="text" ng-model="proposal.user_proposed.id" required/>
 <br/>
 Ime predloga:
 <br/>

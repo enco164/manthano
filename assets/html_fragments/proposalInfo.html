@@ -2,15 +2,15 @@ Ime: {{proposal.name}}
 <br/>
 Opis: {{proposal.description}}
 <br/>
-Predložio: {{proposal.user_proposed}}
+Predložio: <a  href="#/user/{{proposal.user_proposed.user_id}}"> {{proposal.user_proposed.Name}} {{proposal.user_proposed.Surname}}</a>
 <br/>
 <button ng-click="addsupport()">{{enrollButtonName}}</button>
 <br/>
 <button ng-click="addmeowner()">{{addMeButtonName}}</button>
 <br/>
-<a href="#/proposal/modify/{{proposal.id}}" ng-if="proposal.is_creator"> Promeni predlog</a>
+<a href="#/proposal/modify/{{proposal.id}}" ng-if="proposal.is_creator || proposal.is_admin==1"> Izmeni predlog</a>
 <br/>
-Podrzavaju:
+Podržavaju:
 <br/>
     <ul>
         <li ng-repeat="user in proposal.support"> <a  href="#/user/{{user.user_id}}"> {{user.Name}} {{user.Surname}}</a> </li>
@@ -21,3 +21,13 @@ Vlasnici:
     <li ng-repeat="owner in proposal.owners"> <a  href="#/user/{{owner.user_id}}"> {{owner.Name}} {{owner.Surname}}</a>
         {{owner.Count}} glasa</li>
 </ul>
+Korisnici:
+<input type="text" ng-model="userSearch"/>
+<ul>
+    <li ng-if="item.owner==null || item.support==null" ng-repeat="item in users | filter: userSearch">
+            <a href="#/user/{{item.user_id}}"> {{item.nameu}} </a>
+            <button ng-if="item.owner==null" class="btn btn-primary" ng-click="addOwnerUser(item.user_id)">{{addOwnerButtonName}}</button>
+            <button ng-if="item.support==null" class="btn btn-primary" ng-click="addOwnerUser(item.user_id)">{{addSupportButtonName}}</button>
+    </li>
+</ul>
+<br/>
