@@ -1,9 +1,0 @@
-1) Copy php_http.dll into your php extension folder
-for xampp its C:/xampp/php/ext
-
-2) go to php.ini and add next line to it
-extension = php_http.dll
-
-3) restart apache server.
-
-php_http.dll, in this folder, is for php 5.5 version.
