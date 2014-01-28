@@ -4,17 +4,17 @@
 var eventModule = angular.module('eventModule', []);
 
 eventModule.controller('eventShow', ['$scope','$http', '$routeParams', '$location', function($scope, $http, $routeParams, $location){
-    var id = $routeParams.idEvent;
-    var path = '/REST_event_b/event/'+id;
+    $scope.id = $routeParams.idEvent;
+    var path = '/REST_event_b/event/'+$scope.id ;
     $http.get(path).success(function(data){
         $scope.event = data;
         $scope.deleteEventButton = "Obriši event";
     }).error(function(data, status, header, config){
            window.alert("Trazeni event ne postoji");
            history.back();
-        });
+    });
 
-    $scope.deleteEvent = function(idEvent){
+$scope.deleteEvent = function(idEvent){
         $http({
             method: 'DELETE',
             url: '/REST_event_b/event/'+$routeParams.idEvent,
@@ -29,12 +29,42 @@ eventModule.controller('eventShow', ['$scope','$http', '$routeParams', '$locatio
 }]);
 
 eventModule.controller('eventModify',['$scope', '$http', '$routeParams', '$location', function($scope, $http, $routeParams, $location){
-    var id = $routeParams.idEvent;
-    $http.get('/REST_activity_b/activities/').success(function(data){
-        $scope.listOfActivities = data;
+    $scope.id = $routeParams.idEvent;
+    var path = '/REST_event_b/event/'+$scope.id ;
+    $http.get(path).success(function(data, status, headers){
+        $scope.event = data;
+        $scope.etag = headers("Etag");
+        $scope.deleteEventButton = "Obriši event";
+    }).error(function(data, status, header, config){
+            window.alert("Trazeni event ne postoji");
+            history.back();
+        });
+    $http.get('/REST_event_b/nonholder/'+$scope.id).success(function(data){
+        $scope.nonholders = data;
     }).error(function(data, status, header, config){
             window.alert("smth wrong"+status);
         });
+/* funckija za dugme sacuvaj promene */
+    $scope.saveChanges = function(){
+
+    };
+/* dodavanje holdera */
+    $scope.addHolder = function(uid){
+        $http({
+            method: 'POST',
+            url: '/REST_event_b/holder/'+$scope.id+'/'+uid
+        }).success(function(data){
+            }).error(function(data, status, header, config){
+                window.alert("Adding holder error!");
+            });
+        /* refresovanje podataka vezanih za holdere */
+        $http.get('/REST_event_b/nonholder/'+$scope.id).success(function (data){
+            $scope.nonholders = data;
+        });
+        $http.get('/REST_event_b/holder/'+$scope.id+'/1').success(function(data){
+            $scope.event.holders = data;
+        });
+    };
 
 }]);
 

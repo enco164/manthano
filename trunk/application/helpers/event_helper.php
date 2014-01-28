@@ -72,7 +72,9 @@ class Event {
         echo "You are trying to direct access property ".$name."and thats not possible. Use ".$name."() method";
         echo "<br/> At line ".__LINE__." in file ".__FILE__;
     }
-    public function __toString(){return "dummy";}
+    public function __toString(){
+        return $this->Name.$this->Description.$this->Date.$this->Time.$this->Venue;
+    }
 
     public function getParentActivities(){
         $stmt = $this->db->prepare("SELECT a.Name, a.idActivity FROM Activity a join activityContains ac on a.idActivity = ac.idActivity WHERE ac.idEvent = :id");
@@ -82,7 +84,7 @@ class Event {
 
     }
     public function getMaterials(){
-        $stmt = $this->db->prepare("SELECT a.Name, a.idEvent FROM Event a join eventContains ac on a.idEvent = ac.idEvent WHERE ac.idEvent = :id");
+        $stmt = $this->db->prepare("SELECT a.Name, ac.idMaterial FROM Event a join eventContains ac on a.idEvent = ac.idEvent WHERE ac.idEvent = :id");
         $stmt->bindParam(":id",$this->id,PDO::PARAM_INT);
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -171,5 +173,26 @@ class Event {
         $ret = $stmt->execute();
         return $ret;
     }
+
+    static public function getNonHolders($idEvent, $db){
+        $stmt = $db->prepare("Select distinct concat(u.name, ' ', u.surname) as nameu, u.user_id, username
+                                    from user u
+                                    where not exists (select * from eventHolder ah where ah.idEvent = :aid and ah.user_id = u.user_id)
+                                    order by nameu");
+        $stmt->bindParam(":aid", $idEvent, PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    static public function getHoldersStatic($idEvent, $db){
+        $stmt = $db->prepare("Select distinct concat(u.name, ' ', u.surname) as nameu, u.user_id, username
+                                    from user u join eventholder ah on u.user_id = ah.user_id
+                                    where ah.idEvent = :aid
+                                    order by nameu");
+        $stmt->bindParam(":aid", $idEvent, PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
 
 } 

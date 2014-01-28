@@ -297,7 +297,7 @@
         static public function getNonHolders($idActivity, $db){
             $stmt = $db->prepare("Select distinct concat(u.name, ' ', u.surname) as nameu, u.user_id, username
                                     from user u
-                                    where not exists (select * from activityHolder ah where ah.idActivity = 2 and ah.user_id = u.user_id)
+                                    where not exists (select * from activityHolder ah where ah.idActivity = :aid and ah.user_id = u.user_id)
                                     order by nameu");
             $stmt->bindParam(":aid", $idActivity, PDO::PARAM_INT);
             $stmt->execute();
