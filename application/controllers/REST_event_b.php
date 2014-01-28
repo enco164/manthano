@@ -43,7 +43,11 @@
                                     "is_holder" => $event->isHolder($this->session->userdata('user_id')),
                                     "parents" => $event->getParentActivities()
                                 );
+                                $etag = md5($event);
                                 $data = json_encode($data);
+                                header('Etag:'.$etag);
+                                header("Expires: -1");
+                                $status=200;
                         }
                         else{
                             $status = 404;
@@ -80,9 +84,32 @@
                         }
                         break;
                     case 'put':
+                        $ev_data = json_decode(file_get_contents('php://input'));
                         if(Event::isHolderStatic($this->session->userdata('user_id'), $id, $db))
                         {
-
+                            $temp = new Event($ev_data->id, $db);
+                            $etag = md5($temp);
+                            if($ev_data->Etag == $etag){
+                                $temp->setName($ev_data->Name);
+                                $temp->setName($ev_data->Description);
+                                $temp->setName($ev_data->Date);
+                                $temp->setName($ev_data->Venue);
+                                $temp->setName($ev_data->Time);
+                                if($temp->update()){
+                                    $status = 200;
+                                }
+                                else{
+                                    $status = 400;
+                                    $error_description=array(
+                                        "message"=>"los zahtev"
+                                    );
+                                    $data=json_encode($error_description);
+                                }
+                            }
+                            else{
+                                $status = 409;
+                                $data = json_encode(array("message" => "menjano vec!", "etagreturn"=>$etag));
+                            }
                         }
                         else
                         {
@@ -166,5 +193,111 @@
             if(isset($data))
                 echo $data;
         }
+
+        public function holder($idEvent, $user_id){
+            $db = new PDO("mysql:localhost;dbname=manthanodb","root","",array(PDO::ATTR_PERSISTENT => true, PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
+            $db->exec("use manthanodb;");
+            $data = "";
+            $status = 200;
+            try{
+                switch($this->method){
+                    case 'get':
+                        $data = json_encode(Event::getHoldersStatic($idEvent,$db));
+                        $status = 200;
+                        break;
+                        break;
+                    case 'post':
+                        if(Event::isHolderStatic($this->session->userdata('user_id'), $idEvent, $db)){
+                            if(Event::addHolder($idEvent, $user_id, $db)){
+                                $status=201;
+                                $data = array(
+                                    "message" => "Activity holder added"
+                                );
+                                $data=json_encode($data);
+                            }
+                            else{
+                                $status=400;
+                                $error_description=array(
+                                    "message" => "Resource wasnt found!"
+                                );
+                                $data=json_encode($error_description);
+                            }
+                        }
+                        else{
+                            /*Unauthorized*/
+                            $status = 401;
+                        }
+                        break;
+                    case 'put':
+                        break;
+                    case 'delete':
+                        if(Activity::isHolder($this->session->userdata('user_id'), $user_id, $db)){
+                            if(Event::removeHolder($user_id, $idEvent, $db)){
+                                $status=200;
+                            }
+                            else{
+                                $status=404;
+                                $error_description=array(
+                                    "message"=>"resurs nije pronadjen"
+                                );
+
+                                $data=json_encode($error_description);
+                            }
+                        }
+                        else{
+                            /*Unauthorized*/
+                            $status = 401;
+                        }
+                        break;
+                }
+            }catch(Exception $e){
+                $status="500";
+                $error_description=array(
+                    "blah" => $e->getMessage(),
+                    "message"=>"Server error!"
+                );
+
+                $data=json_encode($error_description);
+
+            }
+            header("HTTP/1.1 ".$status);
+            header("Content-Type: application/json");
+            if(isset($data))
+                echo $data;
+        }
+        public function nonholder($idEvent){
+            $db = new PDO("mysql:localhost;dbname=manthanodb","root","",array(PDO::ATTR_PERSISTENT => true, PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
+            $db->exec("use manthanodb;");
+            $data = "";
+            $status = 200;
+            try{
+                switch($this->method){
+                    case 'get':
+                        $data = json_encode(Event::getNonHolders($idEvent,$db));
+                        $status = 200;
+                        break;
+                    case 'post':
+                        break;
+                    case 'put':
+                        break;
+                    case 'delete':
+                        break;
+                }
+            }catch(Exception $e){
+                $status="500";
+                $error_description=array(
+                    "blah" => $e->getMessage(),
+                    "message"=>"Server error!"
+                );
+
+                $data=json_encode($error_description);
+
+            }
+            header("HTTP/1.1 ".$status);
+            header("Content-Type: application/json");
+            if(isset($data))
+                echo $data;
+        }
+
 
     }

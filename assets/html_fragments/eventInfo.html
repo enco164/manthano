@@ -1,3 +1,6 @@
+<a class="btn btn-info btn-large" href="#/event/modify/{{id}}" >Promeni Event</a>
+<!--ng-if="is_holder == 1"-->
+<br/>
 Ime: {{event.Name}}
 <br/>
 Opis:    {{event.Description}}
@@ -19,3 +22,8 @@ Roditelji event-a:
 <ul>
     <li ng-repeat="parent in event.parents"><a href="#/activity/{{parent.idActivity}}"> {{parent.Name}} </a></li>
 </ul>
+<br/>
+Materijali
+        <ul>
+            <li ng-repeat="material in event.materials"><a href="#/material/{{material.idMaterial}}"> {{material.Name}} </a> </li>
+        </ul>

@@ -1,14 +1,18 @@
-Ime: <input type="text"/>
+Ime: <input type="text" ng-model="event.Name" />
 <br/>
-Opis: <textarea cols="30" rows="10"></textarea>
+Opis: <textarea cols="30" rows="10" ng-model="event.Description"></textarea>
 <br/>
-Mesto: <input type="text"/>
+Mesto: <input type="text" ng-model="event.Venue"/>
 <br/>
-Datum: <input type="datetime"/>
+Datum: <input type="datetime" ng-model="event.Date"/>
 <br/>
-Vreme: <input type="text"/>
+Vreme: <input type="text" ng-model="event.Time"/>
 <!--http://jdewit.github.io/bootstrap-timepicker/ pa se ti zajebavaj sa inputom xD  -->
 <br/>
-Activity:
-<select ng-model="selectedActivity" ng-options="item as item.name for item in listOfActivities"></select>
-<pre>{{selectedActivity.idActivity}}</pre>
+Dodaj holdera:
+<input type="text" ng-model="holderSearch"/>
+        <ul>
+           <li ng-repeat="user in nonholders | filter: holderSearch">
+               <a href="#/user/{{user.user_id}}"> {{user.nameu}} </a>
+               <a class="btn btn-success btn-mini" ng-click="addHolder(user.user_id)" >Add</a> </li>
+        </ul>
