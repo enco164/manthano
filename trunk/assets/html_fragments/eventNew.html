@@ -50,9 +50,9 @@
                 <ul class="list-group">
                     <li class="list-group-item" ng-repeat="event in eventsShort">
                         <a href="#/event/{{event.idActivity}}">{{event.name}}</a>
-                        <a class="btn btn-danger btn-xs pull-right" ng-click="removeEvent(event.idEvent, idActivity)" ng-if="event.isMember == 0">Ukloni</a>
+                        <a class="btn btn-danger btn-xs pull-right" ng-click="removeEvent(event.idEvent, idActivity)" ng-if="event.isMember == 1">Ukloni</a>
                         <span class="pull-right"> &nbsp;</span>
-                        <a class="btn btn-success btn-xs pull-right" ng-click="add(event.idEvent, idActivity)" ng-if="event.isMember == 1">Dodaj</a> 
+                        <a class="btn btn-success btn-xs pull-right" ng-click="add(event.idEvent, idActivity)" ng-if="event.isMember == 0">Dodaj</a> 
                         
                     </li>
                 </ul>
