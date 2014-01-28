@@ -104,7 +104,8 @@ class Event {
         return $stmt->rowCount()? 1:0 or is_admin() ? 1:0;
     }
 
-    public function upload(){
+    public function upload()
+    {
         $query = "UPDATE Event SET Name = :name, Description = :desc, Venue = :venue, Date = :date, Time = :time WHERE idEvent = :id";
         $stmt = $this->db->prepare($query);
         $stmt->bindParam(":name", $this->Name, PDO::PARAM_STR);
@@ -135,6 +136,8 @@ class Event {
         $stmt->execute();
         return $stmt->rowCount() ? true : false;
     }
+
+
 /*
  * INPUT: id of activity, user id, db
  * */

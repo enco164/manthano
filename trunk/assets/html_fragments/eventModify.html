@@ -9,6 +9,7 @@ Datum: <input type="datetime" ng-model="event.Date"/>
 Vreme: <input type="text" ng-model="event.Time"/>
 <!--http://jdewit.github.io/bootstrap-timepicker/ pa se ti zajebavaj sa inputom xD  -->
 <br/>
+<button ng-if="event.is_holder" ng-click="saveChanges()">{{editEventButton}}</button><br/>
 Dodaj holdera:
 <input type="text" ng-model="holderSearch"/>
         <ul>
