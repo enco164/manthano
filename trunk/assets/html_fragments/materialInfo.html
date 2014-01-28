@@ -34,7 +34,7 @@ Owner : <input type="text" name="Material Owner " ng-model="materialOwner" requi
             <!--path-->
             <div class="row">
                 <ol class="breadcrumb">
-                    <li ng-repeat="location in material.path"><a href="#/material/{{location.idMaterial}}">{{location.Name}}</a></li>
+                    <li ng-repeat="location in material.path"><a href="#/material/{{material.idMaterial}}">{{location.Name}}</a></li>
                 </ol>
             </div>
 
@@ -42,17 +42,17 @@ Owner : <input type="text" name="Material Owner " ng-model="materialOwner" requi
             <div class="row">
                 <div class="jumbotron">
 
-                    <h1>{{material.name}}</h1>                    
+                    Name:<h1>{{material.name}}</h1>
                    
-                        <p> {{material.URI}} </p>
-						<p> {{material.Type}} </p>
+                       URI:  <p> {{material.URI}} </p>
+						Type:<p> {{material.Type}} </p>
                    
                     <p>Date: {{material.date}}</p>
 					<p>Owner: {{user.Name}} + {{user.Surname}}</p>
 					<p>{{user.userName}}</p>
                     <p>
-                        <a class="btn btn-primary btn-large" ng-click="enroll()">{{enrollButtonName}}</a> 
-                        <a class="btn btn-success btn-large" href="#/material/new/{{material.id}}" ng-if="is_holder == 1">Add Material</a> 
+                       <!-- <a class="btn btn-primary btn-large" ng-click="enroll()">{{enrollButtonName}} </a>-->
+                        <a class="btn btn-success btn-large" href="#/material/new/{{material.id}}" ng-if="is_holder == 1">Add New Material</a>
 						<a class="btn btn-info btn-large" href="#/material/modify/{{material.id}}" ng-if="is_holder == 1">Modify Material</a> 
 						<a class="btn btn-danger btn-large" ng-click="deleteActivity()" ng-if="is_holder == 1">Remove Material</a> 
 
@@ -65,7 +65,7 @@ Owner : <input type="text" name="Material Owner " ng-model="materialOwner" requi
 
         </div><!--content-->
 
-       
+
 
 
     </div><!--row-->
