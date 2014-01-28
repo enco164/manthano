@@ -59,9 +59,9 @@
                          * Is one of activity holders or is it admin?
                          * $ac_data->id is id of activity.
                          */
-
+                        print_r($event_data);
                         if(Event::isHolderStatic($this->session->userdata('user_id'), $id, $db)){
-                            $ind = Event::addEvent($id, $db, $event_data->Name, $event_data->Description, $event_data->Venue, $event_data->Date, $event_data->Time );
+                            $ind = Event::addEvent($id, $db, $event_data->Name, $event_data->Description, $event_data->Venue, $event_data->Date, $event_data->Time);
                             if($ind){
                                 $status=201;
                                 Event::addHolder($ind, $this->session->userdata('user_id'), $db);
@@ -70,8 +70,7 @@
                                 );
                                 $data=json_encode($data);
                             }
-                            else
-                            {
+                            else{
                                 $status=400;
                                 $error_description=array(
                                     "message" => "Resource wasnt found!"
@@ -152,7 +151,7 @@
             }catch(Exception $e){
                 $status="500";
                 $error_description=array(
-                    "blah" => $e->getMessage(),
+                    "blah" => $e->getTraceAsString(),
                     "message"=>"Server error!"
                 );
 
