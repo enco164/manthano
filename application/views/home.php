@@ -100,7 +100,13 @@
 
 <br/><br/><br/><br/>
 <!-- Ova cetri br iznad su brzi hack da bi se video sadrzaj lepo, ne dirati ih!!! -->
-<h2> Manthano je trenutno u fazi razvoja! Hvala na razumevanju! </h2>
+<div class="container">
+	<div class="row">
+		<div class="alert alert-warning alert-dismissable">
+			<strong>Obaveštenje!</strong> Manthano je trenutno u fazi razvoja! Hvala na razumevanju!
+		</div>
+	</div>
+</div>
 
 <div ng-view>
     <!-- link to Material forms-->
