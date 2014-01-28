@@ -15,10 +15,7 @@
 
 			</div>
 
-            Pomeri kurs u: <select ng-model="choosenActivity" ng-options="item.name for item in activities ">
-                        </select>
 
-            <button class="btn btn-success pull-right" ng-click="moveActivity()"> Pomeri. </button>
 
 			<div class="row">
 				<br/>
@@ -38,48 +35,88 @@
 						<input type="date" class="form-control" name="acDate" ng-model="activity.date" required />
 					</div>
 					<div class="col-md-6">
-					
-					<div class="form-group ">
-						<label for="acCover">Omot slika kursa <small>(samo <code>http://link.do.slike</code>)</small></label>
-						<input type="text" class="form-control" name="acCover"  ng-model="activity.cover" required />
-					</div>
+
+						<div class="form-group ">
+							<label for="acCover">Omot slika kursa <small>(samo <code>http://link.do.slike</code>)</small></label>
+							<input type="text" class="form-control" name="acCover"  ng-model="activity.cover" required />
+						</div>
 					</div>
 				</form>
 
 			</div>
 
-            <!--Vidi odvajaj ova osetljivija podesavanja u posebne divove, tipa menjanje strukture drveta (pomeranja), zezanje sa holderima-->
-            <!--da bi posle moglo da se doda ng-if u zavisnosti od toga sta zelimo za koga da se vidi-->
+			<!--Vidi odvajaj ova osetljivija podesavanja u posebne divove, tipa menjanje strukture drveta (pomeranja), zezanje sa holderima-->
+			<!--da bi posle moglo da se doda ng-if u zavisnosti od toga sta zelimo za koga da se vidi-->
 
-            Dodaj holdera: <input type="text" ng-model="userSearch"/>
-            <ul>
-                <li ng-repeat="item in users | filter: userSearch">
-                    <a href="#/user/{{item.user_id}}"> {{item.nameu}} </a> {{item.username}}
-                    <button class="btn btn-primary pull-right" ng-click="addHolder(item.user_id)"> Postavi. </button>
-                </li>
-            </ul>
-            <br/>
-            Ukloni holdera: <input type="text" ng-model="userSearchHold"/>
-            <ul>
-                <li ng-repeat="item in holders | filter: userSearchHold">
-                    <a href="#/user/{{item.user_id}}"> {{item.nameu}} </a> {{item.username}}
-                    <button class="btn btn-danger pull-right" ng-click="removeHolder(item.user_id)"> Izbaci. </button>
-                </li>
-            </ul>
-            <br/>
-            Eventi:
-            search: <input type="text" ng-model="searchFieldEvents"/>
-            <ul>
-                <li ng-repeat="item in activity.events | filter: searchFieldEvents" >
-                    <a href="#/event/{{item.idEvent}}"> {{item.Name}} </a> <button class="btn btn-primary pull-right" ng-click="removeEvent(item.idEvent)"> Izbaci. </button>
-                </li>
-            </ul>
-
+		</div>
+	</div>
+	<div class="row">
+		
+		<div class="col-md-6 col-md-offset-2">
+			<label>Pomeri kurs u: </label>
+			<select class="form-control" ng-model="choosenActivity" ng-options="item.name for item in activities ">
+			</select>
+		</div>
+		<div class="col-md-1">
+			<button class="btn btn-sm btn-success pull-right" ng-click="moveActivity()"> Pomeri </button>
+		</div>
+	</div>
+	<div class="row"><br></div>
+	<div class="row">
+		<div class="col-md-4">
+			Dodaj predavača:
+			<div class="input-group">
+				<input type="text" class="form-control" ng-model="userSearch">
+				<span class="input-group-addon"><span class="glyphicon glyphicon-search"></span></span>
+			</div>
+			<br><br>
+			<div style="height: 200px !important;overflow: scroll;">
+				<table  class="table">
+					<tr ng-repeat="item in users | filter: userSearch">
+						<td><a href="#/user/{{item.user_id}}"> {{item.nameu}} </a></td>	
+						<td>{{item.username}}</td>	
+						<td><button class="btn btn-primary btn-xs" ng-click="addHolder(item.user_id)"> Postavi </button></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+		<div class="col-md-4">
+			Ukloni predavača:
+			<div class="input-group">
+				<input type="text" class="form-control" ng-model="userSearchHold">
+				<span class="input-group-addon"><span class="glyphicon glyphicon-search"></span></span>
+			</div>
+			<br><br>
+			<div style="height: 200px !important;overflow: scroll;">
+				<table  class="table">
+					<tr ng-repeat="item in holders | filter: userSearchHold">
+						<td><a href="#/user/{{item.user_id}}"> {{item.nameu}} </a></td>	
+						<td>{{item.username}}</td>	
+						<td><button class="btn btn-danger btn-xs" ng-click="removeHolder(item.user_id)">Izbaci</button></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+		<div class="col-md-4">
+			Predavanja:
+			<div class="input-group">
+				<input type="text" class="form-control" ng-model="searchFieldEvents">
+				<span class="input-group-addon"><span class="glyphicon glyphicon-search"></span></span>
+			</div>
+			<br><br>
+			<div style="height: 200px !important;overflow: scroll;">
+				<table  class="table">
+					<tr ng-repeat="item in activity.events | filter: searchFieldEvents">
+						<td><a href="#/event/{{item.idEvent}}"> {{item.Name}} </a></td>	
+						<td><button class="btn btn-danger btn-xs" ng-click="removeEvent(item.idEvent)">Izbaci</button></td>
+					</tr>
+				</table>
+			</div>
 		</div>
 	</div>
 </div>
 
-	
+
 <!--
 <a class="btn " href="#/activity/{{activity.id}}"> Back </a>
 <br/>
@@ -96,7 +133,7 @@ Date: <input type="date" name="acDate" ng-model="activity.date" required/>
 <!-- > Ovo ovde obrati paznju jer prima samo url sa http://blabla
 Ovde sprečiti unos nečega što nije link ka sliku. Prvobitno je stajalo url za type
 Ovo će vrv trebati da se piše JS funkcija
- </!-->
+</!-->
 <!--
 Cover: <input type="text" name="acCover" ng-model="activity.cover" required />
 <br/>
