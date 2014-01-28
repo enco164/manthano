@@ -313,4 +313,11 @@
             $stmt->execute();
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
         }
+
+        static public function existsActivity($idActivity, $db){
+            $stmt = $db->prepare("select * from Activity where idActivity = :aid");
+            $stmt->bindParam(":aid", $idActivity, PDO::PARAM_INT);
+            $stmt->execute();
+            return ($stmt->rowCount() ? true : false);
+        }
     }

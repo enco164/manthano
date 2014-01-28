@@ -10,7 +10,8 @@ eventModule.controller('eventShow', ['$scope','$http', '$routeParams', '$locatio
         $scope.event = data;
         $scope.deleteEventButton = "Obriši event";
     }).error(function(data, status, header, config){
-           window.alert("smth wrong");
+           window.alert("Trazeni event ne postoji");
+           history.back();
         });
 
     $scope.deleteEvent = function(idEvent){
@@ -20,7 +21,7 @@ eventModule.controller('eventShow', ['$scope','$http', '$routeParams', '$locatio
             data: {"idEvent" : idEvent}
         }).success(function(){
                 window.alert("Event je uspešno obrisan!");
-                $location.path("/activity/1");
+                history.back();
             }).error(function(data, status, header, config){
                 window.alert("Event nije uspešno obrisan!");
             });
@@ -40,6 +41,11 @@ eventModule.controller('eventModify',['$scope', '$http', '$routeParams', '$locat
 eventModule.controller('eventNew',['$scope','$http','$routeParams','$location', function($scope, $http, $routeParams, $location){
     $scope.nameOfActivity = $routeParams.nameActivity;
     $scope.idActivity = $routeParams.idActivity;
+    $http.get('/check_service/activity/'+ $scope.idActivity).success(function(data){
+        if(!data.check && data.exist){
+            history.back();
+        }
+    });
     $scope.getEvents = function(){
         $http.get('REST_event_b/eventsshort/'+$routeParams.idActivity).success(function(data){
             $scope.eventsShort = data;
