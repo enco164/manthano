@@ -89,6 +89,7 @@ eventModule.controller('eventNew',['$scope','$http','$routeParams','$location', 
     $scope.getEvents = function(){
         $http.get('REST_event_b/eventsshort/'+$routeParams.idActivity).success(function(data){
             $scope.eventsShort = data;
+            $scope.event=data;
             $scope.loading = "";
         }).error(function(data, status, header, confihg){
                 windows.alert("smth wrong in eventNew" + status)
@@ -112,7 +113,7 @@ eventModule.controller('eventNew',['$scope','$http','$routeParams','$location', 
         $http({
             method: 'POST',
             url: '/REST_event_b/event/'+$scope.idActivity,
-            data: {"Name":eventName, "Description":eventDescription, "Venue":eventVenue, "Time":eventTime, "Date":eventDate}
+            data: {"Name":$scope.event.Name, "Description":$scope.event.Description, "Venue":$scope.event.Venue, "Time":$scope.event.Time, "Date":$scope.event.Date}
         }).success(function(data){
                 window.alert("event succesfully added!");
                 $location.path("/activity/"+$scope.idActivity);
