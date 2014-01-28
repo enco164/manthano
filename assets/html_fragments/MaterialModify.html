@@ -13,4 +13,6 @@ Owner : <input type="text" name="materialOwnername" ng-model="material.OwnerName
 Owner user Name: <input type="text" name="materialOwnerUsername" ng-model="material.OwnerUserName" required />
 <br/>
 <button ng-click="modifymaterial()">Modify material!</button>
+<a href="#/material/{{material.material_id}}"> Display {{material.name}} </a>
+<a href="#/material/New/{{material.material_id}}"> Add new Material </a>
 {{dataR.etagreturn}}
