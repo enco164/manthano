@@ -70,7 +70,8 @@
                                 );
                                 $data=json_encode($data);
                             }
-                            else{
+                            else
+                            {
                                 $status=400;
                                 $error_description=array(
                                     "message" => "Resource wasnt found!"
@@ -87,26 +88,28 @@
                         $ev_data = json_decode(file_get_contents('php://input'));
                         if(Event::isHolderStatic($this->session->userdata('user_id'), $id, $db))
                         {
-                            $temp = new Event($ev_data->id, $db);
+                            $temp = new Event($id, $db);
                             $etag = md5($temp);
-                            if($ev_data->Etag == $etag){
+                            if($ev_data->Etag == $etag)
+                            {
                                 $temp->setName($ev_data->Name);
-                                $temp->setName($ev_data->Description);
-                                $temp->setName($ev_data->Date);
-                                $temp->setName($ev_data->Venue);
-                                $temp->setName($ev_data->Time);
-                                if($temp->update()){
+                                $temp->setDescription($ev_data->Description);
+                                $temp->setDate($ev_data->Date);
+                                $temp->setVenue($ev_data->Venue);
+                                $temp->setTime($ev_data->Time);
+                                if($temp->upload())
+                                {
                                     $status = 200;
                                 }
-                                else{
+                                else
+                                {
                                     $status = 400;
-                                    $error_description=array(
-                                        "message"=>"los zahtev"
-                                    );
+                                    $error_description=array("Event nije nađen!");
                                     $data=json_encode($error_description);
                                 }
                             }
-                            else{
+                            else
+                            {
                                 $status = 409;
                                 $data = json_encode(array("message" => "menjano vec!", "etagreturn"=>$etag));
                             }

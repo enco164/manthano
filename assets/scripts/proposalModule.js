@@ -200,6 +200,7 @@ proposalModule.controller('proposalList',['$scope','$http','$routeParams','$loca
     var path = "/REST_proposal/proposallist";
     $http.get(path).success(function(data){
         $scope.proposallist=data;
+        $scope.counttext = null;
     });
 }]);
 

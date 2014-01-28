@@ -35,6 +35,7 @@ eventModule.controller('eventModify',['$scope', '$http', '$routeParams', '$locat
         $scope.event = data;
         $scope.etag = headers("Etag");
         $scope.deleteEventButton = "Obriši event";
+        $scope.editEventButton="Sačuvaj izmene";
     }).error(function(data, status, header, config){
             window.alert("Trazeni event ne postoji");
             history.back();
@@ -46,7 +47,16 @@ eventModule.controller('eventModify',['$scope', '$http', '$routeParams', '$locat
         });
 /* funckija za dugme sacuvaj promene */
     $scope.saveChanges = function(){
-
+        $http({
+            method: 'PUT',
+            url: '/REST_event_b/event/'+$routeParams.idEvent,
+            data: {"id":$routeParams.idEvent, "Name":$scope.event.Name, "Description":$scope.event.Description, "Date":$scope.event.Date ,"Venue":$scope.event.Venue, "Time":$scope.event.Time, "Etag":$scope.etag}
+        }).success(function(){
+                window.alert("Event je uspešno izmenjen!");
+                history.back();
+            }).error(function(data, status, header, config){
+                window.alert("Event nije uspešno izmenjen!");
+            });
     };
 /* dodavanje holdera */
     $scope.addHolder = function(uid){
