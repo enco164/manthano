@@ -5,9 +5,11 @@ var activityModule = angular.module('activityModule', []);
 activityModule.controller('activityShow', ['$scope','$http','$routeParams','$location','$route',function($scope, $http, $routeParams, $location, $route){
     var id = $routeParams.idActivity;
     var path = "/REST_activity_b/activity/"+id;
+
     $http.get(path).success(function(data){
         // loading data in $scope
         $scope.activity = data;
+
         // getting parent id of activity
         // first we find length of array (length function wont work so we go brute)
         $scope.parentid = 0;
@@ -40,13 +42,12 @@ activityModule.controller('activityShow', ['$scope','$http','$routeParams','$loc
         else{
             $scope.hasEvents = 1;
         }
+        $scope.is_holder = $scope.activity.is_holder;
+    }).error(function(status, data, header, config){
+            window.alert("Trazena aktivnost ne postoji!");
+            history.back();
+        });
 
-    });
-
-    /* TODO Add is_holder in rest response for display purposes */
-    /* if is_holder = 1 than you can modify and delete and add Activities
-     * otherwise you can't*/
-    $scope.is_holder = 1;
     //TODO Write error function for $http
     // Actions when button for participating in Activity is clicked
     $scope.enroll = function(){
@@ -94,8 +95,14 @@ activityModule.controller('activityShow', ['$scope','$http','$routeParams','$loc
 }]);
 // controller for creating new activity
 activityModule.controller('activityNew', ['$scope','$http','$routeParams','$location',function($scope, $http, $routeParams, $location){
+
     var idt = $routeParams.idActivity;
     var path = "/REST_activity_b/activity/"+idt;
+    $http.get('/check_service/activity/'+idt).success(function(data){
+        if(!data.check && data.exist){
+            history.back();
+        }
+    });
     /* button "add Activity" action  */
     $scope.addActivity = function(){
         $http({
@@ -115,6 +122,15 @@ activityModule.controller('activityNew', ['$scope','$http','$routeParams','$loca
 activityModule.controller('activityModify',['$scope','$http','$routeParams','$location',function($scope, $http, $routeParams, $location){
     var id = $routeParams.idActivity;
     var path = "/REST_activity_b/activity/"+id;
+
+    //check if user have permissions to access this page
+    $http.get('/check_service/activity/'+id).success(function(data){
+        if(!data.check && data.exist){
+            history.back();
+        }
+    });
+
+
     $http.get(path).success(function(data, status, headers){
         $scope.activity = data;
         $scope.etag = headers("Etag");
