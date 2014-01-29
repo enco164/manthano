@@ -105,7 +105,7 @@
             if(!$materials){
                 return "Owner is deleted by Administrator! ";
             }else{
-                return $materials[0]['name'].$materials[0]['surname'];
+                return $materials[0]['Name'].$materials[0]['Surname'];
             }
         }
 
