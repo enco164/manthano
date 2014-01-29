@@ -38,13 +38,12 @@
                     'field' => 'password_repeat',
                     'label' => 'ponovljena lozinka',
                     'rules' => 'trim|required|matches[password]|xss_clean'
-                )
-                /*,
+                ),
                 array(
                     'field' => 'recaptcha_response_field',
                     'label' => 'Recaptcha',
                     'rules' => 'trim|required|callback_val_recaptcha'
-                )*/
+                )
             ),
             'edit_user' => array(
                 array(

@@ -70,7 +70,7 @@
 
 
 <script type="text/javascript" src="/assets/scripts/recaptcha_ajax.js"></script>
-<script>
+<script type="text/javascript">
     $(document).ready(function () {
         function showRecaptcha(element) {
             Recaptcha.create("<?=$this->config->item('recaptcha_public_key');?>", element, {

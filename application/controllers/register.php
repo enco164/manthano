@@ -50,7 +50,7 @@
 
         public function test_register(){
             $this->load->library('form_validation');
-            //$this->load->helper('recaptchalib_helper');
+            $this->load->helper('recaptchalib_helper');
             $validation_arr = $this->validation_model->config['user_register'];
             //$this->form_validation->set_error_delimiters('', '');
             $this->form_validation->set_rules($validation_arr);
@@ -59,6 +59,8 @@
             if($this->form_validation->run()==FALSE){
                 $this->load->view('login');
             } else {
+                unset($_POST['recaptcha_challenge_field']);
+                unset($_POST['recaptcha_response_field']);
                 $data = $_POST;
                 $this->user->add_user($data, 1);
                 $this->load->view('success');
@@ -70,7 +72,7 @@
             $resp = recaptcha_check_answer(config_item('recaptcha_private_key'),$_SERVER["REMOTE_ADDR"],$this->input->post('recaptcha_challenge_field'),$this->input->post('recaptcha_response_field'));
             if(!$resp->is_valid) {
                 //$this->form_validation->set_message('recaptcha_response_field','Uneli ste pogrešan kod. Molimo vas unesite ponovo.');
-                $this->form_validation->set_message('val_recaptcha','Uneli ste pogrešan kod. Molimo vas unesite ponovo.');
+                $this->form_validation->set_message('val_recaptcha','Uneli ste pogrešan RECAPTCHA kod. Molimo vas unesite ponovo.');
                 return FALSE;
             }
             else {
