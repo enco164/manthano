@@ -38,6 +38,31 @@
     return "<script>window.parent.open_crop('".$pic."','".$pic_ext."','".$tool_type."');</script>";
 }
 
+function addNotification($idParent, $body, $flag, $tip, $db){
+    //activity
+    $naslov = "";
+    if($tip == 0){
+        $temp = new Activity($idParent,$db);
+        if($temp->exists()){
+            $naslov = $naslov.$temp->Name()."  ";
+        }
+    }
+    //event
+    if($tip == 1){
+        $temp = new Event($idParent,$db);
+        if($temp->exists()){
+            $naslov = $naslov.$temp->Name()."  ";
+        }
+    }
+    $title = $naslov.$body;
+    $stmt = $db->prepare("INSERT INTO notification(idParent, body, flag) values(:idp, :body, :flag)");
+    $stmt->bindParam(":idp", $idParent, PDO::PARAM_INT);
+    $stmt->bindParam(":body", $title, PDO::PARAM_STR);
+    $stmt->bindParam(":flag", $flag, PDO::PARAM_INT);
+    $stmt->execute();
+    return ($stmt->rowCount() ? true : false);
+}
+
 function encode($text){
     $text=addcslashes($text,"%_");
     $text=htmlentities($text);
