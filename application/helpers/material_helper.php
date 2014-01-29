@@ -28,7 +28,7 @@
                 $this->URI = $result['URI'];
                 $this->Type = $result['Type'];
                 $this->Date = $result['Date'];
-                $this->OwnerID = $result['OwnerID'];
+                //$this->OwnerID = $result['OwnerID'];
             }
             else
                 $this->exist = 0;
@@ -42,7 +42,7 @@
             $this->URI = null;
             $this->Type = null;
             $this->Date = null;
-            $this->OwnerID =null;
+           // $this->OwnerID =null;
             $this->db = null;
         }
 
@@ -57,14 +57,14 @@
         public function URI(){ return $this->URI;}
         public function Type(){ return $this->Type;}
         public function Date(){ return $this->Date;}
-        public function OwnerID(){ return $this->OwnerID;}
+       // public function OwnerID(){ return $this->OwnerID;}
         public function id(){ return $this->id;}
 
         public function setName($value){ $this->Name = $value;}
         public function setURI($value){ $this->URI = $value;}
         public function setType($value){ $this->Type = $value;}
         public function setDate($value){ $this->Date = $value;}
-        public function setOwnerID($value){ $this->OwnerID = $value;}
+       // public function setOwnerID($value){ $this->OwnerID = $value;}
         public function setID($value){ $this->ID = $value;}
 
         /* error handling for Accessing the wrong way to private properties of object*/
