@@ -96,13 +96,15 @@
         }
         public function getOwner($idMaterial){
 //select user->fname + user->surname as[ Owner Name ] from material join user on material.ownerID=user.userID where material->id=$this->id;
-            $where['idMaterial']=$this->idMaterial;
-            $result=$this->crud_model->db_get_user_material($where);
+            //$where['idMaterial']=$this->idMaterial;
+            $CI=&get_instance();
+            $materials=$CI->crud_model->db_get_user_material($where);
+            //$result=$this->crud_model->db_get_user_material($where);
 
-            if(!$result){
+            if(!$materials){
                 return "Owner is deleted by Administrator! ";
             }else{
-                return $result[0]['name'].$result[0]['surname'];
+                return $materials[0]['name'].$materials[0]['surname'];
             }
         }
 
