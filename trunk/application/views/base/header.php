@@ -10,15 +10,30 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="/assets/style.css" type="text/css" media="screen" />
     <link rel="stylesheet" href="/assets/css/popup.css" type="text/css" media="screen" />
+    <link rel="stylesheet" href="/assets/css/alertify.bootstrap.css" type="text/css" media="screen" />
+    <link rel="stylesheet" href="/assets/css/alertify.core.css" type="text/css" media="screen" />
+
     <link rel="stylesheet" href="/assets/scripts/ui/jquery-ui-1.10.3.custom.css" type="text/css" media="screen" />
     <link rel="canonical" href="" />
     <script src="/assets/scripts/jq.js"></script>
+    <script src="/assets/scripts/socket.io.js"></script>
+    <script src="/assets/scripts/alertify.js"></script>
     <script src="/assets/scripts/ui/jquery-ui-1.10.3.custom.js"></script>
     <script src="/assets/scripts/main.js"></script>
     <script src="/assets/scripts/angular.min.js"></script>
     <script src="/assets/scripts/angular-route.min.js"></script>
     <script src="/assets/scripts/routeModule.js"></script>
-    <script src="/assets/scripts/activityModule.js"></script>
+    <script src="/assets/scripts/userModule.js"></script>
+    <script src="/assets/scripts/eventModule.js"></script>
     <script src="/assets/scripts/proposalModule.js"></script>
+    <script src="/assets/scripts/materialModule.js"></script>
+    <script src="/assets/scripts/activityModule.js"></script>
+    <!-- <script src="/assets/scripts/media_upload.js?t=0.1"></script>-->
+    <script type="text/javascript">
+        var globalUID = <?=$this->session->userdata('user_id')?>;
+        var globalAccType = <?=$this->session->userdata('acc_type')?>;
+        var globalPrljavo = 0;
+    </script>
+
 </head>
 <body>
