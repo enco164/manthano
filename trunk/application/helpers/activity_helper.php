@@ -137,11 +137,12 @@
                 return "Activity nema nijednog ucesnika.";
             else{
                 $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
-                $ret = array();
+                /*$ret = array();
                 foreach($result as $i){
                     array_push($ret, $i);
                 }
-                return $ret;
+                return $ret;*/
+                return $result;
             }
         }
         /* Find all Activity events
