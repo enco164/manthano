@@ -13,9 +13,9 @@
         }
 
         public function user_list(){
-            //$where['idMaterial']=$this->idMaterial;
+            //$where['idMaterial']=16;
             //$materials=$this->crud_model->db_get_user_material($where);
-            //var_dump($materials);
+            //var_dump($materials[0]);
 
             $page_data['users']=$this->crud_model->db_get_users();
             $page_data['type']='users';

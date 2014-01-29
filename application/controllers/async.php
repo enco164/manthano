@@ -78,7 +78,23 @@
         }
 
         public function send_emails_to_users(){
-            var_dump(json_decode(file_get_contents('php://input'),TRUE));
+            $data=json_decode(file_get_contents('php://input'),TRUE);
+            if(isset($data['list']) && count($data['list'])){
+                //$data_list=$data['list'];
+                $user_list=$this->crud_model->db_get_users_in('user_id',$data['list']);
+                $db_data=array();
+                $counter=0;
+                foreach($user_list as $user){
+                    $db_data['email_to']=$user['mail'];
+                    $db_data['email_from']=config_item('email_host');
+                    $db_data['subject']=$data['subject'];
+                    $db_data['message']=$data['body'];
+                    $db_data['sent']=0;
+                    $db_data['date']=time();
+                    $db_data['name']='Manthano project';
+                    $this->crud_model->db_insert_email($db_data);
+                }
+            }
         }
 
         public function upload_user_image($user_id){//ova metoda ne brise postojece slike, vec samo dodaje nove sa nazivima i=1:n.jpg

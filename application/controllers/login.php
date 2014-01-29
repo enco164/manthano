@@ -26,9 +26,9 @@
                 if($this->form_validation->run() == FALSE){
                     //die('POGRESAN USER ILI PASS');
                     //Field validation failed.  User redirected to login page
-                    $this->load->view('base/base_header');
+                    $this->load->view('base/header');
                     $this->load->view('login');
-                    $this->load->view('base/base_footer');
+                    $this->load->view('base/footer');
                 } else {
                     if($this->session->userdata('status')==1) redirect($start_pages[$this->session->userdata('acc_type')]); //only if user is active
                     if($this->session->userdata('status')==0 && $this->session->userdata('user_id')) redirect('logout/inactive');
@@ -58,9 +58,8 @@
                 $page_data['message']=$message['message'];
                 $this->user->set_user_data($user['user_id']);
                 $user_id=$this->session->userdata('user_id');
-                $script="";
                 if($user_id){
-                    $page_data['message'].=' bićete automatski prijavljeni na sistem.'.$script;
+                    $page_data['message'].=' možete se prijavljeni na sistem.';
                 } else {
                     $page_data['message'].=" Možete se prijaviti na sistem";
                 }
@@ -75,7 +74,9 @@
                 $temp =$_SERVER["REQUEST_URI"];
                 $temp = explode("/", $temp);
                 $page_data['hash'] = $temp[3];
+                $this->load->view('/base/header');
                 $this->load->view('message',$page_data);
+                $this->load->view('base/footer');
 
             }
             //var_dump($this->session->userdata);
