@@ -277,26 +277,6 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `ManthanoDB`.`Notification`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `ManthanoDB`.`Notification` (
-  `time` TIMESTAMP NOT NULL,
-  `Flag` BINARY(3) NOT NULL,
-  `idParent` INT UNSIGNED NOT NULL,
-  `typeParent` VARCHAR(10) UNICODE NOT NULL,
-  `id` INT NOT NULL AUTO_INCREMENT,
-  `body` MEDIUMTEXT NOT NULL,
-  PRIMARY KEY (`id`),
-  INDEX `id_idx` (`idParent` ASC),
-  CONSTRAINT `fk_id_obavestenje`
-    FOREIGN KEY (`idParent`)
-    REFERENCES `ManthanoDB`.`Entity` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
 -- Table `ManthanoDB`.`NotificationUnwanted`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `ManthanoDB`.`NotificationUnwanted` (
@@ -543,12 +523,31 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
+-- Table `ManthanoDB`.`Notification`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `ManthanoDB`.`Notification` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `idParent` INT UNSIGNED NOT NULL,
+  `body` MEDIUMTEXT NOT NULL,
+  `flag` BINARY(3) NOT NULL,
+  `time` TIMESTAMP NOT NULL,
+  PRIMARY KEY (`id`),
+  INDEX `fk_table1_Entity1_idx` (`idParent` ASC),
+  CONSTRAINT `fk_table1_Entity1`
+    FOREIGN KEY (`idParent`)
+    REFERENCES `ManthanoDB`.`Entity` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
 -- Table `ManthanoDB`.`notification_user`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `ManthanoDB`.`notification_user` (
   `reciever_id` INT NOT NULL,
-  `Notification_id` INT NOT NULL,
   `is_read` TINYINT(1) NOT NULL DEFAULT 0,
+  `Notification_id` INT NOT NULL,
   PRIMARY KEY (`reciever_id`, `Notification_id`),
   INDEX `fk_notification_user_User1_idx` (`reciever_id` ASC),
   INDEX `fk_notification_user_Notification1_idx` (`Notification_id` ASC),
@@ -600,6 +599,7 @@ BEGIN
 	SET id = last_insert_id();
 	INSERT INTO Event(idEvent,Name, Description, Venue, Date, Time) values (id,Naziv, OPIS, Mesto, Datum, Vreme);
 	INSERT INTO ActivityContains(idEvent, idActivity) values (id, idKurs);
+	SELECT id;
 END$$
 
 DELIMITER ;
@@ -904,16 +904,6 @@ begin
 	DELETE FROM Notification where idParent = old.idMaterial;
 end
 $$
-
-USE `ManthanoDB`$$
-CREATE TRIGGER `Notification_AINS` AFTER INSERT ON `Notification` FOR EACH ROW
-BEGIN
-	IF typeParent = 'Activity' THEN
-		INSERT INTO notification_user(reciever_id, Notification_id) select user_id, new.id from ActivityParticipant;
-		INSERT INTO notification_user(reciever_id, Notification_id) select user_id, new.id from ActivityHolder;
-	end if;
-	
-END$$
 
 
 DELIMITER ;
