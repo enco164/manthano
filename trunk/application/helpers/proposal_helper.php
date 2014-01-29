@@ -135,15 +135,18 @@ class Proposal
     /* get potential owners when Proposal->Activty
      * Return value is id's of potential owners
      */
-    public function getOwners()
+    public function getOwners($propBy)
     {
-        $stmt = $this->db->prepare("SELECT u.user_id, u.Name, u.Surname, Count(*) as 'Count' from ProposalOwner po join User u
+        $stmt = $this->db->prepare("SELECT u.user_id, u.Name, u.Surname, Count(*) as 'Count',
+                                    sum(case when po.UserPropose=:byMe then 1 else 0 end) as 'i_am_vote'
+                                    from ProposalOwner po join User u
                                                     on po.UserProposed = u.user_id
-                              where idProposal = :id
-                              group by u.user_id, u.Name, u.Surname
-                              order by Name ASC, Surname ASC");
+                                    where idProposal = :id
+                                    group by u.user_id, u.Name, u.Surname
+                                    order by Name ASC, Surname ASC");
 
         $stmt->bindParam(":id", $this->idProposal, PDO::PARAM_INT);
+        $stmt->bindParam(":byMe", $propBy, PDO::PARAM_INT);
         $stmt->execute();
         if( $stmt->rowCount()  == 0)
         {
@@ -259,10 +262,19 @@ class Proposal
      */
     static public function deleteOwner($db, $idPropose, $idProposal, $idProposed)
     {
-        $stmt = $db->prepare("DELETE FROM ProposalOwner WHERE UserPropose = :uid AND idProposal = :pid AND UserProposed = :uid2");
+        $stmt = $db->prepare("DELETE FROM ProposalOwner WHERE UserPropose = :uid2 AND idProposal = :pid AND UserProposed = :uid");
         $stmt->bindParam(":uid", $idPropose, PDO::PARAM_INT);
         $stmt->bindParam(":pid", $idProposal, PDO::PARAM_INT);
         $stmt->bindParam(":uid2", $idProposed, PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->rowCount() ? true : false;
+    }
+
+    static public function deleteOwnerMe($db, $idProposal, $idUser)
+    {
+        $stmt = $db->prepare("DELETE FROM ProposalOwner WHERE UserProposed = :uid AND idProposal = :pid");
+        $stmt->bindParam(":uid", $idUser, PDO::PARAM_INT);
+        $stmt->bindParam(":pid", $idProposal, PDO::PARAM_INT);
         $stmt->execute();
         return $stmt->rowCount() ? true : false;
     }
@@ -359,6 +371,16 @@ class Proposal
     static public function is_owner($db, $userId, $proposalId)
     {
         $stmt = $db->prepare("SELECT UserProposed FROM ProposalOwner WHERE idProposal = :proposal AND UserProposed = :user");
+        $stmt->bindParam(":proposal", $proposalId, PDO::PARAM_INT);
+        $stmt->bindParam(":user", $userId, PDO::PARAM_INT);
+        $stmt->execute();
+
+        return $stmt->rowCount() ? true : false;
+    }
+
+    static public function is_creator($db, $userId, $proposalId)
+    {
+        $stmt = $db->prepare("SELECT UserProposed FROM Proposal WHERE idProposal = :proposal AND UserProposed = :user");
         $stmt->bindParam(":proposal", $proposalId, PDO::PARAM_INT);
         $stmt->bindParam(":user", $userId, PDO::PARAM_INT);
         $stmt->execute();

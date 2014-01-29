@@ -36,27 +36,44 @@
 
 			<ul class="nav nav-pills nav-stacked" ng-if="proposal.owners_count != 0" > <h4>Vlasnici kursa:</h4>
 				<li ng-repeat="owner in proposal.owners">
-					<a href="#/user/{{owner.user_id}}">{{owner.Name}} {{owner.Surname}}</a>
-				</li>
+					<a href="#/user/{{owner.user_id}}">{{owner.Name}} {{owner.Surname}}</a> {{owner.Count}}
+                    <button ng-if="owner.i_am_vote==0" type="button" class="btn btn-default btn-xs" ng-click="addOwnerUser(owner.user_id)">
+                        <span class="glyphicon glyphicon-plus"></span>
+                    </button>
+                    <button ng-if="owner.i_am_vote==1" type="button" class="btn btn-default btn-xs" ng-click="deleteOwnerUser(owner.user_id)">
+                        <span class="glyphicon glyphicon-minus"></span>
+                    </button>
+                </li>
 			</ul>
 			<ul class="nav nav-pills nav-stacked" ng-if="proposal.support_count != 0"> <h4>Kurs podržavaju:</h4>
 				<li ng-repeat="user in proposal.support">
 					<a href="#/user/{{user.user_id}}">{{user.Name}} {{user.Surname}}</a>
+                    <button ng-if="proposal.is_admin==1 || proposal.is_creator" type="button" class="btn btn-default btn-xs" ng-click="deleteSupportUser(item.user_id)">
+                        <span class="glyphicon glyphicon-minus"></span>
+                    </button>
 				</li>
 			</ul>
 		</div>
 	</div>
 </div>
 
-Korisnici:
-<input type="text" ng-model="userSearch"/>
-<ul>
-    <li ng-if="item.owner==null || item.support==null" ng-repeat="item in users | filter: userSearch">
-            <a href="#/user/{{item.user_id}}"> {{item.nameu}} </a>
-            <button ng-if="item.owner==null" class="btn btn-primary" ng-click="addOwnerUser(item.user_id)">{{addOwnerButtonName}}</button>
-            <button ng-if="item.support==null" class="btn btn-primary" ng-click="addOwnerUser(item.user_id)">{{addSupportButtonName}}</button>
-    </li>
-</ul>
+    Korisnici:
+    <input type="text" ng-model="userSearch"/>
+    <ul>
+        <li ng-if="item.owner==null || item.support==null" ng-repeat="item in users | filter: userSearch">
+                <a href="#/user/{{item.user_id}}"> {{item.nameu}} </a>
+
+                <!--add owner and support-->
+            <button ng-if="item.owner==null" type="button" class="btn btn-default btn-xs" ng-click="addOwnerUser(item.user_id)">
+                <span class="glyphicon glyphicon-plus"></span>
+                <span class="glyphicon glyphicon-tower"></span>
+            </button>
+            <button ng-if="item.support==null" type="button" class="btn btn-default btn-xs" ng-click="addSupportUser(item.user_id)">
+                <span class="glyphicon glyphicon-plus"></span>
+                <span class="glyphicon glyphicon-eye-open"></span>
+            </button>
+        </li>
+    </ul>
 <br/>
 
 
