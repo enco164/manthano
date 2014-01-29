@@ -5,6 +5,6 @@
         <div class="close_btn"></div>
     </div>
     <p class="reg_success"></p>
-    <p> <div class="log_btn" id="close_popup" style="margin: 5px auto;"><a href="/">OK</a></div></p>
+    <p> <div class="log_btn" id="close_popup" style="margin: 5px auto;"><a href="/">Vrati se na početnu stranu</a></div></p>
     <div class="clear"></div>
 </div>
