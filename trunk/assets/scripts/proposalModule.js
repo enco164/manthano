@@ -261,7 +261,6 @@ proposalModule.controller('proposalMove',['$scope','$http','$routeParams','$loca
     }).error(function(){
             window.alert("greska pri ucitavanju svih aktivitija");
     });
-    $scope.ids = new Array();
 
     $scope.moveProposal = function(idAct, chosenD){
         $http({
@@ -269,13 +268,13 @@ proposalModule.controller('proposalMove',['$scope','$http','$routeParams','$loca
             url: "/REST_activity_b/activity/" + $scope.choosenActivity.idActivity,
             data: {"id":idAct, "Name":$scope.proposal.name, "Description":$scope.proposal.description, "Date":chosenD, "Cover":"/assets/img/math.jpg", "Etag":$scope.etag}
         }).success(function(data){
+                var ids = new Array();
                 $scope.proposal.support.forEach(function(entry) {
-                    $scope.ids.push(entry.id_user);
+                    ids.push(entry.user_id);
+                    window.alert(entry.user_id);
                 });
                 var emailBody = "Obaveštavamo vas da je predlog " + $scope.proposal.name + " realizovan!";
                 mail.sendMail($scope.proposal.name,  emailBody, $scope.ids);
-                //console.log($scope.ids);
-                //alert($scope.ids);
                 $location.path("/proposal/"+id);
             }).error(function(data, status, headers, config){
                 window.alert("Predlog nije uspešno prebačen u activity! ");
