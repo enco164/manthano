@@ -107,6 +107,7 @@
 
 <br/><br/><br/><br/>
     <div ng-controller="test123">
+        <input type="button" ng-click="blah()" value="sitisni!"/>
 <!--      ostaviti ovaj div, ne dirati ni pod tackom razno-->
     </div>
 
