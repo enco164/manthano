@@ -227,7 +227,7 @@ activityModule.controller('activityModify',['$scope','$http','$routeParams','$lo
 
 }]);
 
-activityModule.controller('activityFoo',['$scope',function($scope){
+activityModule.controller('activityFoo',['$scope','socket',function($scope, socket){
     $scope.basic_info = "Ovo je sample foo informacija";
     $scope.info = "Ovo je neka druga informacija";
 }]);

@@ -100,8 +100,23 @@ manthanoApp.factory('socket', function ($rootScope) {
     };
 });
 
-manthanoApp.controller('test123',['$scope','socket',function($scope, socket){
+manthanoApp.factory('mail', function ($rootScope, $http) {
+    return{
+        sendMail: function(title, body, lista){
+            $http({
+                method: 'POST',
+                url: '/async/send_emails_to_users',
+                data: {"subject":title, "body":body, "list":lista}
+            }).success(function(data){
+                window.alert(" Done! :) ");
+            });
+        }
+    }
+});
+
+manthanoApp.controller('test123',['$scope','socket','mail',function($scope, socket, mail){
     var number = 0;;
+    $scope.blah = function() {mail.sendMail("title", "neko telo",[1,2,3,4]);};
     socket.on('notification', function(data){
         $scope.testList = data.users;
         $scope.number = $scope.testList.length;
