@@ -1,7 +1,7 @@
 <div class="container">
 	<div class = "row">
 		<div class = "col-md-6 col-md-offset-3">
-			<div ng-if="proposal.is_creator">
+			<div ng-if="proposal.is_creator || proposal.is_admin">
 				<div class="row">
 					<legend>Izmena: {{proposal.name}} </legend>
 					<a class="btn btn-primary" href="#/proposal/{{proposal.id}}">
