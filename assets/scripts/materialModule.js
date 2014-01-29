@@ -1,91 +1,124 @@
-/* angular module for Materials */
+/**
+ * Created by Gera on
+ */
 var materialModule = angular.module('materialModule', []);
 
-// Load full information about material 
-materialModule.controller('materialShow', ['$scope','$http','$routeParams','$location',function($scope, $http, $routeParams, $location){
-    var id = $routeParams.idMaterial;
-    var path = "material_b_rest.php/material/"+id;
+materialModule.controller('materialShow', ['$scope','$http', '$routeParams', '$location', function($scope, $http, $routeParams, $location){
+    $scope.id = $routeParams.idmaterial;
+    var path = '/materials/material_data/'+$scope.id ;
     $http.get(path).success(function(data){
         $scope.material = data;
-        $scope.parentid = 0;
+        $scope.deletematerialButton = "Delete material";
+    }).error(function(data, status, header, config){
+            window.alert("Requested material does not exist");
+            history.back();
+        });
 
-        for(i in $scope.material.path){
-            $scope.parentid++;
-        }
-        if($scope.parentid <= 1){
-            $scope.parentid = $scope.material.idMaterial;
-        }
-        else{
-            $scope.parentid = $scope.material.path[$scope.parentid-2].idMaterial;
-        }
-
-    });
-    /* TODO Add is_holder in rest response for display purposes */
-    /* if is_holder = 1 than you can modify and delete and add Materials
-    * otherwise you can't*/
-    $scope.is_holder = 1;
-    //TODO Write error function for $http
-
-    $scope.deleteMaterial = function(){
-        if(confirm("are you sure you want to delete material?"+$scope.material.name)){
-            $http({
-                method: 'DELETE',
-                url: path
-            }).success(function(){
-                    $scope.message = "Material Deleted!";
-                    $location.path("/material/"+$scope.parentid);
-                }).error(function(data, status, header, config){
-                    $scope.message = "Material is not Deleted!";
-                });
-        }
-    };
-
-}]);
-
-materialModule.controller('materialNew', ['$scope','$http','$routeParams','$location',function($scope, $http, $routeParams, $location){
-    var idt = $routeParams.idActivity;
-    var path = "material_b_rest.php/material/"+idt;
-    /* button "add material" action  */
-    $scope.addMaterial = function(){
+    $scope.deletematerial = function(idmaterial){
         $http({
-            method: 'POST',
-            url: path,
-            data: {"Name":$scope.materialName, "URI":$scope.materialURI, "Type":$scope.materialType, "id":idt, "Date":$scope.materialDate}
-        }).success(function(data){
-                $scope.message = "material added successfully!";
-                $location.path("/material/"+idt);
+            method: 'DELETE',
+            url: '/materials/material_data/'+$routeParams.idmaterial,
+            data: {"idmaterial" : idmaterial}
+        }).success(function(){
+                window.alert("material is Deleted!");
+                history.back();
             }).error(function(data, status, header, config){
-                $scope.message = "material insert Error!"
+                window.alert("Deleting material is not succesful!");
             });
     };
-
 }]);
 
-materialModule.controller('materialModify',['$scope','$http','$routeParams','$location',function($scope, $http, $routeParams, $location){
-    var id = $routeParams.idMaterial;
-    var path = "material_b_rest.php/material/"+id;
+materialModule.controller('materialModify',['$scope', '$http', '$routeParams', '$location', function($scope, $http, $routeParams, $location){
+    $scope.id = $routeParams.idmaterial;
+    var path = '/materials/material_data/'+$scope.id ;
     $http.get(path).success(function(data, status, headers){
         $scope.material = data;
         $scope.etag = headers("Etag");
-    });
-    /* button "modify material" action */
-    $scope.modifyActivity = function(){
-      $http({
-          method: 'PUT',
-          url: path,
-          data: {"Name":$scope.material.name, "URI":$scope.material.URI, "Type":$scope.material.Type, "id":$scope.material.id, "Date":$scope.material.date, "Etag":$scope.etag}
-      }).success(function(data){
-            window.alert("material successfully updated! ");
-            $location.path("/material/"+id);
-      }).error(function(data, status, headers, config){
-            window.alert("material update unsuccessful! ");
-      });
+        $scope.deletematerialButton = "Modify Material";
+        $scope.editmaterialButton="Save Changes";
+    }).error(function(data, status, header, config){
+            window.alert("Requested material does not exist");
+            history.back();
+        });
+   /* $http.get('/materials/nonholder/'+$scope.id).success(function(data){
+        $scope.nonholders = data;
+    }).error(function(data, status, header, config){
+            window.alert("smth wrong"+status);
+        });*/
+    /* Function to save the changes permanently*/
+    $scope.saveChanges = function(){
+        $http({
+            method: 'PUT',
+            url: '/materials/material_data/'+$routeParams.idmaterial,
+            data: {"id":$routeParams.idmaterial, "Name":$scope.material.Name, "URI":$scope.material.URI, "Type":$scope.material.Type ,"Date":$scope.material.Date , "Etag":$scope.etag}
+        }).success(function(){
+                window.alert("material is sucessfully modified!");
+                history.back();
+            }).error(function(data, status, header, config){
+                window.alert("Modifying material is not sucessful!");
+            });
     };
+    /* add owner */
+    $scope.addOwnerUser = function(uid){
+        $http({
+            method: 'POST',
+            url: '/materials/owner/'+$scope.id+'/'+uid
+        }).success(function(data){
+            }).error(function(data, status, header, config){
+                window.alert("Adding Owner error!");
+            });
+        /* refresovanje podataka vezanih za holdere */
 
+        $http.get('/materials/holder/'+$scope.id+'/1').success(function(data){
+            $scope.material.owners = data;
+        });
+    };
 
 }]);
 
-materialModule.controller('materialFoo',['$scope',function($scope){
-	$scope.basic_info = "Ovo je sample foo informacija";
-	$scope.info = "Ovo je neka druga informacija";
+materialModule.controller('materialNew',['$scope','$http','$routeParams','$location', function($scope, $http, $routeParams, $location){
+    $scope.nameOfActivity = $routeParams.nameActivity;
+    $scope.idActivity = $routeParams.idActivity;
+    $http.get('/check_service/activity/'+ $scope.idActivity).success(function(data){
+        if(!data.check && data.exist){
+            history.back();
+        }
+    });
+    $scope.getmaterials = function(){
+        $http.get('materials/material_data/'+$routeParams.idActivity).success(function(data){
+            $scope.materialsShort = data;
+            $scope.loading = "";
+        }).error(function(data, status, header, confihg){
+                windows.alert("smth wrong in materialNew" + status)
+            });
+    };
+    $scope.choise = true;
+    $scope.noviEnko = function (){
+        $scope.choise = true;
+    };
+
+    $scope.postojeciEnko = function (){
+        $scope.choise = false;
+    };
+    $scope.getmaterials();
+//    $scope.materialName = "";
+//    $scope.materialDescription = "";
+//    $scope.materialVenue = "";
+//    $scope.materialTime = "";
+//    $scope.materialDate = "";
+    $scope.addNew = function(materialName, materialURI, materialType, materialDate){
+        $http({
+            method: 'POST',
+            url: '/materials/material_data/'+$scope.idActivity,
+            data: {"Name":materialName, "URI":materialURI, "Type":materialType, "Date":materialDate}
+        }).success(function(data){
+                window.alert("material succesfully added!");
+                $location.path("/activity/"+$scope.idActivity);
+            }).error(function(data, status, header, config){
+                window.alert("material adding error!");
+            });
+    };
+
+
+
 }]);
