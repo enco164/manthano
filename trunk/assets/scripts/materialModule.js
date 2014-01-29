@@ -66,24 +66,16 @@ materialModule.controller('materialModify',['$scope', '$http', '$routeParams', '
 
 
 
-
-
-
-
-
-
-
-
 materialModule.controller('materialNew',['$scope','$http','$routeParams','$location', function($scope, $http, $routeParams, $location){
     $scope.nameOfActivity = $routeParams.nameActivity;
     $scope.idActivity = $routeParams.idActivity;
-    $http.get('/check_service/activity/'+ $scope.idActivity).success(function(data){
+    $http.get('/materials/new/'+ $scope.idActivity).success(function(data){
         if(!data.check && data.exist){
             history.back();
         }
     });
     $scope.getmaterials = function(){
-        $http.get('materials/material_data/'+$routeParams.idActivity).success(function(data){
+        $http.get('materials/new/'+$routeParams.idActivity).success(function(data){
             $scope.materialsShort = data;
             $scope.loading = "";
         }).error(function(data, status, header, confihg){
@@ -107,7 +99,7 @@ materialModule.controller('materialNew',['$scope','$http','$routeParams','$locat
     $scope.addNew = function(materialName, materialURI, materialType, materialDate){
         $http({
             method: 'POST',
-            url: '/materials/material_data/'+$scope.idActivity,
+            url: '/materials/new/'+$scope.idActivity,
             data: {"Name":materialName, "URI":materialURI, "Type":materialType, "Date":materialDate}
         }).success(function(data){
                 window.alert("material succesfully added!");
