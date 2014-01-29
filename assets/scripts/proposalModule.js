@@ -236,8 +236,7 @@ proposalModule.controller('proposalModify',['$scope','$http','$routeParams','$lo
 }]);
 
 proposalModule.controller('proposalList',['$scope','$http','$routeParams','$location',function($scope, $http, $routeParams, $location){
-    var id = $routeParams.idProposal;
-    var path = "/REST_proposal/movetoactivity" + id;
+    var path = "/REST_proposal/proposallist";
     $http.get(path).success(function(data){
         $scope.proposallist=data;
         $scope.counttext = null;
@@ -245,10 +244,9 @@ proposalModule.controller('proposalList',['$scope','$http','$routeParams','$loca
 }]);
 
 proposalModule.controller('proposalMove',['$scope','$http','$routeParams','$location',function($scope, $http, $routeParams, $location){
-    var path = "/REST_proposal/proposallist";
+    var id = $routeParams.idActivity;
+    var path = "/REST_proposal/movetoactivity/" + id;
     $http.get(path).success(function(data){
-        $scope.proposallist=data;
-        $scope.counttext = null;
     });
 }]);
 

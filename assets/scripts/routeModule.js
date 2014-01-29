@@ -76,7 +76,7 @@ manthanoApp.config(['$routeProvider', function ($routerProvider){
             /*default page, should be /1 but it can be changed, as long as nubmer is
              * id of root activity
              * */
-            //redirectTo: '/activity/1'
+            redirectTo: '/activity/1'
         });
 }]);
 
