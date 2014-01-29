@@ -96,24 +96,62 @@ proposalModule.controller('proposalInfo', ['$scope','$http','$routeParams','$loc
     }
     //add support
     $scope.addOwnerUser = function(uid){
-        if(getObjects($scope.users, 'id', uid))
-        {
-            var data = '{'
-                +'"Proposal"  : ' + $scope.proposal.idProposal
-                +'}';
             // add support to proposal
             $http({
                 method: 'POST',
                 url: "/REST_proposal/proposalowner/" + id,
-                data: '{ "Proposal"  : ' + id + ',' +
-                        '"Proposed" : ' + uid + '}'
+                data: {"UserProposed":uid, "Proposal":id }
             }).success(function(data){
                     window.alert("Uspešno ste prijavili korisnika za vlasnika!");
                     $route.reload();
                 }).error(function(data, status, headers, config){
                     window.alert("Neuspešna pokušaj prijave korisnika za vlasnika! ");
                 });
-        }
+    };
+
+    $scope.addSupportUser = function(uid)
+    {
+        // add support to proposal
+        $http({
+            method: 'POST',
+            url: "/REST_proposal/proposalsupport/" + id,
+            data: {"User":uid, "Proposal":id }
+        }).success(function(data){
+                window.alert("Uspešno ste prijavili korisnika za podršku!");
+                $route.reload();
+            }).error(function(data, status, headers, config){
+                window.alert("Neuspešan pokušaj prijave korisnika za podršku! ");
+            });
+    };
+
+    $scope.deleteSupportUser = function(uid)
+    {
+        // delete support from proposal
+        $http({
+            method: 'DELETE',
+            url: "/REST_proposal/proposalsupport/" + id,
+            data: {"User":uid, "Proposal":id }
+        }).success(function(data){
+                window.alert("Uspešno ste odjavili korisnika za podršku!");
+                $route.reload();
+            }).error(function(data, status, headers, config){
+                window.alert("Neuspešan pokušaj odjave korisnika za podršku! ");
+            });
+    };
+
+    //add support
+    $scope.deleteOwnerUser = function(uid){
+        // add support to proposal
+        $http({
+            method: 'DELETE',
+            url: "/REST_proposal/proposalowner/" + id,
+            data: {"UserProposed":uid, "Proposal":id }
+        }).success(function(data){
+                window.alert("Uspešno ste odjavili korisnika za vlasnika!");
+                $route.reload();
+            }).error(function(data, status, headers, config){
+                window.alert("Neuspešna pokušaj odjave korisnika za vlasnika! ");
+            });
     };
 
     $scope.addmeowner = function(){

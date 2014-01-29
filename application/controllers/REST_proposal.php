@@ -68,7 +68,7 @@ class REST_proposal extends MY_Controller
                             "support" => $proposal->getSupport(),
                             "support_count" => $proposal->getSupportCount(),
                             "is_support" => Proposal::is_support($db, $this->session->userdata('user_id'), $proposal->idProposal()),
-                            "owners" => $proposal->getOwners(),
+                            "owners" => $proposal->getOwners($this->session->userdata('user_id')),
                             "owners_count" => $proposal->getOwnerCount(),
                             "is_owner" => Proposal::is_owner($db, $this->session->userdata('user_id'), $proposal->idProposal()),
                             "is_creator" => $creator,
@@ -239,8 +239,8 @@ class REST_proposal extends MY_Controller
                         $userId=$this->session->userdata('user_id');
                     else
                         $userId=$su_data->User;
-                    $ind = Proposal::addSupport($db, $userId, $su_data->Proposal);
-                    if($ind)
+
+                    if(Proposal::addSupport($db, $userId, $su_data->Proposal))
                     {
                         $status=201;
                         $data = array(
@@ -268,22 +268,25 @@ class REST_proposal extends MY_Controller
                             $userId=$this->session->userdata('user_id');
                         else
                             $userId=$su_data->User;
-
-                        if(Proposal::deleteSupport($db, $userId, $su_data->Proposal))
+                        if($userId==$this->session->userdata('user_id') || is_admin() ||
+                            Proposal::is_creator($db, $this->session->userdata('user_id'), $su_data->Proposal))
                         {
-                            $status=200;
-                            $data = array(
-                                "message" => "Podrška je uspešno obrisana!"
-                            );
-                            $data=json_encode($data);
-                        }
-                        else
-                        {
-                            $status=404;
-                            $error_description=array("message"=>"Podrška ne postoji!",
-                                                        "error" => "Greška!" );
+                            if(Proposal::deleteSupport($db, $userId, $su_data->Proposal))
+                            {
+                                $status=200;
+                                $data = array(
+                                    "message" => "Podrška je uspešno obrisana!"
+                                );
+                                $data=json_encode($data);
+                            }
+                            else
+                            {
+                                $status=404;
+                                $error_description=array("message"=>"Podrška ne postoji!",
+                                                            "error" => "Greška!" );
 
-                            $data=json_encode($error_description);
+                                $data=json_encode($error_description);
+                            }
                         }
                     break;
             }
@@ -366,17 +369,17 @@ class REST_proposal extends MY_Controller
                 case 'post':
                     $su_data=json_decode(file_get_contents('php://input'));
 
-                    if(!isset($su_data->User))
+                    if(!isset($su_data->UserProposed))
                         $userId=$this->session->userdata('user_id');
                     else
-                        $userId=$su_data->User;
+                        $userId=$su_data->UserProposed;
 
-                    if(!isset($su_data->Proposed))
-                        $propId=$this->session->userdata('user_id');
+                    if(!isset($su_data->ProposedBy))
+                        $propBy=$this->session->userdata('user_id');
                     else
-                        $propId=$su_data->Proposed;
+                        $propBy=$su_data->ProposedBy;
 
-                    $ind = Proposal::addOwner($db, $userId, $su_data->Proposal, $propId);
+                    $ind = Proposal::addOwner($db, $propBy, $su_data->Proposal, $userId);
                     if($ind)
                     {
                         $status=201;
@@ -404,17 +407,26 @@ class REST_proposal extends MY_Controller
                      */
                     $su_data=json_decode(file_get_contents('php://input'));
 
-                    if(!isset($su_data->User))
+                    if(!isset($su_data->UserProposed))
                         $userId=$this->session->userdata('user_id');
                     else
-                        $userId=$su_data->User;
+                        $userId=$su_data->UserProposed;
 
-                    if(!isset($su_data->Proposed))
-                        $propId=$this->session->userdata('user_id');
+                    if(!isset($su_data->ProposedBy))
+                        $propBy=$this->session->userdata('user_id');
                     else
-                        $propId=$su_data->Proposed;
+                        $propBy=$su_data->ProposedBy;
 
-                    if(Proposal::deleteOwner($db, $userId, $su_data->Proposal, $propId))
+                    if($propBy==$userId && $propBy==$this->session->userdata('user_id') &&
+                        Proposal::deleteOwnerMe($db, $su_data->Proposal, $userId))
+                    {
+                        $status=200;
+                        $data = array(
+                            "message" => "Vlasnik je uspešno obrisan!"
+                        );
+                        $data=json_encode($data);
+                    }
+                    else if(Proposal::deleteOwner($db, $userId, $su_data->Proposal, $propBy))
                     {
                         $status=200;
                         $data = array(
