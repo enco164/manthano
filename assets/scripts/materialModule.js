@@ -4,7 +4,7 @@
 var materialModule = angular.module('materialModule', []);
 
 materialModule.controller('materialShow', ['$scope','$http', '$routeParams', '$location', function($scope, $http, $routeParams, $location){
-    $scope.id = $routeParams.idmaterial;
+    $scope.id = $routeParams.idMaterial;
     var path = '/materials/material_data/'+$scope.id ;
     $http.get(path).success(function(data){
         $scope.material = data;
@@ -38,7 +38,7 @@ materialModule.controller('materialModify',['$scope', '$http', '$routeParams', '
         $scope.editmaterialButton="Save Changes";
     }).error(function(data, status, header, config){
             window.alert("Requested material does not exist");
-            history.back();
+            //history.back();
         });
    /* $http.get('/materials/nonholder/'+$scope.id).success(function(data){
         $scope.nonholders = data;

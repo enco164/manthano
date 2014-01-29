@@ -13,6 +13,7 @@
 	<link rel="stylesheet" href="/assets/scripts/ui/jquery-ui-1.10.3.custom.css" type="text/css" media="screen" />
 	<link rel="canonical" href="" />
 	<script src="/assets/scripts/jq.js"></script>
+    <script src="/assets/scripts/socket.io.js"></script>
 	<script src="/assets/scripts/ui/jquery-ui-1.10.3.custom.js"></script>
 	<script src="/assets/scripts/main.js"></script>
 	<script src="/assets/scripts/angular.min.js"></script>
@@ -100,9 +101,7 @@
 
 <br/><br/><br/><br/>
 <!-- Ova cetri br iznad su brzi hack da bi se video sadrzaj lepo, ne dirati ih!!! -->
-<<<<<<< .mine
-<h2> Manthano je trenutno u fazi razvoja! Hvala na razumevanju!  </h2>
-=======
+
 <div class="container">
 	<div class="row">
 		<div class="alert alert-warning alert-dismissable">
@@ -110,7 +109,6 @@
 		</div>
 	</div>
 </div>
->>>>>>> .r62
 
 <div ng-view>
   
