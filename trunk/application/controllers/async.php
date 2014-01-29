@@ -84,7 +84,7 @@
                 $user_list=$this->crud_model->db_get_users_in('user_id',$data['list']);
                 $db_data=array();
                 $counter=0;
-                foreach($user_list as $user){
+                if($user_list) foreach($user_list as $user){
                     $db_data['email_to']=$user['mail'];
                     $db_data['email_from']=config_item('email_host');
                     $db_data['subject']=$data['subject'];
@@ -93,7 +93,12 @@
                     $db_data['date']=time();
                     $db_data['name']='Manthano project';
                     $this->crud_model->db_insert_email($db_data);
+                }else{
+                    echo "navedeni korisnici ne postoje";
                 }
+
+                var_dump($data['list']);
+                var_dump($user_list);
             }
         }
 
