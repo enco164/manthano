@@ -83,7 +83,7 @@
 			<ul class="nav nav-pills nav-stacked" ng-if="proposal.support_count != 0"> <h4>Kurs podržavaju:</h4>
 				<li ng-repeat="user in proposal.support">
 					<a href="#/user/{{user.user_id}}">{{user.Name}} {{user.Surname}}</a>
-					<button ng-if="proposal.is_admin==1 || proposal.is_creator" type="button" class="btn btn-default btn-xs" ng-click="deleteSupportUser(item.user_id)">
+					<button ng-if="proposal.is_admin==1 || proposal.is_creator" type="button" class="btn btn-default btn-xs" ng-click="deleteSupportUser(user.user_id)">
 						<span class="glyphicon glyphicon-minus"></span>
 					</button>
 				</li>
