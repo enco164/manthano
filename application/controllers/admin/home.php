@@ -13,8 +13,9 @@
         }
 
         public function user_list(){
-            $where['OwnerId']=1;
-            var_dump($this->crud_model->db_get_user_material($where));
+            $where['idMaterial']=$this->idMaterial;
+            $materials=$this->crud_model->db_get_user_material($where);
+            var_dump($materials);
 
             $page_data['users']=$this->crud_model->db_get_users();
             $page_data['type']='users';
