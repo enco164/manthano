@@ -9,6 +9,7 @@ $(function(){
        // upload_file(files);
     });
     $(document).on('change','#file_upload_input',function(){
+        //console.log('uploadujemo sliku');
         var ad_id=$(this).attr('data-id');
         //if(ad_id){}
         var files=$('#file_upload_input')[0].files;
