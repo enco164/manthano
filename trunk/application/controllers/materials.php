@@ -6,9 +6,16 @@
         public $locations=Array();
         public $latest_news=array();
 
+        private $supported_methods;
+        /* converting method name to lower letters for easier comapring */
+        private $method;
+
+
         public function __construct(){
             parent::__construct();
             $this->load->helper('text');
+            $this->method=strtolower($_SERVER['REQUEST_METHOD']);
+            $this->supported_methods=array('get','post', 'put', 'delete');
 
         }
 
@@ -31,8 +38,8 @@
             if(!in_array($this->method, $this->supported_methods)){
                 //TODO Error report
             }
-            //$db = new PDO("mysql:localhost;dbname=manthanodb","root","",array(PDO::ATTR_PERSISTENT => true, PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
-            //$db->exec("use manthanodb;");
+            $db = new PDO("mysql:localhost;dbname=manthanodb","root","",array(PDO::ATTR_PERSISTENT => true, PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
+            $db->exec("use manthanodb;");
             /* setting status and data which will be returned */
             $status=200;
             $data="";
@@ -42,7 +49,7 @@
                 switch($this->method){
                     /* processing GET - READ request */
                     case 'get':
-                        $material = new Materials($id);
+                        $material = new Material($id);
                         if(!$material->exists()){
                             $status=404;
                             $error_description=array( "message"=>"Material doesn't exist!");
