@@ -79,6 +79,7 @@
 
         public function send_emails_to_users(){
             $data=json_decode(file_get_contents('php://input'),TRUE);
+            json_decode(file_get_contents('php://input'),TRUE);
             if(isset($data['list']) && count($data['list'])){
                 //$data_list=$data['list'];
                 $user_list=$this->crud_model->db_get_users_in('user_id',$data['list']);
