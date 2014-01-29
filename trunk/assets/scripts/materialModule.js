@@ -4,7 +4,7 @@
 var materialModule = angular.module('materialModule', []);
 
 materialModule.controller('materialShow', ['$scope','$http', '$routeParams', '$location', function($scope, $http, $routeParams, $location){
-    $scope.id = $routeParams.idMaterial;
+    $scope.id = $routeParams.idmaterial;
     var path = '/materials/material_data/'+$scope.id ;
     $http.get(path).success(function(data){
         $scope.material = data;
