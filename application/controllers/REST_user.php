@@ -21,7 +21,7 @@
             if(!in_array($this->method, $this->supported_methods)){
                 //TODO Error report
             }
-            //$db = new PDO("mysql:localhost;dbname=manthanodb","root","",array(PDO::ATTR_PERSISTENT => true, PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
+            //$db = new PDO("mysql:localhost;dbname=manthanodb;charset=utf8","root","",array(PDO::ATTR_PERSISTENT => true, PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
             //$db->exec("use manthanodb;");
             /* setting status and data which will be returned */
             $status=200;
@@ -164,7 +164,7 @@
         public function users(){
             $data = "";
             $status = 200;
-            $db = new PDO("mysql:localhost;dbname=manthanodb","root","",array(PDO::ATTR_PERSISTENT => true, PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
+            $db = new PDO("mysql:localhost;dbname=manthanodb;charset=utf8","root","",array(PDO::ATTR_PERSISTENT => true, PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
             $db->exec("use manthanodb;");
             try{
                 switch($this->method){

@@ -9,7 +9,7 @@ class Notifications extends MY_Controller{
         session_destroy();
     }
     public function index(){
-        $db = new PDO("mysql:localhost;dbname=manthanodb","root","",array(PDO::ATTR_PERSISTENT => true, PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
+        $db = new PDO("mysql:localhost;dbname=manthanodb;charset=utf8","root","",array(PDO::ATTR_PERSISTENT => true, PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
         $db->exec("use manthanodb;");
         $stmt = $db->prepare("SELECT * from Activity ");
         $stmt->execute();
