@@ -386,8 +386,8 @@ $config['email_config']['bcc_batch_size'] = 200;
 
 $config['registration_subject']="Uspešno kreiran nalog naloga na portalu Manthano";
 $config['registration_text']="Molimo vas da u narednih 24h kliknete na ovaj link, kako bi proces vaše registracije bio uspešno završen: ";
-$config['recaptcha_public_key']="6Le0GeYSAAAAADtoU2q1RjdqJgLUBFzv1DV8KrV0";
-$config['recaptcha_private_key']="6Le0GeYSAAAAAMYXAFg8yE-pMmVpp9nQMSy7udRq";
+$config['recaptcha_public_key']="6Lewye0SAAAAAEuksZpoMdPg40WFUAJpgEbit8Kb";
+$config['recaptcha_private_key']="6Lewye0SAAAAAOtXX5pfFCpyQWkCJo55pUStV9yq";
 
 
 /*

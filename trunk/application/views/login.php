@@ -140,6 +140,9 @@
         <label for="www-input">Sajt</label>
         <input type="text" class="form-control" name="www" id="www-input" placeholder="www.mojsajt.com" value="<?=set_value('www');?>" >
     </div>
+    <div class="capcha_box" id="recapcha"><script></script></div>
+    <?// if(form_error('recaptcha_response_field')){ echo ('<p class="error_txt_captcha">'.form_error('recaptcha_response_field').'</p>');}?>
+    <?// if(form_error('val_recaptcha')){ echo ('<p class="error_txt_captcha">'.form_error('val_recaptcha').'</p>');}?>
     <button type="submit" class="btn btn-primary pull-left">Registruj me</button>
 </form>
 
@@ -160,5 +163,20 @@
 <script src="https://code.jquery.com/jquery.js"></script>
 <!-- Bootstrap JavaScript -->
 <script src="/assets/scripts/bootstrap.min.js"></script>
+<script type="text/javascript" src="/assets/scripts/recaptcha_ajax.js"></script>
+<script>
+    $(document).ready(function () {
+        function showRecaptcha(element) {
+            Recaptcha.create("<?=$this->config->item('recaptcha_public_key');?>", element, {
+                theme: "clean",
+                custom_translations : { instructions_visual : "Popunite polje rečima sa slike" },
+                callback: Recaptcha.focus_response_field});
+        }
+
+        showRecaptcha('recapcha');
+    });
+</script>
+
+
 </body>
 </html>
