@@ -10,10 +10,14 @@
 	<!-- Bootstrap CSS -->
 	<link rel="stylesheet" href="/assets/style.css" type="text/css" media="screen" />
 	<link rel="stylesheet" href="/assets/css/popup.css" type="text/css" media="screen" />
+    <link rel="stylesheet" href="/assets/css/alertify.bootstrap.css" type="text/css" media="screen" />
+    <link rel="stylesheet" href="/assets/css/alertify.core.css" type="text/css" media="screen" />
+
 	<link rel="stylesheet" href="/assets/scripts/ui/jquery-ui-1.10.3.custom.css" type="text/css" media="screen" />
 	<link rel="canonical" href="" />
 	<script src="/assets/scripts/jq.js"></script>
     <script src="/assets/scripts/socket.io.js"></script>
+    <script src="/assets/scripts/alertify.js"></script>
 	<script src="/assets/scripts/ui/jquery-ui-1.10.3.custom.js"></script>
 	<script src="/assets/scripts/main.js"></script>
 	<script src="/assets/scripts/angular.min.js"></script>
@@ -28,6 +32,7 @@
 	<script type="text/javascript">
 	var globalUID = <?=$this->session->userdata('user_id')?>;
 	var globalAccType = <?=$this->session->userdata('acc_type')?>;
+    var globalPrljavo = 0;
 	</script>
 
 </head>
@@ -50,7 +55,7 @@
 			</div>
 
 			<!-- Collect the nav links, forms, and other content for toggling -->
-			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1" >
 				<ul class="nav navbar-nav">
 					<li><a href="/home">Home</a></li>
 					<!-- Jupi ovde setujes link do liste predloga :) -->
@@ -100,6 +105,10 @@
 	</nav>
 
 <br/><br/><br/><br/>
+    <div ng-controller="test123">
+<!--      ostaviti ovaj div, ne dirati ni pod tackom razno-->
+    </div>
+
 <!-- Ova cetri br iznad su brzi hack da bi se video sadrzaj lepo, ne dirati ih!!! -->
 
 <div class="container">

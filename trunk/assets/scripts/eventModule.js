@@ -98,6 +98,7 @@ eventModule.controller('eventNew',['$scope','$http','$routeParams','$location', 
     $scope.choise = true;
     $scope.noviEnko = function (){
       $scope.choise = true;
+        alertify.success("Vidi radi!");
     };
 
     $scope.postojeciEnko = function (){

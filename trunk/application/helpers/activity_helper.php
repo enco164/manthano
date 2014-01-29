@@ -278,7 +278,7 @@
             return ($stmt->rowCount() ? true : false);
         }
 
-        static public function Event($idEvent, $idActivity, $db){
+        static public function removeEvent($idEvent, $idActivity, $db){
             $stmt = $db->prepare("DELETE FROM ActivityContains WHERE idEvent = :ide and idActivity = :ida");
             $stmt->bindParam(":ide", $idEvent, PDO::PARAM_INT);
             $stmt->bindParam(":ida", $idActivity, PDO::PARAM_INT);
@@ -320,4 +320,5 @@
             $stmt->execute();
             return ($stmt->rowCount() ? true : false);
         }
+
     }

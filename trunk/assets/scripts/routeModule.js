@@ -101,7 +101,20 @@ manthanoApp.factory('socket', function ($rootScope) {
 });
 
 manthanoApp.controller('test123',['$scope','socket',function($scope, socket){
+    var number = 0;;
     socket.on('notification', function(data){
-        $scope.testList = data;
+        $scope.testList = data.users;
+        $scope.number = $scope.testList.length;
+        if(number < $scope.number && globalPrljavo == 1){
+            for(var i =0; i < $scope.number - number; i++){
+                alertify.log($scope.testList[i].body);
+            }
+            number = $scope.number;
+        }
+        if(globalPrljavo == 0)
+            number = $scope.number;
+        globalPrljavo = 1;
+
     });
 }]);
+

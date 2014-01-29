@@ -431,6 +431,7 @@
                             $data = array(
                                 "message" => "Event added"
                             );
+                            addNotification($event_data->idActivity,"Dodat novi Event!", 0, 0, $db);
                             $data=json_encode($data);
                         }
                         else{
