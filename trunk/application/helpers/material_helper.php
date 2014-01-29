@@ -64,7 +64,7 @@
         public function setURI($value){ $this->URI = $value;}
         public function setType($value){ $this->Type = $value;}
         public function setDate($value){ $this->Date = $value;}
-         public function setOwnerID($value){ $this->OwnerID = $value;}
+        public function setOwnerID($value){ $this->OwnerID = $value;}
         //public function setID($value){ $this->ID = $value;}
 
         /* error handling for Accessing the wrong way to private properties of object*/
@@ -94,15 +94,15 @@
                 return $result;
             }
         }
-        public function getOwner(){
+        public function getOwner($idMaterial){
 //select user->fname + user->surname as[ Owner Name ] from material join user on material.ownerID=user.userID where material->id=$this->id;
             $where['idMaterial']=$this->idMaterial;
-            $result=$this->crud_model->db_get_Material($where);
+            $result=$this->crud_model->db_get_user_material($where);
 
             if(!$result){
-                return "There is no any Material! ";
+                return "Owner is deleted by Administrator! ";
             }else{
-                return $result;
+                return $result[0]['name'].$result[0]['surname'];
             }
         }
 
@@ -116,7 +116,7 @@
             $db_data['URI']=$this->URI;
             $db_data['Type']=$this->Type;
             $db_data['Date']=$this->Date;
-            $where['OwnerId']=$this->OwnerId;
+            $where['idMaterial']=$this->idMaterial;;
             return $CI->crud_model->db_update_Material($where,$db_data);
 
             /*$query = "UPDATE Material SET Name = :name, URI = :URI,Type=:Type, Date = :date, OwnerId=:OwnerID WHERE idMaterial = :id";
