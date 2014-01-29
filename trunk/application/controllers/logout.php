@@ -15,10 +15,20 @@ class Logout extends MY_Controller{
     }
 
     public function disabled(){
-        $message['data']['message']="Your account had been disabled. Please contact your admin to resolve the issue";
+        $page_data['message']="Vaš nalog je blokiran.";
+        $page_data['title']="Nalog blokiran.";
 
         $this->load->view('base/header');
-        $this->load->view('message',$message);
+        $this->load->view('message_static',$page_data);
+        $this->load->view('base/footer');
+    }
+
+    public function inactive(){
+        $page_data['message']="Vaš nalog nije aktivan.";
+        $page_data['title']="Nalog neaktivan.";
+
+        $this->load->view('base/header');
+        $this->load->view('message_static',$page_data);
         $this->load->view('base/footer');
     }
 }

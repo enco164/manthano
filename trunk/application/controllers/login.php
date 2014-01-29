@@ -21,18 +21,25 @@
             //echo $this->input->post('name');
             //echo $this->input->post('pass');
             $start_pages=$this->config->item('user_start_pages');
+
             if(!$this->session->userdata('user_id')){
                 if($this->form_validation->run() == FALSE){
+                    //die('POGRESAN USER ILI PASS');
                     //Field validation failed.  User redirected to login page
-                    $this->load->view('base/header');
+                    $this->load->view('base/base_header');
                     $this->load->view('login');
-                    $this->load->view('base/footer');
+                    $this->load->view('base/base_footer');
                 } else {
-                    redirect($start_pages[$this->session->userdata('acc_type')]);
-
+                    if($this->session->userdata('status')==1) redirect($start_pages[$this->session->userdata('acc_type')]); //only if user is active
+                    if($this->session->userdata('status')==0 && $this->session->userdata('user_id')) redirect('logout/inactive');
+                    if($this->session->userdata('status')==2) redirect('logout/disabled');
+                    redirect('logout');
                 }
             } else {
-                redirect($start_pages[$this->session->userdata('acc_type')]);
+                if($this->session->userdata('status')==1) redirect($start_pages[$this->session->userdata('acc_type')]);
+                if($this->session->userdata('status')==0 && $this->session->userdata('user_id')) redirect('logout/inactive');
+                if($this->session->userdata('status')==2) redirect('logout/disabled');
+                redirect('logout');
             }
         }
 

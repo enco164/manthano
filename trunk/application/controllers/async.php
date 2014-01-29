@@ -78,7 +78,7 @@
         }
 
         public function send_emails_to_users(){
-            var_dump($_POST);
+            var_dump(json_decode(file_get_contents('php://input'),TRUE));
         }
 
         public function upload_user_image($user_id){//ova metoda ne brise postojece slike, vec samo dodaje nove sa nazivima i=1:n.jpg
