@@ -79,7 +79,7 @@ materialModule.controller('materialNew',['$scope','$http','$routeParams','$locat
             $scope.materialsShort = data;
             $scope.loading = "";
         }).error(function(data, status, header, confihg){
-                windows.alert("smth wrong in materialNew" + status)
+                alert("smth wrong in materialNew" + status)
             });
     };
     $scope.choise = true;

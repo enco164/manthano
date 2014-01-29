@@ -92,7 +92,7 @@ eventModule.controller('eventNew',['$scope','$http','$routeParams','$location', 
             $scope.event=data;
             $scope.loading = "";
         }).error(function(data, status, header, confihg){
-                windows.alert("smth wrong in eventNew" + status)
+                alert("smth wrong in eventNew" + status)
             });
     };
     $scope.choise = true;
