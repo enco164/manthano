@@ -1,19 +1,75 @@
-Ime: <input type="text" ng-model="event.Name" />
-<br/>
-Opis: <textarea cols="30" rows="10" ng-model="event.Description"></textarea>
-<br/>
-Mesto: <input type="text" ng-model="event.Venue"/>
-<br/>
-Datum: <input type="datetime" ng-model="event.Date"/>
-<br/>
-Vreme: <input type="text" ng-model="event.Time"/>
-<!--http://jdewit.github.io/bootstrap-timepicker/ pa se ti zajebavaj sa inputom xD  -->
-<br/>
-<button ng-if="event.is_holder" ng-click="saveChanges()">{{editEventButton}}</button><br/>
-Dodaj holdera:
-<input type="text" ng-model="holderSearch"/>
-        <ul>
-           <li ng-repeat="user in nonholders | filter: holderSearch">
-               <a href="#/user/{{user.user_id}}"> {{user.nameu}} </a>
-               <a class="btn btn-success btn-mini" ng-click="addHolder(user.user_id)" >Add</a> </li>
-        </ul>
+<div class="container">
+
+
+	<div class="row">
+		<div class="col-md-7 col-md-offset-2">
+			<div class="row">
+				<legend>Izmena: {{event.Name}} </legend>
+				<a class="btn btn-primary" href="#/event/{{event.id}}">
+					<span class="glyphicon glyphicon-chevron-left"></span> 
+					Nazad
+				</a>
+				<button ng-if="event.is_holder" class="btn btn-success pull-right" ng-click="saveChanges()">
+					Sačuvaj
+					<span class="glyphicon glyphicon-ok"></span> 
+				</button>
+
+			</div>
+		<br/>
+		<form action="" method="POST" role="form" class="form-group">
+			<div class="form-group">
+				<label for="acName">Ime predavanja</label>
+				<input type="text" class="form-control" ng-model="event.Name" required />
+			</div>
+
+			<div class="form-group">
+				<label for="acDesc">Opis predavanja</label>
+				<textarea class="form-control" name="acDesc" id="acDesc" rows="10" ng-model="event.Description" required />
+			</div>
+
+			<div class="form-group">
+				<label for="acDesc">Mesto predavanja</label>
+				<input type="text" class="form-control"  ng-model="event.Venue" required />
+			</div>
+
+			<div class = "col-md-6">
+			<div class="form-group ">
+				<label for="acDate">Datum kursa</label>
+				<input type="date" class="form-control" name="acDate" ng-model="event.Date" required />
+			</div>
+			</div>
+
+			<div class = "col-md-6">
+			<div class="form-group">
+				<label for="acDate">Vreme kursa</label>
+				<input type="time" class="form-control" name="acDate" ng-model="event.Time" required />
+			</div>
+			</div>
+
+		</form>
+
+	</div>
+
+
+
+
+
+	<div class="col-md-7 col-md-offset-2">
+		<label>Dodaj predavača:</label>
+		<div class="input-group">
+			<input type="text" class="form-control" ng-model="holderSearch">
+			<span class="input-group-addon"><span class="glyphicon glyphicon-search"></span></span>
+		</div>
+		<br><br>
+		<div style="height: 200px !important;overflow: scroll;">
+			<table  class="table">
+				<tr ng-repeat="user in nonholders | filter: holderSearch">
+					<td><a href="#/user/{{user.user_id}}"> {{user.nameu}} </a></td>	
+					<td>
+						<a class="btn btn-success btn-xs" ng-click="addHolder(user.user_id)" >Dodaj</a>
+					</td>
+				</tr>
+			</table>
+		</div>
+	</div>
+</div>

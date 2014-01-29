@@ -1,14 +1,14 @@
 <div class="container">
 	<div class = "row">
-		<div class = "col-md-6 col-md-offset-2">
+		<div class = "col-md-6 col-md-offset-1">
 			<div>
 
-			<a class="btn btn-primary" href="#/proposals">
-						<span class="glyphicon glyphicon-chevron-left"></span> 
-						Nazad
-					</a>
-				</div>
-					<br>
+				<a class="btn btn-primary" href="#/proposals">
+					<span class="glyphicon glyphicon-chevron-left"></span> 
+					Nazad
+				</a>
+			</div>
+			<br>
 			<div class="panel panel-default">
 				<div class="panel-heading">
 					<h3 class="panel-title">{{proposal.name}}</h3>
@@ -19,71 +19,81 @@
 			</div>
 			<div class="table-responsive">
 				<table class="table">
-			    	<tr> <td>Predložio kurs:</td> 
-			    			<td> <a href="#/user/{{proposal.user_proposed.user_id}}">{{proposal.user_proposed.Name}} {{proposal.user_proposed.Surname}}</a></td>
-			    	</tr>
+					<tr> <td>Predložio kurs:</td> 
+						<td> <a href="#/user/{{proposal.user_proposed.user_id}}">{{proposal.user_proposed.Name}} {{proposal.user_proposed.Surname}}</a></td>
+					</tr>
 
-			    	<tr> <td><button class="btn btn-warning" ng-click="addsupport()">{{enrollButtonName}}</button></td> 
-			    		<td><button class="btn btn-info" ng-click="addmeowner()">{{addMeButtonName}}</button></td>
-			    	</tr>
-                    <tr>
-                        <td>
-                            <a class="btn btn-danger" href="#/proposal/modify/{{proposal.id}}" ng-if="proposal.is_creator || proposal.is_admin"> Promeni predlog</a>
-                        </td>
-                        <td>
-                            <a class="btn btn-danger" href="#/proposal/movetoactivity/{{proposal.id}}" ng-if="proposal.is_admin">Prebaci u activity</a>
-                        </td>
-                    </tr>
+					<tr> <td><button class="btn btn-warning" ng-click="addsupport()">{{enrollButtonName}}</button></td> 
+						<td><button class="btn btn-info" ng-click="addmeowner()">{{addMeButtonName}}</button></td>
+					</tr>
+					<tr>
+						<td>
+							<a class="btn btn-danger" href="#/proposal/modify/{{proposal.id}}" ng-if="proposal.is_creator || proposal.is_admin"> Promeni predlog</a>
+						</td>
+						<td>
+							<a class="btn btn-danger" href="#/proposal/movetoactivity/{{proposal.id}}" ng-if="proposal.is_admin">Prebaci u activity</a>
+						</td>
+					</tr>
 
-			    	
+
 
 				</table>
+				<label>Pozovi korisnika da bude:</label>
+				<div class="input-group">
+					<input type="text" class="form-control" ng-model="userSearch">
+					<span class="input-group-addon"><span class="glyphicon glyphicon-search"></span></span>
+				</div>
+				<br><br>
+				<div style="height: 200px !important;overflow: scroll;">
+					<table  class="table">
+						<tr ng-repeat="item in users | filter: userSearch">
+							<td><a href="#/user/{{item.user_id}}"> {{item.nameu}} </a></td>	
+							<td>
+								<a ng-if="item.owner==null" class="btn btn-success btn-xs" ng-click="addOwnerUser(item.user_id)" >Predavač</a>
+							</td>
+							<td><a ng-if="item.support==null" class="btn btn-default btn-xs" ng-click="addSupportUser(item.user_id)">Učesnik</a></td>
+						</tr>
+					</table>
+				</div>
 			</div>
 		</div>
-		<div class="col-md-3">
+		<div class="col-md-4">
 
-			<ul class="nav nav-pills nav-stacked" ng-if="proposal.owners_count != 0" > <h4>Vlasnici kursa:</h4>
-				<li ng-repeat="owner in proposal.owners">
-					<a href="#/user/{{owner.user_id}}">{{owner.Name}} {{owner.Surname}}</a> {{owner.Count}}
-                    <button ng-if="owner.i_am_vote==0" type="button" class="btn btn-default btn-xs" ng-click="addOwnerUser(owner.user_id)">
-                        <span class="glyphicon glyphicon-plus"></span>
-                    </button>
-                    <button ng-if="owner.i_am_vote==1" type="button" class="btn btn-default btn-xs" ng-click="deleteOwnerUser(owner.user_id)">
-                        <span class="glyphicon glyphicon-minus"></span>
-                    </button>
-                </li>
-			</ul>
+			<table class="table table-hover" ng-if="proposal.owners_count != 0" >
+				<tr class="active">
+					<th><a href="" ng-click="predicate = 'Name'; reverse=!reverse">Vlasnici kursa</a>
+						(<a href="" ng-click="predicate = '-Name'; reverse=false">^</a>)
+					</th>
+					<th><a href="" ng-click="predicate = 'Count'; reverse=!reverse"># glasova</a></th>
+					<th> </th>
+				</tr> 
+				<tr ng-repeat="owner in proposal.owners | orderBy:predicate:reverse">
+					<td><a href="#/user/{{owner.user_id}}">{{owner.Name}} {{owner.Surname}}</a> </td>
+					<td>{{owner.Count}}</td>
+					<td>
+						<button ng-if="owner.i_am_vote==0" type="button" class="btn btn-default btn-xs" ng-click="addOwnerUser(owner.user_id)">
+							<span class="glyphicon glyphicon-plus"></span>
+						</button>
+						<button ng-if="owner.i_am_vote==1" type="button" class="btn btn-default btn-xs" ng-click="deleteOwnerUser(owner.user_id)">
+							<span class="glyphicon glyphicon-minus"></span>
+						</button>
+					</td>
+				</tr>
+			</table>
 			<ul class="nav nav-pills nav-stacked" ng-if="proposal.support_count != 0"> <h4>Kurs podržavaju:</h4>
 				<li ng-repeat="user in proposal.support">
 					<a href="#/user/{{user.user_id}}">{{user.Name}} {{user.Surname}}</a>
-                    <button ng-if="proposal.is_admin==1 || proposal.is_creator" type="button" class="btn btn-default btn-xs" ng-click="deleteSupportUser(item.user_id)">
-                        <span class="glyphicon glyphicon-minus"></span>
-                    </button>
+					<button ng-if="proposal.is_admin==1 || proposal.is_creator" type="button" class="btn btn-default btn-xs" ng-click="deleteSupportUser(item.user_id)">
+						<span class="glyphicon glyphicon-minus"></span>
+					</button>
 				</li>
 			</ul>
 		</div>
 	</div>
 </div>
 
-    Korisnici:
-    <input type="text" ng-model="userSearch"/>
-    <ul>
-        <li ng-if="item.owner==null || item.support==null" ng-repeat="item in users | filter: userSearch">
-                <a href="#/user/{{item.user_id}}"> {{item.nameu}} </a>
 
-                <!--add owner and support-->
-            <button ng-if="item.owner==null" type="button" class="btn btn-default btn-xs" ng-click="addOwnerUser(item.user_id)">
-                <span class="glyphicon glyphicon-plus"></span>
-                <span class="glyphicon glyphicon-tower"></span>
-            </button>
-            <button ng-if="item.support==null" type="button" class="btn btn-default btn-xs" ng-click="addSupportUser(item.user_id)">
-                <span class="glyphicon glyphicon-plus"></span>
-                <span class="glyphicon glyphicon-eye-open"></span>
-            </button>
-        </li>
-    </ul>
-<br/>
-
+  
 
 <!--
 
