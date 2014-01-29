@@ -55,27 +55,6 @@ Class Data_model extends Crud_model{
         else return null;
     }
 
-    
-
-    public function insert_newsletter_subscriptions($data){
-
-        if($this->db_insert_newsletter_subscriptions($data)) return true;
-        else return false;
-    }
-
-
-    
-
-    public function get_latest_news(){
-        $data_prefix_name='latest_news';
-        $results=$this->get_cache_key($data_prefix_name);
-        if($results==NULL){
-            $results=$this->db_get_latest_news();
-            cache_add($data_prefix_name,$results, 1800);
-        }
-        if(count($results)) return $results;
-        else return null;
-    }
 
 }
 
