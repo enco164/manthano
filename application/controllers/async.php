@@ -77,6 +77,10 @@
             }
         }
 
+        public function send_emails_to_users(){
+            var_dump($_POST);
+        }
+
         public function upload_user_image($user_id){//ova metoda ne brise postojece slike, vec samo dodaje nove sa nazivima i=1:n.jpg
             if(!is_admin()){//SAMO ADMIN SME DA DIRA TUDJE SLIKE, inace deafultuje na tvoju sliku
                 $user_id=$this->session->userdata('user_id');
