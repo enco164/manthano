@@ -271,11 +271,22 @@ proposalModule.controller('proposalMove',['$scope','$http','$routeParams','$loca
                 var ids = new Array();
                 $scope.proposal.support.forEach(function(entry) {
                     ids.push(entry.user_id);
-                    window.alert(entry.user_id);
                 });
                 var emailBody = "Obaveštavamo vas da je predlog " + $scope.proposal.name + " realizovan!";
-                mail.sendMail($scope.proposal.name,  emailBody, $scope.ids);
-                $location.path("/proposal/"+id);
+                mail.sendMail($scope.proposal.name,  emailBody, ids);
+
+                $http({
+                    method: 'DELETE',
+                    url: "/REST_proposal/proposal/" + id,
+                    data: '{ "Proposal"  : ' + id + '}'
+                }).success(function(){
+                        window.alert("Uspešno ste se prebacili predlog u activity!");
+                        $location.path("#/activity/"+idAct);
+                    }).error(function(data, status, header, config){
+                        window.alert ("Predlog nije uspešno prebačen u activity!");
+                    });
+
+                $location.path("#/activity/"+idAct);
             }).error(function(data, status, headers, config){
                 window.alert("Predlog nije uspešno prebačen u activity! ");
             });
