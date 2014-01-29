@@ -28,7 +28,7 @@
                 $this->URI = $result['URI'];
                 $this->Type = $result['Type'];
                 $this->Date = $result['Date'];
-                //$this->OwnerID = $result['OwnerID'];
+                $this->OwnerID = $result['OwnerID'];
             }
             else
                 $this->exist = 0;
@@ -42,7 +42,7 @@
             $this->URI = null;
             $this->Type = null;
             $this->Date = null;
-           // $this->OwnerID =null;
+            $this->OwnerID =null;
             $this->db = null;
         }
 
@@ -57,15 +57,15 @@
         public function URI(){ return $this->URI;}
         public function Type(){ return $this->Type;}
         public function Date(){ return $this->Date;}
-       // public function OwnerID(){ return $this->OwnerID;}
+        public function OwnerID(){ return $this->OwnerID;}
         public function id(){ return $this->id;}
 
         public function setName($value){ $this->Name = $value;}
         public function setURI($value){ $this->URI = $value;}
         public function setType($value){ $this->Type = $value;}
         public function setDate($value){ $this->Date = $value;}
-       // public function setOwnerID($value){ $this->OwnerID = $value;}
-        public function setID($value){ $this->ID = $value;}
+         public function setOwnerID($value){ $this->OwnerID = $value;}
+        //public function setID($value){ $this->ID = $value;}
 
         /* error handling for Accessing the wrong way to private properties of object*/
         public function __set($name, $value){
@@ -94,19 +94,15 @@
                 return $result;
             }
         }
-		 public function getOwner(){
-            $stmt = $this->db->prepare("SELECT u.Name, u.Surname, u.username from Material mat join User u on mat.ownerId = u.user_id  where idMaterial = :id ");
-            $stmt->bindParam(":id", $this->id, PDO::PARAM_INT);
-            $stmt->execute();
-            if($stmt->rowCount() == 0)
-                return "Material doesn't have owner.";
-            else{
-                $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
-                $ret = array();
-                foreach($result as $i){
-                    array_push($ret, $i);
-                }
-                return $ret;
+        public function getOwner(){
+//select user->fname + user->surname as[ Owner Name ] from material join user on material.ownerID=user.userID where material->id=$this->id;
+            $where['idMaterial']=$this->idMaterial;
+            $result=$this->crud_model->db_get_Material($where);
+
+            if(!$result){
+                return "There is no any Material! ";
+            }else{
+                return $result;
             }
         }
 
