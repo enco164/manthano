@@ -24,7 +24,7 @@
         public function event($id){
             $data = "";
             $status = 200;
-            $db = new PDO("mysql:localhost;dbname=manthanodb","root","",array(PDO::ATTR_PERSISTENT => true, PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
+            $db = new PDO("mysql:localhost;dbname=manthanodb;charset=utf8","root","",array(PDO::ATTR_PERSISTENT => true, PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
             $db->exec("use manthanodb;");
             try{
                 switch($this->method){
@@ -166,7 +166,7 @@
         public function eventsshort($id){
             $data = "";
             $status = 200;
-            $db = new PDO("mysql:localhost;dbname=manthanodb","root","",array(PDO::ATTR_PERSISTENT => true, PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
+            $db = new PDO("mysql:localhost;dbname=manthanodb;charset=utf8","root","",array(PDO::ATTR_PERSISTENT => true, PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
             $db->exec("use manthanodb;");
             try{
                 switch($this->method){
@@ -197,7 +197,7 @@
         }
 
         public function holder($idEvent, $user_id){
-            $db = new PDO("mysql:localhost;dbname=manthanodb","root","",array(PDO::ATTR_PERSISTENT => true, PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
+            $db = new PDO("mysql:localhost;dbname=manthanodb;charset=utf8","root","",array(PDO::ATTR_PERSISTENT => true, PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
             $db->exec("use manthanodb;");
             $data = "";
             $status = 200;
@@ -268,7 +268,7 @@
                 echo $data;
         }
         public function nonholder($idEvent){
-            $db = new PDO("mysql:localhost;dbname=manthanodb","root","",array(PDO::ATTR_PERSISTENT => true, PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
+            $db = new PDO("mysql:localhost;dbname=manthanodb;charset=utf8","root","",array(PDO::ATTR_PERSISTENT => true, PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
             $db->exec("use manthanodb;");
             $data = "";
             $status = 200;

@@ -127,7 +127,7 @@
          * Array is numeric
          */
         public function getEvents(){
-            $db = new PDO("mysql:localhost;dbname=manthanodb","root","",array(PDO::ATTR_PERSISTENT => true, PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
+            $db = new PDO("mysql:localhost;dbname=manthanodb;charset=utf8","root","",array(PDO::ATTR_PERSISTENT => true, PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
             $stmt = $this->db->prepare("SELECT idEvent from ActivityContains where idActivity = :id");
             $stmt->bindParam(":id", $this->id, PDO::PARAM_INT);
             $stmt->execute();

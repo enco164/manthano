@@ -38,7 +38,7 @@
                 /* Initializing database, this can be changed to db wrapper but now its PDO object
                  * on which Activity object is based.
                  */
-                $db = new PDO("mysql:localhost;dbname=manthanodb","root","",array(PDO::ATTR_PERSISTENT => true, PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
+                $db = new PDO("mysql:localhost;dbname=manthanodb;charset=utf8","root","",array(PDO::ATTR_PERSISTENT => true, PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
                 $db->exec("use manthanodb;");
                 /* Big switch which REST service actually is */
                 try{

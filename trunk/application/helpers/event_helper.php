@@ -18,7 +18,7 @@ class Event {
 
     public function __construct($id, $db){
         $this->db = $db;
-        $this->db = new PDO("mysql:localhost;dbname=manthanodb","root","",array(PDO::ATTR_PERSISTENT => true, PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
+        $this->db = new PDO("mysql:localhost;dbname=manthanodb;charset=utf8","root","",array(PDO::ATTR_PERSISTENT => true, PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
         $stmt = $this->db->prepare("SELECT Name, Description, Venue, Date, Time FROM Event WHERE idEvent = :id ");
         $stmt->bindParam(":id", $id, PDO::PARAM_INT);
         $stmt->execute();

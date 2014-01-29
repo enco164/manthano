@@ -31,7 +31,7 @@ class REST_proposal extends MY_Controller
             //TODO Error report
         }
 
-        $db = new PDO("mysql:localhost;dbname=manthanodb","root","",array(PDO::ATTR_PERSISTENT => true, PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
+        $db = new PDO("mysql:localhost;dbname=manthanodb;charset=utf8","root","",array(PDO::ATTR_PERSISTENT => true, PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
         $db->exec("use manthanodb;");
         /* setting status and data which will be returned */
         $status=400;
@@ -206,7 +206,7 @@ class REST_proposal extends MY_Controller
             //TODO Error report
         }
 
-        $db = new PDO("mysql:localhost;dbname=manthanodb","root","",array(PDO::ATTR_PERSISTENT => true, PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
+        $db = new PDO("mysql:localhost;dbname=manthanodb;charset=utf8","root","",array(PDO::ATTR_PERSISTENT => true, PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
         $db->exec("use manthanodb;");
         /* setting status and data which will be returned */
         $status=200;
@@ -338,7 +338,7 @@ class REST_proposal extends MY_Controller
             //TODO Error report
         }
 
-        $db = new PDO("mysql:localhost;dbname=manthanodb","root","",array(PDO::ATTR_PERSISTENT => true, PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
+        $db = new PDO("mysql:localhost;dbname=manthanodb;charset=utf8","root","",array(PDO::ATTR_PERSISTENT => true, PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
         $db->exec("use manthanodb;");
         /* setting status and data which will be returned */
         $status=200;
@@ -495,7 +495,7 @@ class REST_proposal extends MY_Controller
             //TODO Error report
         }
 
-        $db = new PDO("mysql:localhost;dbname=manthanodb","root","",array(PDO::ATTR_PERSISTENT => true, PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
+        $db = new PDO("mysql:localhost;dbname=manthanodb;charset=utf8","root","",array(PDO::ATTR_PERSISTENT => true, PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
         $db->exec("use manthanodb;");
         /* setting status and data which will be returned */
         $status=200;
@@ -569,7 +569,7 @@ class REST_proposal extends MY_Controller
 
     public function nonusers($idActivity)
     {
-        $db = new PDO("mysql:localhost;dbname=manthanodb","root","",array(PDO::ATTR_PERSISTENT => true, PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
+        $db = new PDO("mysql:localhost;dbname=manthanodb;charset=utf8","root","",array(PDO::ATTR_PERSISTENT => true, PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
         $db->exec("use manthanodb;");
         $data = "";
         $status = 200;
