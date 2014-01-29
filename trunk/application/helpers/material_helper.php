@@ -14,16 +14,16 @@
         private $Date;
         private $OwnerID;
         private $db;
-        private $id;
+        private $idMaterial;
         private $exist;
 
-        public function __construct($id){
-            $where['idMaterial']=$id;
+        public function __construct($idMaterial){
+            $where['idMaterial']=$idMaterial;
             $CI=&get_instance();
             $result=$CI->crud_model->db_get_Material($where);
             if($result){
                 $this->exist = 1;
-                $this->id = $id;
+                $this->idMaterial = $idMaterial;
                 $this->Name = $result['Name'];
                 $this->URI = $result['URI'];
                 $this->Type = $result['Type'];
@@ -37,7 +37,7 @@
 
         public function __destruct(){
 
-            $this->id = null;
+            $this->idMaterial = null;
             $this->Name = null;
             $this->URI = null;
             $this->Type = null;
@@ -58,7 +58,7 @@
         public function Type(){ return $this->Type;}
         public function Date(){ return $this->Date;}
         public function OwnerID(){ return $this->OwnerID;}
-        public function id(){ return $this->id;}
+        public function idMaterial(){ return $this->idMaterial;}
 
         public function setName($value){ $this->Name = $value;}
         public function setURI($value){ $this->URI = $value;}
@@ -96,10 +96,10 @@
         }
         public function getOwner($idMaterial){
 //select user->fname + user->surname as[ Owner Name ] from material join user on material.ownerID=user.userID where material->id=$this->id;
-            //$where['idMaterial']=$this->idMaterial;
+           // $where['idMaterial']=$this->idMaterial;
             $CI=&get_instance();
             $materials=$CI->crud_model->db_get_user_material($where);
-            //$result=$this->crud_model->db_get_user_material($where);
+            $result=$this->crud_model->db_get_user_material($where);
 
             if(!$materials){
                 return "Owner is deleted by Administrator! ";
@@ -140,10 +140,10 @@
         /* Delete Material
          * No return value;
          */
-        static public function deleteMaterial($id, $db){
+        static public function deleteMaterial($idMaterial, $db){
             /* upotrebiti proceduru ovde  */
-            $stmt = $db->prepare("call deleteMaterial(:id)");
-            $stmt->bindParam(":id", $id, PDO::PARAM_INT);
+            $stmt = $db->prepare("call deleteMaterial(:idMaterial)");
+            $stmt->bindParam(":idMaterial", $idMaterial, PDO::PARAM_INT);
             $stmt->execute();
             return $stmt->rowCount() ? true : false;
         }

@@ -34,7 +34,7 @@ class Materials extends MY_Controller {
         $this->load->view('base/footer');*/
     }
 
-    public function material_data($id){
+    public function material_data($idMaterial){
         if(!in_array($this->method, $this->supported_methods)){
             //TODO Error report
         }
@@ -49,7 +49,7 @@ class Materials extends MY_Controller {
             switch($this->method){
                 /* processing GET - READ request */
                 case 'get':
-                    $material = new Material($id);
+                    $material = new Material($idMaterial);
                     if(!$material->exists()){
                         $status=404;
                         $error_description=array( "message"=>"Material doesn't exist!");
@@ -59,12 +59,12 @@ class Materials extends MY_Controller {
 
                         /* setting package that will be sent to client */
                         $arr = array(
-                            "id" => $material->id(),
+                            "idMaterial" => $material->idMaterial(),
                             "name" => $material->Name() ,
                             "URI" => $material->URI(),
                             "Type" => $material->Type(),
                             "Date" => $material->Date(),
-                          "Owner"=>$material->getOwner($material->id()),
+                          "Owner"=>$material->getOwner($material->idMaterial()),
 
                         );
                         $data=json_encode($arr);
@@ -82,9 +82,9 @@ class Materials extends MY_Controller {
                 case 'put':
                     $ac_data=json_decode(file_get_contents('php://input'));
 
-                    if($this->session->materialdata('material_id')==$id ){
+                    if($this->session->materialdata('material_id')==$idMaterial ){
 
-                        $material=new materials($id);
+                        $material=new materials($idMaterial);
                         $material->setName($ac_data->Name);
                         $material->setURI($ac_data->URI);
                         $material->setType($ac_data->Type);
@@ -116,7 +116,7 @@ class Materials extends MY_Controller {
                      * $ac_data->id is id of activity.
                      *  */
                     if($this->session->materialdata('material_id') ){
-                        if(material::delete($id)){
+                        if(material::delete($idMaterial)){
                             $status=200;
                         }
                         else{
