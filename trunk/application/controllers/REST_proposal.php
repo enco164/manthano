@@ -113,29 +113,39 @@ class REST_proposal extends MY_Controller
                 case 'put':
                     $proposal = new Proposal($id, $db);
                     $pr_data=json_decode(file_get_contents('php://input'));
-
-                    if(!$proposal->exists())
+                    if($proposal->is_creator($db, $this->session->userdata('user_id'), $id))
                     {
-                        $status=404;
-                        $error_description=array( "message"=>"Predlog ne postoji!",
-                                                  "error" => "Greška!");
-                        $data=json_encode($error_description);
+                        if(!$proposal->exists())
+                        {
+                            $status=404;
+                            $error_description=array( "message"=>"Predlog ne postoji!",
+                                                      "error" => "Greška!");
+                            $data=json_encode($error_description);
+                        }
+                        else
+                        {
+
+                            $proposal->setUserProposed($pr_data->User);
+                            $proposal->setName($pr_data->Name);
+                            $proposal->setDescription($pr_data->Description);
+
+                            if($proposal->updateProposal())
+                            {
+                                $status=200;
+                                $data = array(
+                                    "message" => "Predlog je uspešno izmenjen!"
+                                );
+                                $data=json_encode($data);
+                            }
+                        }
                     }
                     else
                     {
-
-                        $proposal->setUserProposed($pr_data->User);
-                        $proposal->setName($pr_data->Name);
-                        $proposal->setDescription($pr_data->Description);
-
-                        if($proposal->updateProposal())
-                        {
-                            $status=200;
-                            $data = array(
-                                "message" => "Predlog je uspešno izmenjen!"
-                            );
-                            $data=json_encode($data);
-                        }
+                        $status = 401;
+                        $data = array(
+                            "message" => "Nemate prava pristupa za ovaj proposal!"
+                        );
+                        $data=json_encode($data);
                     }
                     break;
                 case 'delete':

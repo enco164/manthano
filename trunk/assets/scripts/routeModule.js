@@ -51,6 +51,10 @@ manthanoApp.config(['$routeProvider', function ($routerProvider){
             templateUrl: '/assets/html_fragments/proposalNew.html',
             controller: 'proposalNew'
         }).
+        when('/proposal/movetoactivity/:idProposal', {
+            templateUrl: '/assets/html_fragments/proposalMove.html',
+            controller: 'proposalMove'
+        }).
         when('/proposals', {
             templateUrl: '/assets/html_fragments/proposalList.html',
             controller: 'proposalList'

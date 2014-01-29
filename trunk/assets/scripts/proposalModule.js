@@ -217,6 +217,7 @@ proposalModule.controller('proposalModify',['$scope','$http','$routeParams','$lo
     $http.get(path).success(function(data, status, headers){
         $scope.proposal = data;
         $scope.etag = headers("Etag");
+        $scope.name_surname= $scope.proposal.user_proposed.Name + " " + $scope.proposal.user_proposed.Surname;
         });
 
     /* button "modify Activity" action */
@@ -224,7 +225,7 @@ proposalModule.controller('proposalModify',['$scope','$http','$routeParams','$lo
         $http({
             method: 'PUT',
             url: path,
-            data: {"User": $scope.proposal.user_proposed, "Name":$scope.proposal.name, "Description":$scope.proposal.description, "Etag":$scope.etag}
+            data: {"User": $scope.proposal.user_proposed.user_id, "Name":$scope.proposal.name, "Description":$scope.proposal.description, "Etag":$scope.etag}
         }).success(function(data){
                 window.alert("Predlog je uspešno izmenjen! ");
                 $location.path("/proposal/"+id);
@@ -235,6 +236,15 @@ proposalModule.controller('proposalModify',['$scope','$http','$routeParams','$lo
 }]);
 
 proposalModule.controller('proposalList',['$scope','$http','$routeParams','$location',function($scope, $http, $routeParams, $location){
+    var id = $routeParams.idProposal;
+    var path = "/REST_proposal/movetoactivity" + id;
+    $http.get(path).success(function(data){
+        $scope.proposallist=data;
+        $scope.counttext = null;
+    });
+}]);
+
+proposalModule.controller('proposalMove',['$scope','$http','$routeParams','$location',function($scope, $http, $routeParams, $location){
     var path = "/REST_proposal/proposallist";
     $http.get(path).success(function(data){
         $scope.proposallist=data;

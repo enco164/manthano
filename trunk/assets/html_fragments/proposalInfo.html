@@ -26,6 +26,14 @@
 			    	<tr> <td><button class="btn btn-warning" ng-click="addsupport()">{{enrollButtonName}}</button></td> 
 			    		<td><button class="btn btn-info" ng-click="addmeowner()">{{addMeButtonName}}</button></td>
 			    	</tr>
+                    <tr>
+                        <td>
+                            <a class="btn btn-danger" href="#/proposal/modify/{{proposal.id}}" ng-if="proposal.is_creator || proposal.is_admin"> Promeni predlog</a>
+                        </td>
+                        <td>
+                            <a class="btn btn-danger" href="#/proposal/movetoactivity/{{proposal.id}}" ng-if="proposal.is_admin">Prebaci u activity</a>
+                        </td>
+                    </tr>
 
 			    	
 
@@ -89,7 +97,6 @@ Predložio: {{proposal.user_proposed}}
 <br/>
 <button ng-click="addmeowner()">{{addMeButtonName}}</button>
 <br/>
-<a href="#/proposal/modify/{{proposal.id}}" ng-if="proposal.is_creator"> Promeni predlog</a>
 <br/>
 Podrzavaju:
 <br/>
