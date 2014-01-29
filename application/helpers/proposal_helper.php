@@ -91,7 +91,7 @@ class Proposal
      */
     public function getFullInfo()
     {
-        if($this>exists)
+        if($this->exists())
             $result = [ "idProposal" => $this->idProposal, "UserProposed" => $this->UserProposed,
                         "Name" => $this->Name, "Description" => $this->Description];
         else

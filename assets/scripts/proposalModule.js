@@ -237,16 +237,27 @@ proposalModule.controller('proposalModify',['$scope','$http','$routeParams','$lo
 
 proposalModule.controller('proposalList',['$scope','$http','$routeParams','$location',function($scope, $http, $routeParams, $location){
     var path = "/REST_proposal/proposallist";
-    $http.get(path).success(function(data){
+    $http.get(path).success(function(data, status, headers){
         $scope.proposallist=data;
         $scope.counttext = null;
     });
 }]);
 
 proposalModule.controller('proposalMove',['$scope','$http','$routeParams','$location',function($scope, $http, $routeParams, $location){
-    var id = $routeParams.idActivity;
-    var path = "/REST_proposal/movetoactivity/" + id;
-    $http.get(path).success(function(data){
+    var id = $routeParams.idProposal;
+    var path = "/REST_proposal/proposal/" + id;
+    $http.get(path).success(function(data, status, headers)
+    {
+        $scope.proposal=data;
+        $scope.etag = headers("Etag");
+        $scope.name_surname= $scope.proposal.user_proposed.Name + " " + $scope.proposal.user_proposed.Surname;
+    });
+
+    // getting data for select
+    $http.get('/REST_activity_b/activities/').success(function(data, status, headers){
+        $scope.activities = data;
+    }).error(function(){
+            window.alert("greska pri ucitavanju svih aktivitija");
     });
 }]);
 
