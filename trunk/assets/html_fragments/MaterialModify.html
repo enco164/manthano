@@ -1,4 +1,4 @@
-<a href="#/material/{{material.id}}"> Back </a>
+<a href="#/materials/modify/{{material.id}}"> Back </a>
 <br/>
 Name of Material: <input type="text" ng-model="material.Name" required/>
 <br/>
@@ -6,13 +6,9 @@ URI: <input type="text" ng-model="material.URI" required/>
 <br/>
 Type: <input type="text" ng-model="material.Type" required/>
 <br/>
-Date: <input type="date" name="materialDate" ng-model="material.date" required/>
+Date: <input type="date" name="materialDate" ng-model="material.Date" required/>
 <br/>
-Owner : <input type="text" name="materialOwnername" ng-model="material.OwnerName" required  />
-<br/>
-Owner user Name: <input type="text" name="materialOwnerUsername" ng-model="material.OwnerUserName" required />
-<br/>
-<button ng-click="modifymaterial()">Modify material!</button>
-<a href="#/material/{{material.material_id}}"> Display {{material.name}} </a>
-<a href="#/material/New/{{material.material_id}}"> Add new Material </a>
+<button ng-click="materialModify()">Modify material!</button>
+<a href="#/materials/material_data/{{material.material_id}}"> Display {{material.name}} </a>
+<a href="#/materials/New/{{material.material_id}}"> Add new Material </a>
 {{dataR.etagreturn}}

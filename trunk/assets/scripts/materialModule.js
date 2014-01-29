@@ -8,7 +8,7 @@ materialModule.controller('materialShow', ['$scope','$http', '$routeParams', '$l
     var path = '/materials/material_data/'+$scope.id ;
     $http.get(path).success(function(data){
         $scope.material = data;
-        $scope.deletematerialButton = "Delete material";
+       // $scope.deletematerialButton = "Delete material";
     }).error(function(data, status, header, config){
             window.alert("Requested material does not exist");
             history.back();
@@ -28,28 +28,25 @@ materialModule.controller('materialShow', ['$scope','$http', '$routeParams', '$l
     };
 }]);
 
+
 materialModule.controller('materialModify',['$scope', '$http', '$routeParams', '$location', function($scope, $http, $routeParams, $location){
     $scope.id = $routeParams.idMaterial;
-    var path = '/materials/material_data/'+$scope.id ;
+    var path = '/materials/modify/'+$scope.id ;
     $http.get(path).success(function(data, status, headers){
         $scope.material = data;
         $scope.etag = headers("Etag");
-        $scope.deletematerialButton = "Modify Material";
-        $scope.editmaterialButton="Save Changes";
+       // $scope.deletematerialButton = "Modify Material";
+       $scope.editmaterialButton="Save Changes";
     }).error(function(data, status, header, config){
             window.alert("Requested material does not exist");
             //history.back();
         });
-   /* $http.get('/materials/nonholder/'+$scope.id).success(function(data){
-        $scope.nonholders = data;
-    }).error(function(data, status, header, config){
-            window.alert("smth wrong"+status);
-        });*/
-    /* Function to save the changes permanently*/
+
+
     $scope.saveChanges = function(){
         $http({
             method: 'PUT',
-            url: '/materials/material_data/'+$routeParams.idMaterial,
+            url: '/materials/modify/'+$routeParams.idMaterial,
             data: {"id":$routeParams.idMaterial, "Name":$scope.material.Name, "URI":$scope.material.URI, "Type":$scope.material.Type ,"Date":$scope.material.Date , "Etag":$scope.etag}
         }).success(function(){
                 window.alert("material is sucessfully modified!");
@@ -58,23 +55,24 @@ materialModule.controller('materialModify',['$scope', '$http', '$routeParams', '
                 window.alert("Modifying material is not sucessful!");
             });
     };
-    /* add owner */
-    $scope.addOwnerUser = function(uid){
-        $http({
-            method: 'POST',
-            url: '/materials/owner/'+$scope.id+'/'+uid
-        }).success(function(data){
-            }).error(function(data, status, header, config){
-                window.alert("Adding Owner error!");
-            });
-        /* refresovanje podataka vezanih za holdere */
 
-        $http.get('/materials/holder/'+$scope.id+'/1').success(function(data){
-            $scope.material.owners = data;
-        });
-    };
 
 }]);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 materialModule.controller('materialNew',['$scope','$http','$routeParams','$location', function($scope, $http, $routeParams, $location){
     $scope.nameOfActivity = $routeParams.nameActivity;

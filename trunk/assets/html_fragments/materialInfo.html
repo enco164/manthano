@@ -47,12 +47,12 @@ Owner : <input type="text" name="Material Owner " ng-model="materialOwner" requi
                     <p> URI:   {{material.URI}} </p>
 						Type: {{material.Type}} </p>
                     <p>
-                    <p>  Date: {{material.date}}</p>
-                    <p>Owner: {{material.getOwner()}}
+                    <p>  Date: {{material.Date}}</p>
+                    <p>Owner: {{material.Owner}}
                     <p>
                        <!-- <a class="btn btn-primary btn-large" ng-click="enroll()">{{enrollButtonName}} </a>-->
-                        <a class="btn btn-success btn-large" href="#/material/new/{{material.id}}" ng-if="is_holder == 1">Add New Material</a>
-						<a class="btn btn-info btn-large" href="#/material/modify/{{material.id}}" ng-if="is_holder == 1">Modify Material</a> 
+                        <a class="btn btn-success btn-large" href="#/materials/new/{{material.id}}" ng-if="is_holder == 1">Add New Material</a>
+						<a class="btn btn-info btn-large" href="#/materials/modify/{{material.id}}" ng-if="is_holder == 1">Modify Material</a>
 						<a class="btn btn-danger btn-large" ng-click="deleteActivity()" ng-if="is_holder == 1">Remove Material</a> 
 
                     </p>
