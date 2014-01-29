@@ -23,7 +23,7 @@
 	<script src="/assets/scripts/proposalModule.js"></script>
 	<script src="/assets/scripts/materialModule.js"></script>
 	<script src="/assets/scripts/activityModule.js"></script>
-    <script src="/assets/scripts/media_upload.js?t=0.1"></script>
+   <!-- <script src="/assets/scripts/media_upload.js?t=0.1"></script>-->
 	<script type="text/javascript">
 	var globalUID = <?=$this->session->userdata('user_id')?>;
 	var globalAccType = <?=$this->session->userdata('acc_type')?>;
@@ -100,6 +100,9 @@
 
 <br/><br/><br/><br/>
 <!-- Ova cetri br iznad su brzi hack da bi se video sadrzaj lepo, ne dirati ih!!! -->
+<<<<<<< .mine
+<h2> Manthano je trenutno u fazi razvoja! Hvala na razumevanju!  </h2>
+=======
 <div class="container">
 	<div class="row">
 		<div class="alert alert-warning alert-dismissable">
@@ -107,18 +110,12 @@
 		</div>
 	</div>
 </div>
+>>>>>>> .r62
 
 <div ng-view>
-    <!-- link to Material forms-->
-    <div class="material">
-        <ul class="material-nav">
-            <li><a href="../../assets/html_fragments/materialInfo.html">Material Info</a></li>
-            <li><a href="../../assets/html_fragments/materialNew.html">Add New Material </a></li>
-            <li><a href="../../assets/html_fragments/materialModify.html">Modify Material </a></li>
-        </ul>
-    </div>
+  
 
-</div>
+</div> 
 
 <?$stefan="STEFAN!"?>
 </body>
