@@ -7,7 +7,6 @@
      */
 
     class Material {
-
         private $Name;
         private $URI;
         private $Type;

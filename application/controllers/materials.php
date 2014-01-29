@@ -82,7 +82,7 @@ class Materials extends MY_Controller {
                 case 'put':
                     $ac_data=json_decode(file_get_contents('php://input'));
 
-                    if($this->session->materialdata('material_id')==$idMaterial ){
+                    if( $this->session->userData('user_id')==$ac_data->OwnerID){
 
                         $material=new materials($idMaterial);
                         $material->setName($ac_data->Name);
