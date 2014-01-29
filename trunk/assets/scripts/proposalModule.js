@@ -251,14 +251,30 @@ proposalModule.controller('proposalMove',['$scope','$http','$routeParams','$loca
         $scope.proposal=data;
         $scope.etag = headers("Etag");
         $scope.name_surname= $scope.proposal.user_proposed.Name + " " + $scope.proposal.user_proposed.Surname;
+
     });
 
     // getting data for select
     $http.get('/REST_activity_b/activities/').success(function(data, status, headers){
         $scope.activities = data;
+        $scope.choosenActivity=$scope.activities[0];
     }).error(function(){
             window.alert("greska pri ucitavanju svih aktivitija");
     });
+
+    $scope.moveProposal = function(idAct, chosenD){
+        $http({
+            method: 'POST',
+            url: "/REST_activity_b/activity/" + $scope.choosenActivity.idActivity,
+            data: {"id":idAct, "Name":$scope.proposal.name, "Description":$scope.proposal.description, "Date":chosenD, "Cover":"/assets/img/math.jpg", "Etag":$scope.etag}
+        }).success(function(data){
+
+                window.alert("Predlog je uspešno prebačen u activity! ");
+                $location.path("/proposal/"+id);
+            }).error(function(data, status, headers, config){
+                window.alert("Predlog nije uspešno prebačen u activity! ");
+            });
+    };
 }]);
 
 proposalModule.controller('proposalFoo',['$scope',function($scope){
