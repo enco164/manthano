@@ -65,7 +65,18 @@ class Crud_model extends CI_Model{
         $this->db->where($where);
         $result=$this->db->get();
         $results=$result->result_array();
-        if(count($results)) return $results[0];
+        if(count($results)) return $results;
+        else return null;
+    }
+
+    public function db_get_user_material($where){
+        $this->db->select('*');
+        $this->db->from('material');
+        $this->db->join('user','user.user_id=material.OwnerId');
+        $this->db->where($where);
+        $result=$this->db->get();
+        $results=$result->result_array();
+        if(count($results)) return $results;
         else return null;
     }
 

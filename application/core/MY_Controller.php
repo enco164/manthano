@@ -30,7 +30,7 @@ class User_Controller extends MY_Controller {
 class Admin_Controller extends MY_Controller {
     public function __construct(){
         parent::__construct();
-        if($this->session->userdata('acc_type')!=99){
+        if($this->session->userdata('acc_type')<99){
             redirect('/login');
         }
     }

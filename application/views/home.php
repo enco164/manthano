@@ -37,6 +37,7 @@
 
 </head>
 <body>
+<?//var_dump(is_admin());?>
 
     <?// ovo ti je klasa navbara al me zezalo nesto pa
     // pa sam ga zakomentarisao

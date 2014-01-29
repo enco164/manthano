@@ -13,11 +13,14 @@
         }
 
         public function user_list(){
+            $where['OwnerId']=1;
+            var_dump($this->crud_model->db_get_user_material($where));
+
             $page_data['users']=$this->crud_model->db_get_users();
             $page_data['type']='users';
-            $this->load->view('base/header');
+            //$this->load->view('base/header');
             $this->load->view('admin/user_list',$page_data);
-            $this->load->view('base/footer');
+            //$this->load->view('base/footer');
         }
 
     }
