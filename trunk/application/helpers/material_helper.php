@@ -20,8 +20,9 @@
         public function __construct($idMaterial){
             $where['idMaterial']=$idMaterial;
             $CI=&get_instance();
-            $result=$CI->crud_model->db_get_Material($where);
-            if($result){
+            $results=$CI->crud_model->db_get_Material($where); //function returns matrix
+            if($results){
+                $result=$results[0];
                 $this->exist = 1;
                 $this->idMaterial = $idMaterial;
                 $this->Name = $result['Name'];
