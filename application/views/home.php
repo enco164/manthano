@@ -28,7 +28,7 @@
 	<script src="/assets/scripts/proposalModule.js"></script>
 	<script src="/assets/scripts/materialModule.js"></script>
 	<script src="/assets/scripts/activityModule.js"></script>
-   <!-- <script src="/assets/scripts/media_upload.js?t=0.1"></script>-->
+    <script src="/assets/scripts/media_upload.js?t=0.1"></script>
 	<script type="text/javascript">
 	var globalUID = <?=$this->session->userdata('user_id')?>;
 	var globalAccType = <?=$this->session->userdata('acc_type')?>;

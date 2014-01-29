@@ -384,14 +384,15 @@ $config['email_config']['newline'] = "\r\n";
 $config['email_config']['bcc_batch_mode'] = FALSE;
 $config['email_config']['bcc_batch_size'] = 200;
 
-
+$config['registration_subject']="Uspešno kreiran nalog naloga na portalu Manthano";
+$config['registration_text']="Molimo vas da u narednih 24h kliknete na ovaj link, kako bi proces vaše registracije bio uspešno završen: ";
 $config['recaptcha_public_key']="6Le0GeYSAAAAADtoU2q1RjdqJgLUBFzv1DV8KrV0";
 $config['recaptcha_private_key']="6Le0GeYSAAAAAMYXAFg8yE-pMmVpp9nQMSy7udRq";
 
 
 /*
 |--------------------------------------------------------------------------
-| Lako do kola-vehicle config
+| Manthano config
 |--------------------------------------------------------------------------
 |
 | If your server is behind a reverse proxy, you must whitelist the proxy IP

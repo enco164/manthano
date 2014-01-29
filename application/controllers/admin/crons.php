@@ -16,8 +16,9 @@
             $this->email->initialize($this->config->item('email_config'));
             $emails=$this->crud_model->db_get_emails_unsent();
             $db_data['sent']=1;
+            $counter=0;
             if($emails) foreach($emails as $email){
-                var_dump($email);
+                //var_dump($email);
                 $this->email->from($email['email_from'],$email['email_from']);
                 $this->email->to($email['email_to']);
                 $this->email->subject($email['subject']);
@@ -26,9 +27,10 @@
                 if($this->email->send()){
                     //show_error$this->email->print_debugger());
                     $this->crud_model->db_update_email($email['id'],$db_data);
+                    $counter++;
                 }
             }
-            //echo $this->email->print_debugger();
+            echo "Poslato emailova: $counter";
         }
 
     }

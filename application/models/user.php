@@ -181,8 +181,8 @@
 
             $this->email->from("no_reply@manthano.com","Portal Manthano");
             $this->email->to($data['mail']);
-            $this->email->subject("Uspešno kreiran nalog naloga na portalu Manthano");
-            $this->email->message("Molimo vas da u narednih 24h kliknete na ovaj link, kako bi proces vaše registracije bio uspešno završen: ".$link."<br><br>");
+            $this->email->subject(config_item('registration_subject'));
+            $this->email->message(config_item('registration_text').$link."<br><br>");
 
             if($this->email->send()){
                 $data['hash_time']=time();
@@ -244,7 +244,7 @@
 
                         if($this->db->affected_rows()==1){
                             $this->send_verification_email($user_data, $result[0]['user_id']);
-                            return "Novi link je uspešno poslat na vašu email adresu. Molimo vas da potvrdite registraciju klikom na link u vašem email sandučetu. ";
+                            return "Link je uspešno poslat na vašu email adresu. Molimo vas da potvrdite registraciju klikom na link u vašem email sandučetu.";
                         } else {
                             return "Greška pri upisu u bazu tokom procesa ponovnog slanja verifikacionog emaila.";
                         }
