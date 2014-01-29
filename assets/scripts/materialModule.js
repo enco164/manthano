@@ -4,7 +4,7 @@
 var materialModule = angular.module('materialModule', []);
 
 materialModule.controller('materialShow', ['$scope','$http', '$routeParams', '$location', function($scope, $http, $routeParams, $location){
-    $scope.id = $routeParams.idmaterial;
+    $scope.id = $routeParams.idMaterial;
     var path = '/materials/material_data/'+$scope.id ;
     $http.get(path).success(function(data){
         $scope.material = data;
@@ -14,11 +14,11 @@ materialModule.controller('materialShow', ['$scope','$http', '$routeParams', '$l
             history.back();
         });
 
-    $scope.deletematerial = function(idmaterial){
+    $scope.deletematerial = function(idMaterial){
         $http({
             method: 'DELETE',
-            url: '/materials/material_data/'+$routeParams.idmaterial,
-            data: {"idmaterial" : idmaterial}
+            url: '/materials/material_data/'+$routeParams.idMaterial,
+            data: {"idMaterial" : idMaterial}
         }).success(function(){
                 window.alert("material is Deleted!");
                 history.back();
@@ -29,7 +29,7 @@ materialModule.controller('materialShow', ['$scope','$http', '$routeParams', '$l
 }]);
 
 materialModule.controller('materialModify',['$scope', '$http', '$routeParams', '$location', function($scope, $http, $routeParams, $location){
-    $scope.id = $routeParams.idmaterial;
+    $scope.id = $routeParams.idMaterial;
     var path = '/materials/material_data/'+$scope.id ;
     $http.get(path).success(function(data, status, headers){
         $scope.material = data;
@@ -49,8 +49,8 @@ materialModule.controller('materialModify',['$scope', '$http', '$routeParams', '
     $scope.saveChanges = function(){
         $http({
             method: 'PUT',
-            url: '/materials/material_data/'+$routeParams.idmaterial,
-            data: {"id":$routeParams.idmaterial, "Name":$scope.material.Name, "URI":$scope.material.URI, "Type":$scope.material.Type ,"Date":$scope.material.Date , "Etag":$scope.etag}
+            url: '/materials/material_data/'+$routeParams.idMaterial,
+            data: {"id":$routeParams.idMaterial, "Name":$scope.material.Name, "URI":$scope.material.URI, "Type":$scope.material.Type ,"Date":$scope.material.Date , "Etag":$scope.etag}
         }).success(function(){
                 window.alert("material is sucessfully modified!");
                 history.back();
