@@ -49,7 +49,6 @@ class Crud_model extends CI_Model{
         else return null;
     }
 
-
     public function db_get_user($user_id){
         $this->db->select('*');
         $this->db->from('user');
@@ -59,6 +58,17 @@ class Crud_model extends CI_Model{
         if(count($results)) return $results[0];
         else return null;
     }
+
+    public function db_get_users_in($where_in){
+        $this->db->select('*');
+        $this->db->from('user');
+        $this->db->where_in($where_in);
+        $result=$this->db->get();
+        $results=$result->result_array();
+        if(count($results)) return $results[0];
+        else return null;
+    }
+
     public function db_get_Material($where){
         $this->db->select('*');
         $this->db->from('Material');

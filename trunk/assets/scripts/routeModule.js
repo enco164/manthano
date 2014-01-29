@@ -109,6 +109,7 @@ manthanoApp.factory('mail', function ($rootScope, $http) {
                 data: {"subject":title, "body":body, "list":lista}
             }).success(function(data){
                 window.alert(" Done! :) ");
+                    console.log(data);
             });
         }
     }
