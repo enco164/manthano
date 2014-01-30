@@ -31,7 +31,7 @@ materialModule.controller('materialShow', ['$scope','$http', '$routeParams', '$l
 
 materialModule.controller('materialModify',['$scope', '$http', '$routeParams', '$location', function($scope, $http, $routeParams, $location){
     $scope.id = $routeParams.idMaterial;
-    var path = '/materials/modify/'+$scope.id ;
+    var path = '/materials/material_data/'+$scope.id ;
     $http.get(path).success(function(data, status, headers){
         $scope.material = data;
         $scope.etag = headers("Etag");
@@ -46,7 +46,7 @@ materialModule.controller('materialModify',['$scope', '$http', '$routeParams', '
     $scope.saveChanges = function(){
         $http({
             method: 'PUT',
-            url: '/materials/modify/'+$routeParams.idMaterial,
+            url: '/materials/material_data/'+$routeParams.idMaterial,
             data: {"id":$routeParams.idMaterial, "Name":$scope.material.Name, "URI":$scope.material.URI, "Type":$scope.material.Type ,"Date":$scope.material.Date , "Etag":$scope.etag}
         }).success(function(){
                 window.alert("material is sucessfully modified!");
@@ -68,14 +68,14 @@ materialModule.controller('materialModify',['$scope', '$http', '$routeParams', '
 
 materialModule.controller('materialNew',['$scope','$http','$routeParams','$location', function($scope, $http, $routeParams, $location){
     $scope.nameOfActivity = $routeParams.nameActivity;
-    $scope.idActivity = $routeParams.idActivity;
-    $http.get('/materials/new/'+ $scope.idActivity).success(function(data){
+    $scope.idMaterial = $routeParams.idMaterial;
+    $http.get('/materials/material_data/'+ $scope.idMaterial).success(function(data){
         if(!data.check && data.exist){
             history.back();
         }
     });
     $scope.getmaterials = function(){
-        $http.get('materials/new/'+$routeParams.idActivity).success(function(data){
+        $http.get('materials/material_data/'+$routeParams.idMaterial).success(function(data){
             $scope.materialsShort = data;
             $scope.loading = "";
         }).error(function(data, status, header, confihg){
@@ -99,11 +99,11 @@ materialModule.controller('materialNew',['$scope','$http','$routeParams','$locat
     $scope.addNew = function(materialName, materialURI, materialType, materialDate){
         $http({
             method: 'POST',
-            url: '/materials/new/'+$scope.idActivity,
+            url: '/materials/material_data/'+$scope.idMaterial,
             data: {"Name":materialName, "URI":materialURI, "Type":materialType, "Date":materialDate}
         }).success(function(data){
                 window.alert("material succesfully added!");
-                $location.path("/activity/"+$scope.idActivity);
+                $location.path("/activity/"+$scope.idMaterial);
             }).error(function(data, status, header, config){
                 window.alert("material adding error!");
             });
