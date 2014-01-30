@@ -34,6 +34,7 @@ materialModule.controller('materialModify',['$scope', '$http', '$routeParams', '
     var path = '/materials/material_data/'+$scope.id ;
     $http.get(path).success(function(data, status, headers){
         $scope.material = data;
+        console.log(data);
         $scope.etag = headers("Etag");
        // $scope.deletematerialButton = "Modify Material";
        $scope.editmaterialButton="Save Changes";
@@ -47,7 +48,7 @@ materialModule.controller('materialModify',['$scope', '$http', '$routeParams', '
         $http({
             method: 'PUT',
             url: '/materials/material_data/'+$routeParams.idMaterial,
-            data: {"id":$routeParams.idMaterial, "Name":$scope.material.Name, "URI":$scope.material.URI, "Type":$scope.material.Type ,"Date":$scope.material.Date , "Etag":$scope.etag}
+            data: {"id":$routeParams.idMaterial, "Name":$scope.material.Name, "URI":$scope.material.URI, "Type":$scope.material.Type ,"Date":$scope.material.Date , "Etag":$scope.etag,"OwnerID":globalUID}
         }).success(function(){
                 window.alert("material is sucessfully modified!");
                 history.back();

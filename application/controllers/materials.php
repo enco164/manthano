@@ -60,7 +60,7 @@ class Materials extends MY_Controller {
                         /* setting package that will be sent to client */
                         $arr = array(
                             "idMaterial" => $material->idMaterial(),
-                            "name" => $material->Name() ,
+                            "Name" => $material->Name() ,
                             "URI" => $material->URI(),
                             "Type" => $material->Type(),
                             "Date" => $material->Date(),
@@ -82,14 +82,14 @@ class Materials extends MY_Controller {
                 case 'put':
                     $ac_data=json_decode(file_get_contents('php://input'));
 
-                    if( $this->session->userData('user_id')==$ac_data->OwnerID){
+                    //if( $this->session->userData('user_id')==$ac_data->OwnerID){
 
-                        $material=new materials($idMaterial);
+                        $material=new material($idMaterial);
                         $material->setName($ac_data->Name);
                         $material->setURI($ac_data->URI);
                         $material->setType($ac_data->Type);
                         $material->setDate($ac_data->Date);
-                        $material->setOwner($this->session->userdata('user_id'));
+                        $material->setOwnerId($this->session->userdata('user_id'));
                         $ind=$material->update();
 
                         if($ind){
@@ -106,7 +106,7 @@ class Materials extends MY_Controller {
                             );
                             $data=json_encode($error_description);
                         }
-                    }
+                    //}
 
                     break;
 
