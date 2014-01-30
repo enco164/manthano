@@ -94,6 +94,18 @@
                 return $result;
             }
         }
+        static public function addMaterial($db, $id, $name,$URI, $type,$date,$owner)
+        {
+            $stmt = $db->prepare("call addMaterial(:id, :name,:URI,:type,:date,: owner);");
+            $stmt->bindParam(":idMaterial", $id, PDO::PARAM_INT);
+            $stmt->bindParam(":Name", $name, PDO::PARAM_STR);
+            $stmt->bindParam(":URI", $URI, PDO::PARAM_STR);
+            $stmt->bindParam(":Type", $type, PDO::PARAM_STR);
+            $stmt->bindParam(":Date", $date, PDO::PARAM_STR);
+            $stmt->bindParam(":OwnerID", $owner, PDO::PARAM_INT);
+            $stmt->execute();
+            return $stmt->rowCount() ? true : false;
+        }
         public function getOwner($idMaterial){
 //select user->fname + user->surname as[ Owner Name ] from material join user on material.ownerID=user.userID where material->id=$this->id;
             $where['idMaterial']=$this->idMaterial;
