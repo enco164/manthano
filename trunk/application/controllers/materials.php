@@ -82,7 +82,7 @@ class Materials extends MY_Controller {
                         $userId=$this->session->userdata('user_id');
                     else
                         $userId=$material_data->User;
-                    $ind = Material::addMaterial($db,$idMaterial,$material_data->Name,$material_data->URI,$material_data->Type ,$userId);
+                    $ind = Material::addMaterial($db,$idMaterial,$material_data->Name,$material_data->URI,$material_data->Type,$material_data->Date ,$userId);
                     if($ind)
                     {
                         $status=201;
