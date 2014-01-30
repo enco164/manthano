@@ -36,9 +36,6 @@ INSERT INTO `user` (`user_id`, `username`, `password`, `acc_type`, `mail`, `Ext_
 (35, 'tileee', '36411fc13decbc2c89dd52cc27b261d8', 99, 'tijjana@hotmail.com', 0, 'Tijana', 'Kostic', '', 'student', 'Jovan Jovanovic Zmaj', '/img/user.png', 'oqWV6', 1, 0, 0, NULL),
 (36, 'smalkov', 'ba9499206955f424e1633d9cd4b6068d', 99, 'smalkov@matf.bg.ac.rs', 0, 'Saša', 'Malkov', 'www.matf.bg.ac.rs/~smalkov', 'Profesor', 'Matematički Fakultet', '/img/Malkov.jpg', 'I97r7', 1, 0, 0, NULL),
 (37, 'dzele_91', '157c590407ea4a696760f82f557ab3c0', 1, 'dzeletovic.vlaki@gmail.com', 0, 'Vladimir', 'Dzeletovic', 'www.nemamsajt.com', 'ne_radim_nista', 'visa uzaludna', NULL, 'l2vv4', 1, 0, 1391043232, '3166a8555fd0fbc9ec80f2c8ce6c51d7');
---
--- Dumping data for table `activity`
---
 
 INSERT INTO `entity` (`id`, `tipEntiteta`) VALUES
 (1, 'Activity'),
@@ -145,7 +142,14 @@ INSERT INTO `entity` (`id`, `tipEntiteta`) VALUES
 (102, 'Event'),
 (103, 'Event'),
 (104, 'Event'),
-(105, 'Event');
+(105, 'Event'),
+(106, 'Proposal'),
+(107, 'Proposal'),
+(108, 'Proposal'),
+(109, 'Proposal'),
+(110, 'Proposal'),
+(111, 'Event');
+
 
 INSERT INTO `activity` (`idActivity`, `Name`, `Description`, `BeginDate`, `CoverPicture`, `lft`, `rgt`, `Active`) VALUES
 (1, 'Root', 'Glavni', '2004-12-20', '/assets/img/math.jpg', 1, 54, 1),
@@ -190,22 +194,27 @@ INSERT INTO `event` (`idEvent`, `Name`, `Description`, `Venue`, `Date`, `Time`) 
 (102, 'Skaliranje Veb aplikacija', 'Pojam skalabilnosti. Vertikalna i horizontalna skalabilnost', 'JAG1', '2013-10-28', '09:00:00'),
 (103, 'Uvod u informacione sisteme', 'Uvod i osnovni pojmovi vezani za informacione sisteme', '706', '2014-01-31', '08:00:00'),
 (104, 'HTTP protokol, HTML, DOM & CSS', '<li> HTTP protokol </li> \n						<li> HTML </li>\n						<li> DOM </li>\n						<li> CSS </li>	\n						<li>', 'jag2', '2013-09-25', '13:00:00'),
-(105, 'PHP', 'PHP zvanični sajt\nneke osnovne informacije o PHP-u\nprimer sa časa (implementacija baze preko datoteka)\nPHPStorm: PHP IDE', 'jag2', '2013-10-07', '13:00:00');
+(105, 'PHP', 'PHP zvanični sajt\nneke osnovne informacije o PHP-u\nprimer sa časa (implementacija baze preko datoteka)\nPHPStorm: PHP IDE', 'jag2', '2013-10-07', '13:00:00'),
+(111, 'Uvod u HTML i CSS', 'Uvod u HTML i CSS, osnovni elementi...', '708', '2014-02-02', '19:00:00');
 
 
 INSERT INTO `proposal` (`idProposal`, `UserProposed`, `Name`, `Description`) VALUES
 (85, 1, 'Android Radionica', 'Organizovanje manje radionice za predstavljanje programiranja za Andriod telefone. Trajanje 4,5 predavanja za početak'),
 (86, 1, 'CUDA paralelno programiranje - obrada slika', 'Radionica koja bi obrađivala obradu slika visoke rezolucije pomoću NVIDIA CUDA tehnologije'),
-(87, 1, 'Likovna sekcija', 'Sekcija za likovne radove i crtanje. Opuštanje od fakultetskih obaveza uz kreativnost i igru. (Ovo je primer samo, ali nažalost hoće da organizuju ovako nešto i bez Manthana na fakultetu).');
+(87, 1, 'Likovna sekcija', 'Sekcija za likovne radove i crtanje. Opuštanje od fakultetskih obaveza uz kreativnost i igru. (Ovo je primer samo, ali nažalost hoće da organizuju ovako nešto i bez Manthana na fakultetu).'),
+(106, 1, 'Turnir u bilijaru', 'Mogli bi svake sedmice da organizujemo po par bilijarskih nadmetanja. Poraženi takmičar plaća piće...'),
+(107, 1, 'Software design pattern', 'Potrebni su svakom ozbiljnijem programeru. Plan je da se za svaki od najviše korišćenih paterna realizuje jedan primer kroz kucanje koda u nekom programskom jeziku... Možda korišćenje C++ ili C#...'),
+(108, 1, 'Španski jezik', 'Koleginica i kolega sa Filološkog fakulteta su nam ponudili da održe kurs od 8 dvočasa španskog jezika... Učile bi se osnove jezika... Rok za prijavu je 7 dana...'),
+(109, 1, 'Web programiranje', 'Kolege matematičari, da li ste zainteresovani za jedan kratak kurs u kome ćete naučiti kako da napravite web sajt koji će izgledati lepo i biti funkcionalan! HTML, CSS, JavaScript...'),
+(110, 1, 'CUDA Masovno paralelno programiranje', 'Mozda bi valjalo da se organizuje drugi deo ovog kursa, jer na prvom delu smo naucili samo osnove.');
 
-
---
 -- Dumping data for table `activitycontains`
 --
 
 INSERT INTO `activitycontains` (`idEvent`, `idActivity`) VALUES
 (30, 1),
 (15, 5),
+(111, 7),
 (10, 8),
 (11, 8),
 (12, 9),
@@ -276,10 +285,10 @@ INSERT INTO `email_proxy` (`id`, `name`, `email_from`, `email_to`, `subject`, `m
 -- Dumping data for table `entity`
 --
 
-
 --
 -- Dumping data for table `event`
 --
+
 
 --
 -- Dumping data for table `eventcontains`
@@ -322,7 +331,8 @@ INSERT INTO `eventholder` (`user_id`, `idEvent`) VALUES
 (1, 103),
 (36, 104),
 (34, 105),
-(36, 105);
+(36, 105),
+(1, 111);
 
 --
 -- Dumping data for table `material`
@@ -335,11 +345,10 @@ INSERT INTO `material` (`idMaterial`, `Name`, `URI`, `Type`, `Date`, `OwnerID`) 
 -- Dumping data for table `notification`
 --
 
-
-
 --
 -- Dumping data for table `proposal`
 --
+
 
 --
 -- Dumping data for table `proposalowner`
@@ -348,7 +357,9 @@ INSERT INTO `material` (`idMaterial`, `Name`, `URI`, `Type`, `Date`, `OwnerID`) 
 INSERT INTO `proposalowner` (`UserPropose`, `idProposal`, `UserProposed`) VALUES
 (1, 85, 22),
 (1, 85, 25),
-(1, 85, 34);
+(1, 85, 34),
+(1, 109, 7),
+(1, 109, 15);
 
 --
 -- Dumping data for table `proposalsupport`
@@ -364,7 +375,18 @@ INSERT INTO `proposalsupport` (`user_id`, `idProposal`) VALUES
 (32, 85),
 (33, 85),
 (1, 86),
-(1, 87);
+(1, 87),
+(1, 106),
+(7, 106),
+(8, 106),
+(15, 106),
+(16, 106),
+(34, 106),
+(1, 107),
+(1, 108),
+(1, 109),
+(3, 109),
+(34, 109),
+(1, 110);
 
---
--- Dumping data for table `user`
+
