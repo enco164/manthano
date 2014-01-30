@@ -92,11 +92,6 @@ materialModule.controller('materialNew',['$scope','$http','$routeParams','$locat
         $scope.choise = false;
     };
     //$scope.getmaterials();
-//    $scope.materialName = "";
-//    $scope.materialDescription = "";
-//    $scope.materialVenue = "";
-//    $scope.materialTime = "";
-//    $scope.materialDate = "";
     $scope.addNew = function(materialName, materialURI, materialType, materialDate){
         $http({
             method: 'POST',
