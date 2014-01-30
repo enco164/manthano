@@ -51,7 +51,7 @@ materialModule.controller('materialModify',['$scope', '$http', '$routeParams', '
             data: {"id":$routeParams.idMaterial, "Name":$scope.material.Name, "URI":$scope.material.URI, "Type":$scope.material.Type ,"Date":$scope.material.Date , "Etag":$scope.etag,"OwnerID":globalUID}
         }).success(function(){
                 window.alert("material is sucessfully modified!");
-                history.back();
+                //history.back();
             }).error(function(data, status, header, config){
                 window.alert("Modifying material is not sucessful!");
             });
