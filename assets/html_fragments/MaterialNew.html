@@ -1,4 +1,4 @@
-<a href="#/material/{{material.id}}"> Back </a>
+<a href="#/materials/{{material.id}}"> Back </a>
 <br/>
 Name of material: <input type="text" name="acName" ng-model="materialName" required/>
 <br/>
@@ -7,10 +7,6 @@ URI:  <input type="text" name="materialURI" ng-model="materialURI" required/>
 Type:  <input type="text" name="materialType" ng-model="materialType" required/>
 <br/>
 Date: <input type="date" name="materialDate" ng-model="materialDate" required/>
-<br/>
-Owner: {{user.Name}} + {{user.Surname}}
-<br/>
-{{user.userName}}
 
 <button ng-click="addNew()">Add Material!</button>
 <!--<a href="#/material/{{material.material_id}}"> Display Material {{material.name}} </a>

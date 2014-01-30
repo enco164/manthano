@@ -77,7 +77,30 @@ class Materials extends MY_Controller {
 
                 /* Processing POST - CREATE request*/
                 case 'post':
-                    $status=404; break; //Creating materials NOT SUPPORTED
+                    $material_data=json_decode(file_get_contents('php://input'));
+                    if(!isset($material_data->User))
+                        $userId=$this->session->userdata('user_id');
+                    else
+                        $userId=$material_data->User;
+                    $ind = Material::addMaterial($db,$idMaterial,$material_data->Name,$material_data->URI,$material_data->Type ,$userId);
+                    if($ind)
+                    {
+                        $status=201;
+                        $data = array(
+                            "message" => "The Material is successfully added!"
+                        );
+                        $data=json_encode($data);
+                    }
+                    else
+                    {
+                        $status=400;
+                        $error_description=array(
+                            "message" => "Adding new material is not succesful!",
+                            "error" => "Server error!"
+                        );
+                        $data=json_encode($error_description);
+                    }
+                    break;
                 /* Processing PUT - UPDATE request */
                 case 'put':
                     $ac_data=json_decode(file_get_contents('php://input'));
