@@ -44,9 +44,12 @@
 	</div>
 	<div class="row">
 		<div class="col-md-8 col-md-offset-2">
-			<ul ng-if="event.materials.size > 0"> <h4>Materijali</h4>
-				<li ng-repeat="material in event.materials"><a href="#/material/{{material.idMaterial}}"> {{material.Name}} </a> </li>
-			</ul>
+			<br><br>
+			<table ng-if="event.materials.length > 0"><tr><th>Materijali</th></tr>
+				<tr ng-repeat="material in event.materials">
+					<td><a href="#/material/{{material.idMaterial}}"> {{material.Name}} </a> </td>
+				</tr>
+			</table>
 		</div>
 	</div>
 </div>
