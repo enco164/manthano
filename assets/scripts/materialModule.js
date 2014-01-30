@@ -96,10 +96,12 @@ materialModule.controller('materialNew',['$scope','$http','$routeParams','$locat
         $http({
             method: 'POST',
             url: '/materials/material_data/',
-            data: {"Name":materialName, "URI":materialURI, "Type":materialType, "Date":materialDate}
+            data: {"Name":$scope.materialName, "URI":$scope.materialURI, "Type":$scope.materialType, "Date":$scope.materialDate}
+            //data: {"Name":1, "URI":2, "Type":3, "Date":4}
         }).success(function(data){
+                response=JSON.parse(data);
                 window.alert("material succesfully added!");
-                $location.path("/activity/"+$scope.idMaterial);
+                //$location.path("#/materials/material-data/"+data['id']);
             }).error(function(data, status, header, config){
                 window.alert("material adding error!");
             });
