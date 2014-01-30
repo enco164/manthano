@@ -67,7 +67,7 @@ manthanoApp.config(['$routeProvider', function ($routerProvider){
             templateUrl: '/assets/html_fragments/materialModify.html',
             controller: 'materialModify'
         }).
-        when('/materials/new/:idMaterial', {
+        when('/materials/new/', {
             templateUrl: '/assets/html_fragments/materialNew.html',
             controller: 'materialNew'
         }).
