@@ -158,6 +158,12 @@ class Crud_model extends CI_Model{
         else return null;
     }
 
+    public function db_insert_material($data){
+        $this->db->insert('Material', $data);
+        if($this->db->affected_rows()==1) return true;
+        else return false;
+    }
+
 
     /*----------------------------------------------- update data in database ------------------------------------------------------*/
 
