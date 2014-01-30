@@ -113,7 +113,7 @@
          * Return true if successful or false if not.
          * */
         public function update(){
-            var_dump($this);
+            //var_dump($this);
             $CI=&get_instance();
             $db_data['Name']=$this->Name;
             $db_data['URI']=$this->URI;
