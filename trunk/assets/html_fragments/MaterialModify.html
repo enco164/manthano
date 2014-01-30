@@ -1,12 +1,12 @@
 <a href="#/materials/modify/{{material.id}}"> Back </a>
 <br/>
-Name of Material: <input type="text" ng-model="material.Name" required/>
+Name of Material: <input type="text" name="Name" ng-model="material.Name" required/>
 <br/>
-URI: <input type="text" ng-model="material.URI" required/>
+URI: <input type="text" name="URI" ng-model="material.URI" required/>
 <br/>
-Type: <input type="text" ng-model="material.Type" required/>
+Type: <input type="text" name="Type" ng-model="material.Type" required/>
 <br/>
-Date: <input type="date" name="materialDate" ng-model="material.Date" required/>
+Date: <input type="date" name="Date" ng-model="material.Date" required/>
 <br/>
 <button ng-click="saveChanges()">Modify material!</button>
 <a href="#/materials/material_data/{{material.material_id}}"> Display {{material.name}} </a>
