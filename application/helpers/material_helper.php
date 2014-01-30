@@ -107,7 +107,7 @@
             $stmt->execute();
             return $stmt->rowCount() ? true : false;
         }
-
+/*
         static public function addMaterial($Name,$URI,$Type,$Date,$OwnerId){
             $CI=&get_instance();
             $db_data['Name']=$Name;
@@ -115,9 +115,9 @@
             $db_data['Type']=$Type;
             $db_data['Date']=$Date;
             $db_data['OwnerId']=$OwnerId;
-            /* upotrebiti proceduru ovde  */
+            // upotrebiti proceduru ovde
             return $CI->crud_model->db_insert_material($db_data);
-        }
+        }*/
 
         public function getOwner($idMaterial){
 //select user->fname + user->surname as[ Owner Name ] from material join user on material.ownerID=user.userID where material->id=$this->id;
