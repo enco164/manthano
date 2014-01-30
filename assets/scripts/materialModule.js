@@ -75,14 +75,14 @@ materialModule.controller('materialNew',['$scope','$http','$routeParams','$locat
             history.back();
         }
     });
-    $scope.getmaterials = function(){
+/*    $scope.getmaterials = function(){
         $http.get('materials/material_data/'+$routeParams.idMaterial).success(function(data){
             $scope.materialsShort = data;
             $scope.loading = "";
         }).error(function(data, status, header, confihg){
                 alert("smth wrong in materialNew" + status)
             });
-    };
+    };*/
     $scope.choise = true;
     $scope.noviEnko = function (){
         $scope.choise = true;
