@@ -16,6 +16,7 @@
 	<link rel="stylesheet" href="/assets/scripts/ui/jquery-ui-1.10.3.custom.css" type="text/css" media="screen" />
 	<link rel="canonical" href="" />
 	<script src="/assets/scripts/jq.js"></script>
+	<script src="/assets/scripts/bootstrap.min.js"></script>
     <script src="/assets/scripts/socket.io.js"></script>
     <script src="/assets/scripts/alertify.js"></script>
 	<script src="/assets/scripts/ui/jquery-ui-1.10.3.custom.js"></script>
@@ -62,7 +63,13 @@
 					<!-- Jupi ovde setujes link do liste predloga :) -->
     				
 					<li><a href="#/proposals"> Predlozi </a></li>
-					<li class="active"><a href="news feed.html">News feed - logged</a></li>
+					<?php
+						if (is_admin()){
+							?>
+					<li class="active"><a href="/admin/home/user_list">Upravljanje korisnicima</a></li>
+							<?php
+						}
+					?>
 
 				</ul>
 
