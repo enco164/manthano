@@ -8,7 +8,7 @@ Type: <input type="text" ng-model="material.Type" required/>
 <br/>
 Date: <input type="date" name="materialDate" ng-model="material.Date" required/>
 <br/>
-<button ng-click="materialModify()">Modify material!</button>
+<button ng-click="saveChanges()">Modify material!</button>
 <a href="#/materials/material_data/{{material.material_id}}"> Display {{material.name}} </a>
 <a href="#/materials/New/{{material.material_id}}"> Add new Material </a>
 {{dataR.etagreturn}}
