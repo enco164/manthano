@@ -96,8 +96,9 @@
         }
         static public function addMaterial($db, $id, $name,$URI, $type,$date,$owner)
         {
+            //$stmt = $db->prepare("call addMaterial(:id, :name,:URI,:type,:date,: owner);");
             $stmt = $db->prepare("call addMaterial(:id, :name,:URI,:type,:date,: owner);");
-            $stmt->bindParam(":idMaterial", $id, PDO::PARAM_INT);
+            //$stmt->bindParam(":idMaterial", $id, PDO::PARAM_INT);
             $stmt->bindParam(":Name", $name, PDO::PARAM_STR);
             $stmt->bindParam(":URI", $URI, PDO::PARAM_STR);
             $stmt->bindParam(":Type", $type, PDO::PARAM_STR);
@@ -106,6 +107,18 @@
             $stmt->execute();
             return $stmt->rowCount() ? true : false;
         }
+
+        static public function addMaterial($Name,$URI,$Type,$Date,$OwnerId){
+            $CI=&get_instance();
+            $db_data['Name']=$Name;
+            $db_data['URI']=$URI;
+            $db_data['Type']=$Type;
+            $db_data['Date']=$Date;
+            $db_data['OwnerId']=$OwnerId;
+            /* upotrebiti proceduru ovde  */
+            return $CI->crud_model->db_insert_material($db_data);
+        }
+
         public function getOwner($idMaterial){
 //select user->fname + user->surname as[ Owner Name ] from material join user on material.ownerID=user.userID where material->id=$this->id;
             $where['idMaterial']=$this->idMaterial;
@@ -153,6 +166,9 @@
         /* Delete Material
          * No return value;
          */
+
+
+
         static public function deleteMaterial($idMaterial, $db){
             /* upotrebiti proceduru ovde  */
             $stmt = $db->prepare("call deleteMaterial(:idMaterial)");

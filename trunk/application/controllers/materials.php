@@ -34,7 +34,7 @@ class Materials extends MY_Controller {
         $this->load->view('base/footer');*/
     }
 
-    public function material_data($idMaterial){
+    public function material_data($idMaterial=0){
         if(!in_array($this->method, $this->supported_methods)){
             //TODO Error report
         }
@@ -78,16 +78,17 @@ class Materials extends MY_Controller {
                 /* Processing POST - CREATE request*/
                 case 'post':
                     $material_data=json_decode(file_get_contents('php://input'));
+                    //var_dump($material_data);
                     if(!isset($material_data->User))
                         $userId=$this->session->userdata('user_id');
                     else
                         $userId=$material_data->User;
-                    $ind = Material::addMaterial($db,$idMaterial,$material_data->Name,$material_data->URI,$material_data->Type,$material_data->Date ,$userId);
+                    $ind = Material::addMaterial($material_data->Name,$material_data->URI,$material_data->Type ,time(),$userId);
                     if($ind)
                     {
                         $status=201;
                         $data = array(
-                            "message" => "The Material is successfully added!"
+                            "message" => "The Material is successfully added!","id"=>$ind
                         );
                         $data=json_encode($data);
                     }
