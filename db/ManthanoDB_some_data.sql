@@ -208,6 +208,9 @@ INSERT INTO `proposal` (`idProposal`, `UserProposed`, `Name`, `Description`) VAL
 (109, 1, 'Web programiranje', 'Kolege matematičari, da li ste zainteresovani za jedan kratak kurs u kome ćete naučiti kako da napravite web sajt koji će izgledati lepo i biti funkcionalan! HTML, CSS, JavaScript...'),
 (110, 1, 'CUDA Masovno paralelno programiranje', 'Mozda bi valjalo da se organizuje drugi deo ovog kursa, jer na prvom delu smo naucili samo osnove.');
 
+
+INSERT INTO `material` (`idMaterial`, `Name`, `URI`, `Type`, `Date`, `OwnerID`) VALUES
+(16, 'Prvi Materijal č', 'nesto.com/blah.pdf', 'PDF Dokument', '2014-01-08 19:19:50', 1);
 -- Dumping data for table `activitycontains`
 --
 
@@ -338,8 +341,6 @@ INSERT INTO `eventholder` (`user_id`, `idEvent`) VALUES
 -- Dumping data for table `material`
 --
 
-INSERT INTO `material` (`idMaterial`, `Name`, `URI`, `Type`, `Date`, `OwnerID`) VALUES
-(16, 'Prvi Materijal č', 'nesto.com/blah.pdf', 'PDF Dokument', '2014-01-08 19:19:50', 1);
 
 --
 -- Dumping data for table `notification`
